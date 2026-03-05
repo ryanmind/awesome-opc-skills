@@ -46,7 +46,7 @@
 
 1. Clone this repository:
 ```bash
-git clone https://github.com/YOUR_USERNAME/awesome-opc-skills.git
+git clone https://github.com/ryanmind/awesome-opc-skills.git
 cd awesome-opc-skills
 ```
 

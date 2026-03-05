@@ -29,5 +29,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Best practices for solo developers
 - Skill development guidelines
 
-[Unreleased]: https://github.com/YOUR_USERNAME/awesome-opc-skills/compare/v1.0.0...HEAD
-[1.0.0]: https://github.com/YOUR_USERNAME/awesome-opc-skills/releases/tag/v1.0.0
+[Unreleased]: https://github.com/ryanmind/awesome-opc-skills/compare/v1.0.0...HEAD
+[1.0.0]: https://github.com/ryanmind/awesome-opc-skills/releases/tag/v1.0.0
