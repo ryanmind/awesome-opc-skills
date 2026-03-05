@@ -59,14 +59,14 @@ Activate this skill when the user asks:
 
 **Step 1: Development Environment**
 ```bash
-# Install Claude Code
-npm install -g @anthropic-ai/claude-code
+# Install Claude Code CLI
+# Download from https://github.com/anthropics/claude-code
 
 # Set up Cursor
-# Download from cursor.sh
+# Download from cursor.com
 
 # Configure GitHub Copilot
-# Install in your IDE
+# Install in your IDE or enable in Cursor
 ```
 
 **Step 2: Project Structure**
@@ -105,20 +105,20 @@ Please:
 ### 4. Development Workflow
 
 **Daily Workflow:**
-1. **Morning**: Review AI-generated code from overnight automation
-2. **Development**: Use Claude Code for feature development
-3. **Testing**: AI-generated test cases
-4. **Review**: AI code review before merge
-5. **Deploy**: Automated with AI monitoring
+1. **Morning**: Review code changes and plan daily tasks
+2. **Development**: Use AI-assisted coding (Claude Code, Cursor, Copilot)
+3. **Testing**: Generate and run tests with AI assistance
+4. **Review**: Use AI for code review and quality checks
+5. **Deploy**: Automated deployment with monitoring
 
 **Feature Development:**
 ```
-1. Describe feature to Claude Code
-2. Review generated architecture
-3. Iterate on implementation
-4. AI generates tests
-5. AI reviews code quality
-6. Deploy with AI monitoring
+1. Describe feature requirements clearly
+2. Review AI-generated architecture proposal
+3. Iterate on implementation with AI assistance
+4. Generate tests with AI help
+5. Review code quality with AI tools
+6. Deploy with automated CI/CD
 ```
 
 ### 5. Productivity Multipliers
@@ -155,7 +155,7 @@ Please:
 **Pattern 1: Rapid Prototyping**
 ```
 User: "Build a user authentication system"
-AI: Generates complete auth flow with:
+AI Assistant: Generates complete auth flow with:
 - Login/signup pages
 - JWT token handling
 - Password reset
@@ -166,7 +166,7 @@ AI: Generates complete auth flow with:
 **Pattern 2: Bug Fixing**
 ```
 User: "Fix this bug: [error message]"
-AI:
+AI Assistant:
 1. Analyzes error
 2. Identifies root cause
 3. Suggests fix
@@ -177,7 +177,7 @@ AI:
 **Pattern 3: Feature Addition**
 ```
 User: "Add payment processing with Stripe"
-AI:
+AI Assistant:
 1. Sets up Stripe integration
 2. Creates payment UI
 3. Handles webhooks
@@ -196,12 +196,16 @@ Let's set up a 10x AI development workflow:
 
 **Step 1: Install Core Tools**
 ```bash
-# Claude Code (you already have this!)
-# Install Cursor
+# Claude Code CLI
+# Download from https://github.com/anthropics/claude-code
+
+# Install Cursor (macOS)
 brew install --cask cursor
+# Or download from cursor.com
 
 # Enable GitHub Copilot
-# Go to GitHub settings → Copilot
+# Subscribe at github.com/features/copilot
+# Install extension in your IDE
 ```
 
 **Step 2: Configure Your Workspace**
@@ -232,10 +236,10 @@ Include tests and documentation.
 ```
 
 **Step 4: Daily Workflow**
-1. Morning: `claude code review yesterday's changes`
-2. Development: Use Cursor with Copilot
-3. Testing: `claude code generate tests for [file]`
-4. Deploy: Automated via Vercel
+1. Morning: Review code changes and plan tasks
+2. Development: Use Cursor with Copilot for coding
+3. Testing: Write tests with AI assistance
+4. Deploy: Automated via CI/CD (Vercel, GitHub Actions, etc.)
 
 **Expected Results:**
 - 5x faster feature development
@@ -254,7 +258,7 @@ Let's build this with AI assistance:
 
 **Phase 1: Architecture (5 minutes)**
 ```
-Claude: Design a user dashboard with:
+Describe to AI: Design a user dashboard with:
 - User profile section
 - Analytics charts (revenue, users, activity)
 - Recent activity feed
@@ -271,7 +275,7 @@ Tech: Next.js 14, Recharts, Tailwind
 
 **Phase 3: Testing (10 minutes)**
 ```
-Claude: Generate tests for dashboard component
+Ask AI: Generate tests for dashboard component
 - Unit tests for each section
 - Integration tests for data fetching
 - E2E tests for user interactions
@@ -279,7 +283,7 @@ Claude: Generate tests for dashboard component
 
 **Phase 4: Polish (15 minutes)**
 ```
-Claude: Add loading states, error handling, and animations
+Ask AI: Add loading states, error handling, and animations
 ```
 
 **Total Time: 1 hour** (vs 8 hours manually)
@@ -319,11 +323,11 @@ Running AI code review:
 
 | Tool | Best For | Cost | Learning Curve |
 |------|----------|------|----------------|
-| Claude Code | Full features, architecture | $20/mo | Low |
+| Claude Code | Full features, architecture | Subscription | Low |
 | Cursor | Daily coding, refactoring | $20/mo | Low |
 | GitHub Copilot | Inline completion | $10/mo | Very Low |
 | v0.dev | UI components | Free/Pro | Very Low |
-| Replit AI | Quick prototypes | $20/mo | Very Low |
+| Bolt.new | Quick prototypes | Free/Pro | Very Low |
 
 ## Productivity Metrics
 
@@ -373,11 +377,10 @@ Running AI code review:
 
 ## Resources
 
-- [Claude Code Documentation](https://claude.ai/code)
-- [Cursor Documentation](https://cursor.sh/docs)
-- [GitHub Copilot Guide](https://github.com/features/copilot)
-- [AI Coding Best Practices](https://github.com/ai-coding-best-practices)
+- [Claude Code Documentation](https://github.com/anthropics/claude-code)
+- [Cursor Documentation](https://docs.cursor.com)
+- [GitHub Copilot Guide](https://docs.github.com/copilot)
 
 ---
 
-**Remember**: AI doesn't replace developers—it makes them 10x more productive.
+**Remember**: AI tools augment developers—they make you more productive, not replace you.
