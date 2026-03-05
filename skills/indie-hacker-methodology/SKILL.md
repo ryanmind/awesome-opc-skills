@@ -1,19 +1,19 @@
 ---
-name: pieter-levels
+name: indie-hacker-methodology
 description: |
-  Pieter Levels 的 OPC（一人公司）方法论与创业理念指南。当用户需要：
+  独立开发者（Indie Hacker）方法论与创业理念指南。当用户需要：
   (1) 学习一人公司/独立开发者方法论
   (2) 快速验证产品想法
   (3) 了解如何从零开始创业
   (4) 需要创业策略建议（定价、发布、增长）
-  (5) 询问 Pieter Levels 的理念或产品案例
-  
+  (5) 询问独立开发者的理念或产品案例
+
   核心方法论：小步快跑、快速验证、直接变现、保持独立。
 ---
 
-# Pieter Levels 方法论
+# 独立开发者方法论
 
-Pieter Levels 是 OPC（One Person Company）领域的标杆人物，13年运营70个项目，Nomad List 年盈利210万美金，一人团队走遍40多个国家。
+本方法论总结了成功独立开发者的核心实践经验，包括快速验证、直接变现、保持独立等理念。这些方法论受到 Pieter Levels 等成功独立开发者的启发。
 
 ## Instructions
 
@@ -43,7 +43,7 @@ Pieter Levels 是 OPC（One Person Company）领域的标杆人物，13年运营
 
 ### 3. 给出具体行动清单
 - 提供 3-5 个可立即执行的步骤
-- 参考 Pieter Levels 的实际案例（Nomad List、Photo AI 等）
+- 参考成功案例（如 Nomad List、Photo AI 等）
 - 强调用已有技术，不要学新框架
 
 ### 4. 保持风格
@@ -78,7 +78,7 @@ Pieter Levels 是 OPC（One Person Company）领域的标杆人物，13年运营
 **User**: "我有个想法，想做一个帮程序员找远程工作的平台，需要先做市场调研吗？"
 
 **Assistant**:
-根据 Pieter Levels 的方法论，**不要花时间做市场调研**。直接行动：
+根据独立开发者方法论，**不要花时间做市场调研**。直接行动：
 
 1. **2周内上线 MVP**
    - 用 Google 表格列出 10-20 个远程职位
@@ -103,7 +103,7 @@ Pieter Levels 是 OPC（One Person Company）领域的标杆人物，13年运营
 **User**: "我的产品应该定价多少？要不要先免费获取用户再转化？"
 
 **Assistant**:
-Pieter Levels 的建议：**从第一天就收费，不做免费转化**
+独立开发者的建议：**从第一天就收费，不做免费转化**
 
 **定价原则**：
 - 最低 $30/用户（更高更好）
@@ -126,7 +126,7 @@ Pieter Levels 的建议：**从第一天就收费，不做免费转化**
 **User**: "我应该用 React 还是 Vue？要不要学 Next.js？"
 
 **Assistant**:
-Pieter Levels 的建议：**用你已经会的工具，技术栈不重要**
+独立开发者的建议：**用你已经会的工具，技术栈不重要**
 
 **关键原则**：
 - Nomad List 最开始只是 **Google 表格**
@@ -152,7 +152,7 @@ Pieter Levels 的建议：**用你已经会的工具，技术栈不重要**
 **User**: "我的项目要不要找投资人？"
 
 **Assistant**:
-Pieter Levels 的建议：**不要拿风投，保持独立**
+独立开发者的建议：**不要拿风投，保持独立**
 
 **不融资的好处**：
 1. **保持自由**：不用开会、不用妥协、不用追求高增长
@@ -180,7 +180,7 @@ Pieter Levels 的建议：**不要拿风投，保持独立**
 **User**: "产品做好了，怎么获取第一批用户？"
 
 **Assistant**:
-Pieter Levels 的方法：**Build in Public + 社区驱动**
+独立开发者的方法：**Build in Public + 社区驱动**
 
 **立即可做的事**：
 1. **社交媒体分享**
@@ -211,17 +211,21 @@ Pieter Levels 的方法：**Build in Public + 社区驱动**
 **第一批用户来自哪里？**
 你的社交媒体关注者、相关社区、Product Hunt、Hacker News。关键是**持续分享**，不是一次性推广。
 
-## 代表产品
+## 成功案例参考
 
-| 产品 | 描述 | 收入 |
+以下是一些成功的独立开发者产品案例（基于公开信息，截至 2024-2025）：
+
+| 产品 | 描述 | 收入（公开数据）* |
 |------|------|------|
 | Nomad List | 数字游民城市数据平台 | 年盈利210万美金 |
 | Photo AI | AI照片生成工具 | 月收入十几万美元 |
 | Remote OK | 远程工作招聘平台 | 月收入4万美元 |
 | Interior AI | AI室内设计工具 | 月收入4-5万美元 |
 
-## 相关链接
+*数据来源：创始人公开分享的推文、Indie Hackers 访谈等公开渠道
 
-- 个人网站: https://levels.io
-- Nomad List: https://nomadlist.com
-- 著作: MAKE: Bootstrapper's Handbook
+## 相关资源
+
+- [Indie Hackers](https://www.indiehackers.com) - 独立开发者社区
+- [Pieter Levels](https://levels.io) - 成功独立开发者案例
+- MAKE: Bootstrapper's Handbook - 独立开发者指南

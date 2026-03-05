@@ -8,7 +8,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Planned
-- iOS automation skills (IPA re-signing, app hardening)
 - Rapid prototyping skill
 - Launch checklist skill
 - Pricing strategy skill
@@ -18,7 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - Initial repository structure
-- Pieter Levels OPC methodology skill
+- Indie Hacker methodology skill (独立开发者方法论)
 - Core documentation (Philosophy, Best Practices)
 - Contributing guidelines
 - MIT License

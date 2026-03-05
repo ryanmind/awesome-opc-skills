@@ -1,10 +1,10 @@
-# Pieter Levels OPC Methodology
+# Indie Hacker Methodology
 
-A Claude Code Skill that embodies Pieter Levels' One Person Company philosophy and methodology.
+A Claude Code Skill that embodies successful indie hacker practices: rapid validation, direct monetization, and staying independent.
 
 ## 🎯 Overview
 
-This skill helps you apply Pieter Levels' proven OPC principles to your projects:
+This methodology summarizes core principles from successful indie hackers:
 
 - Ship fast (2 weeks to MVP)
 - Charge from day one (minimum $30/user)
@@ -25,7 +25,7 @@ Activate this skill when you need guidance on:
 
 ## 💡 Core Principles
 
-### 1. Ship More
+### 1. Ship Fast
 - 95% of projects fail, so build fast and iterate
 - 2 weeks to MVP, not 6 months
 - Done is better than perfect
@@ -83,34 +83,35 @@ Activate this skill when you need guidance on:
 - Ship first, optimize later
 - Technical debt isn't the problem, no users is
 
-## 🎓 Real Examples
+## 🎓 Success Stories
 
-Pieter Levels' products built with this methodology:
+Products built with similar methodologies (based on public data, as of 2024-2025):
 
-| Product | Description | Revenue |
+| Product | Description | Revenue* |
 |---------|-------------|---------|
 | Nomad List | Digital nomad city rankings | $2.1M/year |
 | Photo AI | AI photo generation | $100K+/month |
 | Remote OK | Remote job board | $40K/month |
 | Interior AI | AI interior design | $40-50K/month |
 
+*Source: Founder public posts, Indie Hackers interviews, and publicly shared metrics
+
 All built and run by one person.
 
 ## 🔗 Resources
 
-- [Pieter Levels' Website](https://levels.io)
-- [MAKE: Bootstrapper's Handbook](https://makebook.io)
-- [Nomad List](https://nomadlist.com)
-- Twitter/X: [@levelsio](https://twitter.com/levelsio)
+- [Indie Hackers](https://www.indiehackers.com) - Indie hacker community
+- [Pieter Levels](https://levels.io) - Successful indie hacker case study
+- [MAKE: Bootstrapper's Handbook](https://makebook.io) - Indie hacker guide
 
 ## 📖 Usage with Claude Code
 
-Simply reference this methodology in your conversations:
+Reference this methodology in your conversations:
 
 ```
-"Use the pieter-levels methodology to help me validate my SaaS idea"
-"Apply OPC principles to my pricing strategy"
-"Help me decide if I should raise funding using pieter-levels approach"
+"Use the indie-hacker-methodology to help me validate my SaaS idea"
+"Apply indie hacker principles to my pricing strategy"
+"Help me decide if I should raise funding using indie-hacker-methodology"
 ```
 
 ## 🤝 Contributing
@@ -120,3 +121,7 @@ Found ways to improve this skill? PRs welcome!
 ---
 
 **Remember**: Ship fast, charge from day one, stay independent.
+
+---
+
+[中文版本 / Chinese Version](./README.zh-CN.md)

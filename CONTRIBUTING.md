@@ -119,7 +119,7 @@ Before submitting your PR:
 - [ ] Configuration uses placeholders (e.g., `YOUR_API_KEY`)
 - [ ] Scripts are tested and working
 - [ ] Code follows existing style
-- [ ] Documentation is in English
+- [ ] Primary documentation is in English (Chinese translations welcome as separate files)
 - [ ] Examples are practical and realistic
 
 ## 🚫 What NOT to Include
@@ -139,6 +139,26 @@ feat(skill-name): add new feature
 fix(skill-name): fix bug
 docs(skill-name): update documentation
 refactor(skill-name): refactor code
+```
+
+## 🌐 Language Policy
+
+**Primary Language: English**
+- All main documentation (README.md, SKILL.md) should be in English
+- This ensures accessibility for the global developer community
+
+**Chinese Translations Welcome:**
+- Create separate files: `README.zh-CN.md`, `SKILL.zh-CN.md`
+- Link to translations from the main English file
+- Keep translations synchronized with English versions
+
+**Example Structure:**
+```
+skills/your-skill/
+├── README.md (English)
+├── README.zh-CN.md (Chinese)
+├── SKILL.md (English)
+└── SKILL.zh-CN.md (Chinese)
 ```
 
 ## 🔍 Code Review

@@ -18,14 +18,7 @@
 
 ### 🧠 Methodology & Philosophy
 
-- **[pieter-levels](./skills/pieter-levels/)** - Pieter Levels' OPC methodology: ship fast, charge from day one, stay independent
-
-### 📱 Mobile Development
-
-- **[ios-automation](./skills/ios-automation/)** - iOS development automation tools
-  - IPA re-signing for multiple projects
-  - App hardening and obfuscation
-  - Build and deployment automation
+- **[indie-hacker-methodology](./skills/indie-hacker-methodology/)** - Indie hacker methodology: rapid validation, direct monetization, stay independent
 
 ### 🚀 Coming Soon
 
@@ -53,7 +46,7 @@ cd awesome-opc-skills
 2. Install individual skills:
 ```bash
 # Each skill has its own installation instructions
-cd skills/pieter-levels
+cd skills/indie-hacker-methodology
 # Follow the SKILL.md instructions
 ```
 
@@ -62,8 +55,7 @@ cd skills/pieter-levels
 Skills are designed to work with Claude Code. Simply reference them in your conversations:
 
 ```
-"Use the pieter-levels methodology to help me validate my product idea"
-"Help me automate iOS app signing using ios-automation"
+"Use the indie-hacker-methodology to help me validate my product idea"
 ```
 
 ## 🌟 Philosophy
@@ -98,10 +90,25 @@ See [CONTRIBUTING.md](./CONTRIBUTING.md) for guidelines.
 
 MIT License - see [LICENSE](./LICENSE) for details
 
+## ⚠️ Disclaimer
+
+This repository is an educational resource sharing methodologies and tools for solo developers.
+
+**Important Notes:**
+- All product names, logos, and brands mentioned are property of their respective owners
+- Revenue figures and case studies are based on publicly available information and may not reflect current data
+- This is not financial, legal, or business advice - consult qualified professionals for your specific situation
+- Methodologies shared here are educational references, not endorsements from mentioned individuals or companies
+
+**Data Sources:**
+- Revenue data: Public posts from founders, Indie Hackers interviews, and publicly shared metrics
+- Case studies: Based on publicly available information as of March 2025
+- Methodologies: Synthesized from public content, interviews, and community discussions
+
 ## 🙏 Acknowledgments
 
-- [Pieter Levels](https://levels.io) - For pioneering the OPC movement
-- [Claude Code](https://claude.ai/code) - For making AI-assisted development accessible
+- Successful indie hackers (like [Pieter Levels](https://levels.io)) for pioneering the OPC movement
+- [Claude Code](https://claude.ai/code) for making AI-assisted development accessible
 - All solo developers building amazing products independently
 
 ## 🔗 Resources

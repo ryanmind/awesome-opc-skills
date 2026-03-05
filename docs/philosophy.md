@@ -227,15 +227,15 @@ Less risky than a job (can be fired) or VC startup (90% fail).
 ## Resources
 
 ### Books
-- **MAKE: Bootstrapper's Handbook** by Pieter Levels
+- **MAKE: Bootstrapper's Handbook** - 独立开发者指南
 - **The Minimalist Entrepreneur** by Sahil Lavingia
 - **Company of One** by Paul Jarvis
 
 ### People to Follow
-- Pieter Levels (@levelsio) - Nomad List, $2M+/year
-- Sahil Lavingia (@shl) - Gumroad, profitable
-- Daniel Vassallo (@dvassallo) - $500K+/year
-- Arvid Kahl (@arvidkahl) - Author, educator
+- Pieter Levels (@levelsio) - Nomad List 创始人，年收入 $2M+
+- Sahil Lavingia (@shl) - Gumroad 创始人
+- Daniel Vassallo (@dvassallo) - 年收入 $500K+
+- Arvid Kahl (@arvidkahl) - 作家、教育者
 
 ### Communities
 - Indie Hackers

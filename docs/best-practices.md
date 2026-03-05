@@ -9,7 +9,7 @@ Proven patterns and practices from successful one-person companies.
 **Bad**: Build for 6 months, launch with 50 features
 **Good**: Build for 2 weeks, launch with 3 features
 
-**Example**: Nomad List started as a Google Sheet with city rankings. That's it.
+**Example**: Nomad List 最初只是一个 Google 表格，列出城市排名。就这么简单。
 
 ### Use Tools You Already Know
 
@@ -20,13 +20,13 @@ Proven patterns and practices from successful one-person companies.
 
 ### No Test Environment
 
-**Pieter Levels approach**: Deploy directly to production
-- Have monitoring in place
-- Fix bugs in 2 minutes
-- Users are your testers
+**独立开发者方法**: 直接部署到生产环境
+- 配置好监控
+- 2分钟内修复 bug
+- 用户就是测试者
 
-**When this works**: Simple products, fast iteration
-**When this doesn't**: Banking, healthcare, critical systems
+**适用场景**: 简单产品，快速迭代
+**不适用场景**: 银行、医疗、关键系统
 
 ## 💰 Pricing & Monetization
 
@@ -54,10 +54,10 @@ Proven patterns and practices from successful one-person companies.
 
 ### Pricing Psychology
 
-**Bad**: $9.99/month (looks cheap, attracts wrong users)
-**Good**: $99/year or $29/month (filters for serious users)
+**Bad**: $9.99/month (看起来便宜，吸引错误用户)
+**Good**: $99/year 或 $29/month (筛选出认真的用户)
 
-**Pieter's insight**: Higher prices = better users who give better feedback
+**独立开发者洞察**: 更高的价格 = 更好的用户，他们会给出更好的反馈
 
 ## 🛠️ Tech Stack
 
@@ -353,13 +353,13 @@ Proven patterns and practices from successful one-person companies.
 
 ## 💡 Final Wisdom
 
-### From Pieter Levels
+### 来自成功的独立开发者
 
-> "The best time to start was yesterday. The second best time is now."
+> "最好的开始时间是昨天，其次是现在。"
 
-> "Don't wait for perfect. Perfect never comes. Ship now."
+> "不要等待完美。完美永远不会到来。现在就发布。"
 
-> "95% of projects fail. So build 20 projects."
+> "95% 的项目会失败。所以要做 20 个项目。"
 
 ### From Sahil Lavingia (Gumroad)
 
