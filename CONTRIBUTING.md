@@ -17,7 +17,7 @@ Skills that help solo developers and one-person companies:
 ### 1. Fork and Clone
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/awesome-opc-skills.git
+git clone https://github.com/ryanmind/awesome-opc-skills.git
 cd awesome-opc-skills
 ```
 
