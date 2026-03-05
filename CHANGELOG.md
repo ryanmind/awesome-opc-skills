@@ -7,7 +7,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- AI-powered coding workflow skill with Claude Code, Cursor, and Copilot integration
+- AI-first development philosophy and modern tech stack recommendations
+- Success metrics comparing traditional vs AI-augmented development
+- Comprehensive AI tools comparison and productivity benchmarks
+
+### Changed
+- Repositioned from "one person company" to "AI-augmented solo developer"
+- Updated philosophy to emphasize 10x productivity with AI
+- Enhanced value proposition with AI-first approach
+
 ### Planned
+- AI design system skill (Midjourney + Figma AI)
+- AI content engine for marketing automation
+- AI customer support automation
 - Rapid prototyping skill
 - Launch checklist skill
 - Pricing strategy skill

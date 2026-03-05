@@ -1,18 +1,32 @@
 # Awesome OPC Skills
 
-> A curated collection of Claude Code Skills for solo developers and one-person companies
+> AI-powered skills for solo developers building scalable, profitable businesses
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](http://makeapullrequest.com)
+[![AI-Powered](https://img.shields.io/badge/AI-Powered-blue.svg)](https://claude.ai/code)
 
 ## 🎯 What is OPC?
 
-**OPC (One Person Company)** is a philosophy and methodology for building profitable businesses as a solo developer. This repository collects practical Claude Code Skills to help you:
+**OPC (One Person Company)** is the philosophy of building profitable businesses as a solo developer, amplified by AI. This repository collects practical Claude Code Skills to help you:
 
-- 🚀 Ship faster with automation
-- 💰 Build profitable products independently
-- 🛠️ Streamline your development workflow
-- 📈 Scale without hiring
+- 🤖 **AI-Augmented Development** - One person with AI agents = 10x productivity
+- 🚀 **Ship Faster** - Build in weeks, not months, with AI assistance
+- 💰 **Build Profitably** - High margins through automation and AI tools
+- 📈 **Scale Intelligently** - Grow revenue without growing headcount
+- 🛠️ **Modern Stack** - AI-first tools and workflows for 2025+
+
+## 💡 The New Paradigm
+
+**Traditional Solo Dev:**
+- 1 person = 1 person's output
+- Manual everything
+- Limited by time and skills
+
+**AI-Augmented Solo Dev:**
+- 1 person + AI agents = 10x output
+- Automated workflows
+- Unlimited by AI capabilities
 
 ## 📚 Skills Collection
 
@@ -20,11 +34,18 @@
 
 - **[indie-hacker-methodology](./skills/indie-hacker-methodology/)** - Indie hacker methodology: rapid validation, direct monetization, stay independent
 
+### 🤖 AI-Powered Development
+
+- **[ai-coding-workflow](./skills/ai-coding-workflow/)** - 10x your productivity with Claude Code, Cursor, and GitHub Copilot
+
 ### 🚀 Coming Soon
 
-- **rapid-prototyping** - Build MVPs in 2 weeks
+- **ai-design-system** - Midjourney + Figma AI for rapid prototyping
+- **ai-content-engine** - Automated marketing content with AI
+- **ai-customer-support** - Claude-powered support automation
+- **rapid-prototyping** - Build MVPs in 2 weeks with AI
 - **launch-checklist** - Product launch automation
-- **pricing-strategy** - Pricing and monetization guidance
+- **pricing-strategy** - AI-assisted pricing optimization
 - **build-in-public** - Social media and community tools
 
 ## 🎓 Getting Started
@@ -56,18 +77,63 @@ Skills are designed to work with Claude Code. Simply reference them in your conv
 
 ```
 "Use the indie-hacker-methodology to help me validate my product idea"
+"Help me set up an AI-powered customer support system"
+"Create an automated content pipeline using AI"
 ```
+
+## 🎯 Success Metrics
+
+### Traditional Solo Dev Metrics
+- Revenue: $10K-50K MRR
+- Time: 60-80 hours/week
+- Support: Manual, time-consuming
+- Growth: Linear with effort
+
+### AI-Augmented Solo Dev Metrics
+- Revenue: $100K-500K+ MRR
+- Time: 20-40 hours/week
+- Support: 90% automated with AI
+- Growth: Exponential with AI leverage
 
 ## 🌟 Philosophy
 
-This collection follows the OPC principles:
+This collection follows the AI-augmented OPC principles:
 
-1. **Ship More** - 95% of projects fail, so build fast and iterate
-2. **Charge from Day One** - Minimum $30/user, validate with real money
-3. **Stay Independent** - No VC funding, maintain 90% profit margins
-4. **Build in Public** - Share your journey, get feedback naturally
-5. **Use What You Know** - Don't learn new tech to start, ship with existing skills
-6. **Automate Everything** - One person can't do it all manually
+1. **AI-First Development** - Use AI to 10x your productivity, not just assist
+2. **Ship More, Faster** - AI helps you build in weeks what used to take months
+3. **Charge Premium** - AI-powered products justify higher pricing ($99-999/month)
+4. **Automate Everything** - AI agents handle support, marketing, and operations
+5. **Scale Intelligently** - Grow revenue 10x without growing team size
+6. **Build in Public** - Share your AI-augmented journey
+
+### The AI Advantage
+
+**Without AI:**
+- Solo dev: $10K-50K MRR ceiling
+- Limited by personal time and skills
+- Manual support and operations
+
+**With AI:**
+- Solo dev: $100K-500K+ MRR potential
+- Amplified by AI agents and automation
+- Automated support, content, and growth
+
+## 🛠️ Recommended AI Stack (2025)
+
+### Development
+- **AI Coding**: Claude Code, Cursor, GitHub Copilot
+- **AI Design**: Midjourney, Figma AI, v0.dev
+- **Infrastructure**: Vercel, Supabase, Cloudflare
+
+### Operations
+- **AI Support**: Claude + RAG, Intercom AI
+- **AI Marketing**: ChatGPT, Copy.ai, Jasper
+- **Analytics**: Mixpanel, PostHog
+
+### Automation
+- **Workflows**: Make.com, Zapier, n8n
+- **Payments**: Stripe (with AI fraud detection)
+- **Email**: Resend, SendGrid
 
 ## 📖 Documentation
 
