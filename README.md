@@ -17,6 +17,7 @@
 
 ### 🧠 Methodology & Philosophy
 - **[indie-hacker-methodology](./skills/indie-hacker-methodology/)** - Rapid validation, direct monetization, stay independent
+- **[first-principles](./skills/first-principles/)** - High-standard decision analysis with brutal clarity
 
 ### 🤖 AI-Powered Development
 - **[ai-coding-workflow](./skills/ai-coding-workflow/)** - 10x productivity with Claude Code, Cursor, and GitHub Copilot

@@ -7,21 +7,25 @@ description: Generate and refine Git commit messages from staged or unstaged cha
 
 ## Workflow
 
-1. **Check staged changes**: Execute `git diff --cached` first.
-2. **Fallback to unstaged**: If no staged changes, execute `git diff` and inform user.
-3. **No changes**: If both empty, inform user and stop.
-4. **Learn repo patterns**: Execute `git log --oneline -20 --format="%s"` to understand existing commit style.
-5. **Analyze changes**: Review diff to determine change intent and affected components.
-6. **Infer type**: Match change intent to type (feat/fix/refactor/docs/style/test/chore).
-7. **Infer scope**: Derive from file paths and repo patterns, omit if ambiguous.
-8. **Generate message**: Output concise, human-written message matching repo style.
+1. **Check constraints**: Scan for `.commitlintrc.js`, `commitlint.config.js`, `husky` configs, or `package.json` for linting rules. These override all following heuristics.
+2. **Check staged changes**: Execute `git diff --cached` first.
+3. **Fallback to unstaged**: If no staged changes, execute `git diff` and inform user.
+4. **No changes**: If both empty, inform user and stop.
+5. **Learn repo patterns**: Execute `git log --oneline -20 --format="%s"` to understand existing commit style.
+6. **Analyze changes**: Review diff to determine change intent and affected components.
+7. **Infer type**: Match change intent to type (feat/fix/refactor/docs/style/test/chore).
+8. **Infer scope**: Derive from file paths and repo patterns, omit if ambiguous.
+9. **Generate message**: Output concise, human-written message matching repo style and constraints.
 
 ## Message Rules
 
 - Allowed `type`: `feat`, `fix`, `refactor`, `docs`, `style`, `test`, `chore`.
 - Primary format: `type(scope): subject` (Conventional Commits).
 - Compatible format: `[Module]type: subject` only when repository convention explicitly requires it.
-- Default to Chinese commit messages; switch to English when repo history or user request requires it.
+- **Language Detection**: Do not default to Chinese.
+  - If files modified contain English comments/docs, or the repo is global-oriented, use English.
+  - If repo history is 100% Chinese, follow that.
+  - In cross-language environments, prefer English for technical clarity.
 - Keep subject short, specific, and action-oriented:
   - Chinese: prefer <= 30 characters
   - English: prefer <= 50 characters
@@ -56,7 +60,7 @@ description: Generate and refine Git commit messages from staged or unstaged cha
 - **If user asks for commit body**: Return subject + blank line + bullet points (use `-` prefix).
 - **Auto-suggest body when**: Changes are complex, affect multiple areas, or need explanation.
 - **Footer lines**: Add when relevant (e.g., `Refs: #123`, `BREAKING CHANGE: ...`).
-- **Language**: Default to Chinese; switch to English if repo history or user requires it.
+- **Language**: Follow repo history and modified content language; in mixed contexts, prefer English unless the user or repo convention clearly prefers Chinese.
 - **Insufficient context**: Ask for missing information instead of guessing.
 
 ## When to Add Commit Body
@@ -128,6 +132,11 @@ feat(auth): 实现了用户登录功能。   # Has trailing period, sounds like 
 **Avoid AI patterns (English):**
 - ❌ "implemented...", "completed...", "performed..." (sounds like status report)
 - ✅ "add...", "fix...", "refactor...", "update..." (action-oriented)
+
+**Focus on 'Why' (Intent Recognition):**
+- The body should explain the technical or business rationale. Answer: "What happens if we DON'T make this change?"
+- **Forbidden phrases**: "This commit will...", "I changed...", "According to requirements...", "Improved...".
+- **Senior Style**: Use direct technical terms (e.g., "Fix race condition in pool allocation", "Decouple auth from router to allow testing").
 
 **Keep it concise:**
 - ❌ `feat(auth): 实现了用户通过微信扫码进行第三方登录的功能`
