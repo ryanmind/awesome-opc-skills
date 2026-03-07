@@ -22,6 +22,7 @@
 ### 🤖 AI-Powered Development
 - **[ai-coding-workflow](./skills/ai-coding-workflow/)** - 10x productivity with Claude Code, Cursor, and GitHub Copilot
 - **[git-commit](./skills/git-commit/)** - Generate human-written commit messages with Conventional Commits
+- **[github-actions](./skills/github-actions/)** - Diagnose and fix GitHub Actions workflows, CI/CD pipelines, and automation issues
 
 ### 🚀 Coming Soon
 - **ai-design-system** - Midjourney + Figma AI for rapid prototyping
