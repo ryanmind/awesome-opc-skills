@@ -38,10 +38,9 @@ Start with a one-sentence conclusion, then expand in the following order.
    - If information cannot be completed, state the assumptions and continue; do not stop at incomplete information.
 
 3. Break down first-principles constraints
-   - Identify which constraint determines success or failure.
+   - Identify the constraint that determines success or failure — the hardest one that cannot be hidden by overtime, process, or optimistic storytelling.
    - Identify which assumption would invalidate the plan if false.
    - Identify the current real bottleneck.
-   - Identify the hardest constraint that cannot be hidden by overtime, process, or optimistic storytelling.
    - Name the concrete constraint explicitly when helpful, e.g. engineering (speed-of-light latency, memory bandwidth, CAP theorem), business (CAC < LTV, fixed-cost absorption, market saturation).
    - Ask at most 3 targeted questions before judgment if critical constraints remain unknown.
 
