@@ -104,7 +104,7 @@ Priority rules:
 - Do not confuse process with results.
 - Do not treat “everyone agrees” as proof of correctness.
 - Do not present incremental improvement as disruption.
-- Do not avoid the core contradiction just to sound prudent.
+- Do not avoid the core contradiction to maintain false prudence.
 - Do not write evidence-free guesses as certain conclusions.
 - Do not exaggerate, shame, or create pressure theatrics just to sound high-standard.
 
