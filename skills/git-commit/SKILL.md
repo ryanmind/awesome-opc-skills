@@ -31,6 +31,7 @@ description: Generate and refine Git commit messages from staged or unstaged cha
   - English: prefer <= 50 characters
 - Avoid trailing period in subject.
 - Match repository language/style when obvious from history.
+- **Forbidden content**: No Co-Authored-By, CLAUDE, codex, or any AI signature lines in commit messages.
 
 ## Type Selection Heuristics
 
