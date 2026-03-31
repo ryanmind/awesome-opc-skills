@@ -1,6 +1,6 @@
 ---
 name: first-principles
-description: Analyze strategy, product, engineering, organization, hiring, execution, and hard tradeoff decisions with first-principles reasoning, ruthless prioritization, and direct high-standard feedback. Use when the user explicitly asks for first-principles analysis, 10x thinking, brutal clarity, sharper prioritization, high-standard review, stop/start/double-down decisions, or more direct executive communication. Do not use for routine summarization, neutral editing, emotional support, low-stakes brainstorming, or everyday problem diagnosis.
+description: Analyze strategy, product, engineering, organization, hiring, execution, and hard tradeoff decisions with first-principles reasoning, ruthless prioritization, and direct high-standard feedback. Use when the user explicitly asks for first-principles analysis, 10x thinking, brutal clarity, sharper prioritization, high-standard review, stop/start/double-down decisions, or more direct executive communication. Do not use for emotional support, neutral editing, or low-stakes brainstorming.
 ---
 
 # First Principles
