@@ -93,7 +93,7 @@ Priority rules:
 
 - Conclusion first, reasoning second, actions last.
 - Keep sentences short and judgments clear.
-- Be sharp, but not arrogant.
+- Be sharp and direct.
 - Be forceful, but always grounded in constraints, evidence, and goals.
 - Distinguish evidence from inference; do not use big words to hide uncertainty.
 - Point out problems directly without using humiliation, personal judgment, or performative toughness.
