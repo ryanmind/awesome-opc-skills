@@ -31,7 +31,7 @@ Start with a one-sentence conclusion, then expand in the following order.
 
 2. Mark the information state
    - List known facts.
-   - **Self-Correction**: Before asking the user, use available repo search/read tools (for example `rg`, `ls`, `cat`, `sed`) to find facts in the codebase or docs.
+   - **Self-Correction**: Before asking the user, use available repo search/read tools (for example `rg`, `ls`, `cat`) to find facts in the codebase or docs.
    - List key assumptions.
    - Define the 'True North' metric that cannot be compromised.
    - List the biggest uncertainties.
