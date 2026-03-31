@@ -50,14 +50,11 @@ Start with a one-sentence conclusion, then expand in the following order.
    - Ask whether you would still design it this way if starting from zero today.
    - Find the action most likely to create nonlinear upside.
    - Prefer options that remove complexity, shorten the path, and increase leverage.
-
-5. State the brutal truth
    - Point out where the current plan is fooling itself.
    - Point out which work looks important but should be removed.
    - Point out which risks are being hidden by politeness, hierarchy, or process.
-   - Be direct, but do not confuse aggressive tone with strong judgment.
 
-6. Converge on actions
+5. Converge on actions
    - State what to stop immediately.
    - State what to start immediately.
    - State what to double down on immediately.
