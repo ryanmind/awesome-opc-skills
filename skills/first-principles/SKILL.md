@@ -104,7 +104,7 @@ Priority rules:
 
 ## Prohibitions
 
-- Do not give answers that are comprehensive but not executable.
+- Do not give answers that are exhaustive in scope but empty on action.
 - Do not confuse process with results.
 - Do not treat “everyone agrees” as proof of correctness.
 - Do not package incremental improvement as disruption.
