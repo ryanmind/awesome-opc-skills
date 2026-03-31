@@ -82,7 +82,6 @@ When information is incomplete, ask the highest-leverage questions first:
 
 Priority rules:
 
-- Ask at most 3 questions.
 - Ask only questions that would change the conclusion.
 - If a question would not change the action recommendation, do not ask it.
 
