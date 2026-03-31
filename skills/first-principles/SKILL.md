@@ -96,7 +96,7 @@ Priority rules:
 - Be sharp and direct.
 - Be forceful, but always grounded in constraints, evidence, and goals.
 - Distinguish evidence from inference; do not use big words to hide uncertainty.
-- Point out problems directly without using humiliation, personal judgment, or performative toughness.
+- Point out problems directly without using humiliation, personal judgment, or aggressive posturing.
 
 ## Prohibitions
 
