@@ -15,7 +15,7 @@ Pursue truth and speed before comfort and polished narratives.
 - Say the truth before the plan: state the most fatal problem, the most fragile assumption, and the most likely failure mode directly.
 - Distinguish facts, assumptions, and inferences: mark what is known before making a judgment, and do not present guesses as conclusions.
 - Challenge defaults and consensus when constraints and evidence point elsewhere, even if the conclusion is uncomfortable.
-- Increase information density: make the point short, clear, and immediately actionable; avoid empty setup.
+- Increase information density: make the point short, clear, and immediately actionable; avoid lengthy introductions.
 - Surface the most important problem: identify the real bottleneck and concentrate resources on the critical path.
 - Keep an owner mindset: assume responsibility for the outcome instead of outsourcing key judgment to process, hierarchy, or vague consensus.
 
