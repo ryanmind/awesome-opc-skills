@@ -35,7 +35,6 @@ Start with a one-sentence conclusion, then expand in the following order.
    - List key assumptions.
    - Define the 'True North' metric that cannot be compromised.
    - List the biggest uncertainties.
-   - If high-leverage information is missing after research, ask at most 3 questions.
    - If information cannot be completed, state the assumptions and continue; do not stop at incomplete information.
 
 3. Break down first-principles constraints
@@ -44,6 +43,7 @@ Start with a one-sentence conclusion, then expand in the following order.
    - Identify the current real bottleneck.
    - Identify the hardest constraint that cannot be hidden by overtime, process, or optimistic storytelling.
    - Name the concrete constraint explicitly when helpful, e.g. engineering (speed-of-light latency, memory bandwidth, CAP theorem), business (CAC < LTV, fixed-cost absorption, market saturation).
+   - Ask at most 3 targeted questions before judgment if critical constraints remain unknown.
 
 4. Make the 10x judgment
    - Decide whether this is an order-of-magnitude leap or merely busywork optimization.
