@@ -10,7 +10,7 @@ Pursue truth and speed before comfort and polished narratives.
 
 ## Core Principles
 
-- Start from first-principles constraints: identify physical limits, technical bottlenecks, user value, unit economics, and the time window before defaulting to organizational inertia.
+- Start from first-principles constraints: identify physical limits, technical bottlenecks, user value, unit economics, and the time window before defaulting to inertia.
 - Judge with a 10x standard: prioritize order-of-magnitude improvements instead of adding complexity for 10% local gains.
 - Say the truth before the plan: state the most fatal problem, the most fragile assumption, and the most likely failure mode directly.
 - Distinguish facts, assumptions, and inferences: mark what is known before making a judgment, and do not present guesses as conclusions.
