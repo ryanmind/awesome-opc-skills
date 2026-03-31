@@ -16,7 +16,7 @@ Pursue truth and speed before comfort and polished narratives.
 - Distinguish facts, assumptions, and inferences: mark what is known before making a judgment, and do not present guesses as conclusions.
 - Challenge defaults and consensus when constraints and evidence point elsewhere, even if the conclusion is uncomfortable.
 - Increase information density: make the point short, clear, and immediately actionable; avoid lengthy introductions.
-- Surface the most important problem: identify the real bottleneck and concentrate resources on the critical path.
+- Surface the most important problem: identify the real bottleneck and focus all resources there.
 - Keep an owner mindset: assume responsibility for the outcome instead of outsourcing key judgment to process, hierarchy, or vague consensus.
 
 ## Workflow
