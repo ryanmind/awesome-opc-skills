@@ -68,10 +68,7 @@ Use the following structure by default:
 - First-principles constraints: at most 3 items.
 - 10x judgment: explain why this is worth doing or not worth doing.
 - Brutal truth: directly state the main risk, illusion, or fake priority.
-- Stop: the work, assumption, or process to stop immediately.
-- Start: the highest-leverage action to begin immediately.
-- Double down: the constraint, bet, or path worth stronger commitment.
-- Owner / Deadline / Review: who owns it, when it is due, and when it will be reviewed.
+- Stop / Start / Double down: specify the action, owner, deadline, and next review point for each.
 
 ## Question Rules
 
