@@ -1,6 +1,6 @@
 ---
 name: git-commit
-description: Generate and refine Git commit messages from staged or unstaged changes. Use when the user asks for a commit message, wants type/scope/module selection, or needs messages aligned with feat/fix/refactor/docs/style/test/chore with Conventional Commits as the primary format.
+description: Conventional Commits helper for Git commit messages.
 ---
 
 # Git Commit
@@ -13,24 +13,26 @@ description: Generate and refine Git commit messages from staged or unstaged cha
 4. **No changes**: If both empty, inform user and stop.
 5. **Learn repo patterns**: Execute `git log --oneline -20 --format="%s"` to understand existing commit style.
 6. **Analyze changes**: Review diff to determine change intent and affected components.
-7. **Infer type**: Match change intent to type (feat/fix/refactor/docs/style/test/chore).
-8. **Safety gate + plan**: Block on sensitive data/conflict markers; show type/scope/subject for confirmation before generating.
-9. **Generate message**: Output final message after user confirms the plan.
+7. **Infer type**: Match change intent to type (feat/fix/perf/refactor/docs/style/test/chore).
+8. **Detect edge cases**: Flag if diff contains only binary files, breaking change indicators, or cross-cutting changes — adjust plan accordingly.
+9. **Safety gate + plan**: Block on sensitive data/conflict markers; show type/scope/subject for confirmation before generating.
+10. **Generate message**: Output final message after user confirms the plan.
 
 ## Message Rules
 
-- Allowed `type`: `feat`, `fix`, `refactor`, `docs`, `style`, `test`, `chore`.
+- Allowed `type`: `feat`, `fix`, `perf`, `refactor`, `docs`, `style`, `test`, `chore`.
 - Primary format: `type(scope): subject` (Conventional Commits).
 - Compatible format: `[Module]type: subject` only when repository convention explicitly requires it.
 - **Language**: Use English unless the user or repo convention clearly specifies otherwise.
 - Keep subject short, specific, and action-oriented.
 - Avoid trailing period in subject.
-- **Forbidden content**: No Co-Authored-By, CLAUDE, codex, or any AI signature lines in commit messages.
+- **Forbidden content**: No sign-off lines (e.g., Co-Authored-By) in commit messages.
 
 ## Type Selection Heuristics
 
 - `feat`: new user-visible behavior or capability.
 - `fix`: bug fix or regression fix.
+- `perf`: performance improvement without behavior change.
 - `refactor`: internal restructuring without behavior change.
 - `docs`: documentation-only changes.
 - `style`: formatting/lint-only changes, no logic change.
@@ -104,17 +106,15 @@ test(auth): add unit tests for login flow
 Update code                          # Too vague
 feat: add login and fix bugs         # Mixed types
 Fix bug.                             # Has trailing period
-feat(auth): implemented login        # Sounds like AI
+feat(auth): implemented login        # Wrong tense
 ```
 
 ## Senior-Level Writing
 
-**Focus on "why":** Answer "what happens if we DON'T make this change?" The body should explain technical or business rationale, not just describe what changed.
+**Principle: State facts, not intentions.** Commit messages are historical record, not announcements.
 
-**Forbidden phrases:**
-- "This commit will..."
-- "I changed..."
-- "According to requirements..."
-- "Improved..."
+**Voice:** Use imperative mood ("add feature" not "added feature", "fix bug" not "fixed bug"). Avoid first-person and future tense.
 
-**Use direct technical terms:** "Fix race condition in pool allocation", "Decouple auth from router to allow testing" — not generic descriptions.
+**Rationale:** Body explains the consequence of the change, not the change itself. "Without this, the pool exhausts under load" — not "This commit adds connection pooling."
+
+**Specificity:** Name the actual problem or mechanism. "Fix race condition in pool allocation" over "Improve resource handling."
