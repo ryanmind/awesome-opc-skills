@@ -1,0 +1,4 @@
+interface:
+  display_name: "Git Commit"
+  short_description: "Draft repo-aware Git commit messages"
+  default_prompt: "Use $git-commit to inspect my diff and draft the best commit message for this repo."
