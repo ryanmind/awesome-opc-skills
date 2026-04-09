@@ -1,6 +1,6 @@
 ---
 name: git-commit
-description: Generate repository-aware Git commit messages. Inspect staged changes first, honor commitlint or repo-specific commit conventions before heuristics, and produce concise Conventional Commits style subjects with optional body/trailers when the diff requires them.
+description: Generate repository-aware Git commit messages from staged changes, honoring repo conventions before heuristics.
 ---
 # Git Commit
 Generate the best commit message from the repo's actual constraints and diff. Optimize for correctness first, then low-friction output.
@@ -25,6 +25,15 @@ Never let heuristics override repository rules.
 7. **Run safety checks** for conflict markers, secrets, generated noise, binary-only diffs, and breaking changes.
 8. **Generate directly by default**: return the best subject immediately; add a body only when the diff is complex or the why matters; ask only if ambiguity would materially change type, scope, or breaking-change status.
 
+## Fallback Mode (Low Context)
+Use fallback mode only when no stronger repository signal is available — for example, repo constraints are absent and recent history or usable git metadata cannot be read reliably.
+- Repo constraints always win over fallback heuristics when present
+- Default to Conventional Commits
+- Infer type from keywords in the diff or description
+- Omit scope unless clearly identifiable
+- Keep the subject concise and imperative
+- Do not ask questions unless ambiguity is critical
+
 ## Question Policy
 Default to one-shot output.
 Ask only when:
@@ -41,7 +50,13 @@ If a question would not meaningfully change the message, do not ask it.
 - Use English unless the user or repo clearly prefers another language.
 - Keep the subject short, specific, imperative, and without a trailing period.
 - Do not include implementation trivia unless it is the real system-relevant change.
-- Add trailers like `Refs: #123`, `BREAKING CHANGE: ...`, `Signed-off-by: ...`, or co-author lines only when the repo or user explicitly requires them.
+- Do not add footer or trailer lines unless the repo or user explicitly requires them.
+
+## Formatting Constraints
+- Keep subject within 50 characters when possible
+- Use imperative mood
+- Avoid trailing period
+- Wrap body at ~72 characters if present
 
 ## Type Selection
 Use the smallest accurate type:
@@ -66,12 +81,17 @@ Use formats like `[Module]type: subject` only when repo history or config clearl
 ## Body and Edge Cases
 Add a body when the why matters: multiple tightly related changes, trade-offs, migrations, caveats, or breaking changes. Prefer short factual bullets.
 Handle edge cases directly:
-- **Breaking change**: include the required marker or footer
+- **Breaking change**: call it out clearly in the subject or body; use a marker or trailer only when the repo or user explicitly requires it
 - **Binary-only diff**: describe the asset/artifact changed
 - **Generated files**: focus on the source change if visible; otherwise use `chore`
 - **Pure moves/renames**: use `refactor` or `chore` based on behavior impact and repo convention
 - **Formatting + logic mixed**: ignore formatting noise and classify the logic change
 - **Sensitive data or conflict markers**: stop and warn instead of polishing a message
+
+## Safety Rules
+- Do not invent changes not present in the diff
+- Do not assume repository conventions without evidence
+- Prefer correctness over specificity when uncertain
 
 ## Output Patterns
 - **Default**: return 1 best commit subject
