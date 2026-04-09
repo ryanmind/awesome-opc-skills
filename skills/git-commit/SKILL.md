@@ -1,6 +1,6 @@
 ---
 name: git-commit
-description: Generate repository-aware Git commit messages from staged changes, honoring repo conventions before heuristics.
+description: Generate commit messages from staged changes, following repository conventions before heuristics.
 ---
 # Git Commit
 Generate the best commit message from the repo's actual constraints and diff. Optimize for correctness first, then low-friction output.
@@ -8,10 +8,14 @@ Generate the best commit message from the repo's actual constraints and diff. Op
 ## Decision Priority
 Always decide in this order:
 1. **Repo hard constraints** — commitlint, hooks, templates, release tooling, documented conventions
-2. **Repo history** — recent commit subjects and stable local format
+2. **Explicit user instructions**
 3. **Actual diff** — staged first, unstaged only if nothing is staged
-4. **Heuristics** — only when the repo gives no stronger signal
+4. **Repo history** — only when recent commit subjects show a clear, consistent, high-signal local convention
+5. **Heuristics** — use Conventional Commits best practices when stronger signals are absent
 Never let heuristics override repository rules.
+Repo hard constraints override everything else.
+When no hard constraints exist, explicit user instructions override repo history and heuristics.
+Treat repo history as advisory, not binding. Ignore it when it is inconsistent, vague, low-quality, or conflicts with better commit-writing practice.
 
 ## Workflow
 1. **Find constraints**
@@ -20,15 +24,16 @@ Never let heuristics override repository rules.
 2. **Inspect staged changes first** with `git diff --cached`.
 3. **Fallback to unstaged** with `git diff` only if staged diff is empty, and tell the user.
 4. **Stop if no changes** when both diffs are empty.
-5. **Learn local style** with `git log --oneline -20 --format="%s"`.
+5. **Learn local style** with `git log --oneline -20 --format="%s"` and adopt it only when recent history shows a clear, stable, high-signal pattern worth following.
 6. **Classify the change** by primary intent and affected area.
 7. **Run safety checks** for conflict markers, secrets, generated noise, binary-only diffs, and breaking changes.
 8. **Generate directly by default**: return the best subject immediately; add a body only when the diff is complex or the why matters; ask only if ambiguity would materially change type, scope, or breaking-change status.
 
 ## Fallback Mode (Low Context)
-Use fallback mode only when no stronger repository signal is available — for example, repo constraints are absent and recent history or usable git metadata cannot be read reliably.
+Use fallback mode only when no stronger repository signal is available — for example, repo constraints are absent and recent history or usable git metadata is unavailable, inconsistent, or low-signal.
 - Repo constraints always win over fallback heuristics when present
-- Default to Conventional Commits
+- Treat weak or low-quality history as no history
+- Default to Conventional Commits best practices
 - Infer type from keywords in the diff or description
 - Omit scope unless clearly identifiable
 - Keep the subject concise and imperative
@@ -50,6 +55,7 @@ If a question would not meaningfully change the message, do not ask it.
 - Use English unless the user or repo clearly prefers another language.
 - Keep the subject short, specific, imperative, and without a trailing period.
 - Do not include implementation trivia unless it is the real system-relevant change.
+- Do not imitate vague or low-quality repo history when better signals exist.
 - Do not add footer or trailer lines unless the repo or user explicitly requires them.
 
 ## Formatting Constraints
@@ -75,8 +81,8 @@ Choose scope conservatively:
 1. Multi-module repo: top-level app/package/module
 2. Single-module repo: feature area
 3. Repo-wide or unrelated multi-area change: omit scope
-4. Repo history uses no scope: do not invent one
-Use formats like `[Module]type: subject` only when repo history or config clearly requires them.
+4. Stable repo history uses no scope: do not invent one
+Use formats like `[Module]type: subject` only when repo history or config clearly and consistently requires them.
 
 ## Body and Edge Cases
 Add a body when the why matters: multiple tightly related changes, trade-offs, migrations, caveats, or breaking changes. Prefer short factual bullets.
