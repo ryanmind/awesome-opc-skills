@@ -1,6 +1,6 @@
 ---
 name: git-commit
-description: Generate commit messages from staged changes, following repository conventions before heuristics.
+description: Use when the user asks to git commit, commit changes, create a commit, write a commit message, or submit staged changes. Generate repository-aware commit messages from staged changes, following repository conventions before heuristics.
 ---
 # Git Commit
 Generate the best commit message from the repo's actual constraints and diff. Optimize for correctness first, then low-friction output.
