@@ -1,0 +1,4 @@
+interface:
+  display_name: "源码剖析"
+  short_description: "把源码讲透并沉淀成可接手、可排障、可扩展的系统剖析"
+  default_prompt: "使用 $codebase-analysis 帮我把这个仓库剖析成一份可脱离源码阅读的系统说明。"
