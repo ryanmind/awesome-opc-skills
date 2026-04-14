@@ -1,4 +1,4 @@
 interface:
-  display_name: "源码剖析"
-  short_description: "先建立全景，再钻透关键链路与实现细节"
-  default_prompt: "使用 $codebase-analysis 帮我先梳理这个仓库的系统全景，再沿关键链路下钻到实现细节，产出一份可脱离源码阅读的系统说明。"
+  display_name: "Codebase Analysis"
+  short_description: "Build the system picture first, then drill into key paths and implementation details"
+  default_prompt: "Use $codebase-analysis to map this repository at the system level first, then drill into the most important execution paths and implementation details so I can understand, debug, extend, and hand off the codebase."

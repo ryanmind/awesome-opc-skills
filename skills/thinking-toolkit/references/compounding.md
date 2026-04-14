@@ -1,31 +1,31 @@
-# 复利效应
+# Compounding
 
-## 适用场景
+## Good use cases
 
-- 搭建长期优势
-- 识别那些重复做会越来越值钱的动作
-- 判断“持续性”是否比“强度”更重要
+- building long-term advantage
+- identifying actions that become more valuable the more often you repeat them
+- judging when consistency matters more than intensity
 
-## 核心追问
+## Core questions
 
-- 哪个小动作会随着时间不断放大收益？
-- 当前在积累的长期资产是什么？
-- 哪些重复投入未来会变得更容易、更值钱？
+- Which small action will keep increasing its return over time?
+- What long-term asset are you building right now?
+- Which repeated investment will get easier and more valuable later?
 
-## 特别适合
+## Especially useful for
 
-- 学习系统
-- 内容系统
-- 口碑与影响力建设
-- 职业资本积累
+- learning systems
+- content systems
+- reputation and influence building
+- career capital accumulation
 
-## 误用提醒
+## Misuse warning
 
-不是所有事情都会产生复利。有些任务就是一次性任务，不需要神化它。
+Not everything compounds. Some tasks are one-off tasks and do not deserve to be mythologized.
 
-## 常见输出
+## Common outputs
 
-- 正在积累的复利资产
-- 值得持续做的重复动作
-- 长期收益判断
-- 持续执行方案
+- compounding assets already being built
+- repeatable actions worth sustaining
+- a long-term return judgment
+- a plan for consistent execution

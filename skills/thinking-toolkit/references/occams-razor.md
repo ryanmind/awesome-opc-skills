@@ -1,29 +1,29 @@
-# 奥卡姆剃刀
+# Occam's razor
 
-## 适用场景
+## Good use cases
 
-- 简化问题解释
-- 削减不必要的复杂度
-- 检查“简单解释是否已经足够成立”
+- simplifying an explanation
+- cutting unnecessary complexity
+- checking whether the simple explanation is already sufficient
 
-## 核心追问
+## Core questions
 
-- 在当前事实下，最简单且能成立的解释是什么？
-- 哪些变量其实是不必要的？
-- 我们是不是把问题或方案想复杂了？
+- Given the current facts, what is the simplest explanation that still holds?
+- Which variables are unnecessary?
+- Are we making the problem or the solution more complex than it needs to be?
 
-## 特别适合
+## Especially useful for
 
-- 问题定义混乱
-- 方案设计过度
-- 现象模糊、原因很多的时候
+- messy problem definition
+- overdesigned solutions
+- fuzzy situations with too many possible causes
 
-## 误用提醒
+## Misuse warning
 
-简单不等于粗糙。不要为了“看起来简洁”，把真正必要的复杂性也删掉。
+Simple does not mean crude. Do not remove complexity that is genuinely necessary just to make something look elegant.
 
-## 常见输出
+## Common outputs
 
-- 最简单可成立的解释
-- 可以砍掉的复杂项
-- 更干净的问题表述
+- the simplest viable explanation
+- complexity that can be removed
+- a cleaner statement of the problem

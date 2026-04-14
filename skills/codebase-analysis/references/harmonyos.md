@@ -1,43 +1,43 @@
-# HarmonyOS 源码剖析提示
+# HarmonyOS analysis prompts
 
-HarmonyOS 项目要重点看 Ability 生命周期、ArkTS 状态装饰器、模块配置与跨能力协作。
+For HarmonyOS projects, start with application entry, stage setup, page routing, state containers, and any bridge between ArkTS/UI logic and platform services.
 
-## 先看哪里
+## Start here
 
-- `AppScope/app.json5`：应用级配置
-- `module.json5`：模块、入口、权限、路由信息
-- `EntryAbility` / `UIAbility` / `ServiceExtensionAbility`
-- `pages/`、`ets/`、`entry/src/main/ets/`
-- 路由、状态装饰器（`@State`、`@Prop`、`@Link`、`@Provide`、`@Consume`）
-- 网络、存储、分布式数据、系统能力调用
+- `module.json5`, app/module configuration, permissions, abilities
+- `EntryAbility`, `UIAbility`, stage setup, startup hooks
+- Pages, routing, navigation stack, lifecycle hooks
+- State containers, services, stores, shared utils
+- Data access, network layer, persistence, distributed capabilities
+- Device or platform integrations, events, background behavior
 
-## 重点关注
+## Focus on
 
-### 1. 启动与生命周期
-- 应用 / Ability 从哪里进入
-- 前后台切换、页面切换的关键回调
-- 路由参数、上下文对象如何传递
+### 1. Startup and stage assembly
+- How the app starts and which objects are created first
+- Where permissions, configuration, auth state, and routing decisions happen
+- How modules and abilities are wired together
 
-### 2. 页面与状态
-- ArkTS 组件状态是谁持有
-- 页面之间共享状态怎么做
-- 装饰器驱动的刷新边界是否清晰
+### 2. Page flow and state
+- How a user action moves across pages, stores, and services
+- Whether state ownership is clear or duplicated
+- How lifecycle changes affect data and rendering
 
-### 3. 模块与能力协作
-- 不同 Ability / module 之间如何通信
-- 系统能力、分布式能力、设备能力由谁封装
-- 配置驱动逻辑与代码逻辑如何组合
+### 3. Platform capabilities and distributed behavior
+- Where device capabilities are accessed
+- How events, cross-device behavior, or distributed data are coordinated
+- How errors, retries, and fallbacks are handled
 
-## 你要回答的问题
+## Questions to answer
 
-- 用户从应用启动到首个关键页面的链路是什么
-- 状态同步、页面刷新、Ability 切换如何影响业务逻辑
-- 页面不刷新、路由错乱、Ability 生命周期问题优先查哪里
-- 新功能应该放在页面层、服务层还是 Ability 层
+- What is the real path from app launch to the first business page?
+- How do page logic, state containers, services, and platform APIs collaborate?
+- Where should you look first for routing bugs, stale state, permission issues, or device capability failures?
+- Should a new feature live in the page layer, store/service layer, or platform integration layer?
 
-## 常见风险
+## Common risks
 
-- 生命周期回调理解不清导致状态丢失
-- 页面状态与共享状态边界混乱
-- 配置散落在多个 json5 / 常量文件中
-- 系统能力调用与业务逻辑强耦合
+- Lifecycle and routing logic are scattered across pages and abilities
+- State is duplicated between page-local and shared containers
+- Platform integration is hidden in utility layers that obscure the real call path
+- Distributed capabilities look abstractly clean but are hard to trace end to end

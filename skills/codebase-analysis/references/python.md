@@ -1,49 +1,48 @@
-# Python 源码剖析提示
+# Python analysis prompts
 
-Python 项目差异很大，但剖析时通常先找入口、再找分层、再找配置与异步任务边界。
+Use this reference for Python systems to understand process entry points, service boundaries, module layering, runtime configuration, and how requests, jobs, or scripts actually move through the codebase.
 
-## 先看哪里
+## Start here
 
-- `pyproject.toml` / `requirements.txt` / `setup.py`
-- 入口：`main.py`、CLI、`__main__.py`、ASGI/WSGI 启动文件
-- Web 框架：FastAPI / Flask / Django / Sanic / aiohttp
-- 任务系统：Celery / RQ / APScheduler / 自定义 worker
-- 配置：环境变量、settings、Pydantic、YAML、Hydra
-- 服务层、领域层、仓储层、ORM、缓存、消息队列
-- 测试目录：往往能暴露真实用法
+- Entry points: `main.py`, `app.py`, `manage.py`, `cli.py`, package `__main__`
+- Framework wiring: FastAPI, Flask, Django, Celery, Typer, Click, asyncio
+- Config, env loading, settings objects, dependency injection patterns
+- Routers/views, services, domain modules, repositories, tasks, workers
+- Persistence, caches, queues, external clients, model/runtime integrations
+- Logging, metrics, tracing, retries, timeout handling
 
-## 重点关注
+## Focus on
 
-### 1. 入口与装配
-- 应用如何启动，依赖如何注册
-- 路由 / 命令 / worker 的入口分别是什么
-- 配置和 secrets 在哪里注入
+### 1. Startup and runtime assembly
+- How config is loaded and validated
+- Which app objects, clients, and services are created first
+- How web, task, and CLI entry points share or split dependencies
 
-### 2. 分层与职责
-- controller / router 之后进入 service 还是直接操作数据库
-- domain model、schema、repository 是否有明确边界
-- 公共 util 是否已经侵蚀核心领域
+### 2. Request / task / script paths
+- How a typical request or job flows through routers, services, and persistence
+- Where validation, retries, error translation, and side effects happen
+- How background work differs from request-response flow
 
-### 3. 同步 / 异步 / 后台任务
-- 请求线程、async event loop、后台任务如何分工
-- 耗时任务在哪里脱离主请求
-- 重试、幂等、失败补偿如何处理
+### 3. Module and state boundaries
+- Whether modules are cleanly layered or rely on ad hoc imports
+- Which state is global, cached, request-local, or persisted
+- Whether shared helpers hide important business logic
 
-### 4. 数据与配置
-- ORM model、DTO、Pydantic schema、序列化边界是否清晰
-- 配置是静态加载还是运行期动态切换
+### 4. Reliability and operability
+- Where logs, traces, and metrics are emitted
+- Where timeout, retry, and fallback behavior is implemented
+- Where race conditions, stale cache, or hidden I/O are most likely
 
-## 你要回答的问题
+## Questions to answer
 
-- 一次典型请求 / 命令 / 任务如何穿过各层
-- 哪些模块是业务核心，哪些只是适配层
-- 线上异常、性能瓶颈、数据不一致优先查哪里
-- 新需求应落在 router、service、domain、repository 还是 worker
+- What is the real path from process start to the first useful request, command, or job?
+- How does a core business flow move through API/CLI/task entry points, service logic, and storage/integration layers?
+- Where should you look first for config drift, import coupling, duplicate side effects, or async issues?
+- Should a new capability live in the entry layer, service layer, domain module, task worker, or integration adapter?
 
-## 常见风险
+## Common risks
 
-- 脚本式写法扩张成系统后缺乏边界
-- util / helper 成为隐形耦合中心
-- 同步异步混用导致上下文和错误传播复杂
-- 配置散落，环境行为不稳定
-- 测试覆盖存在，但无法解释真实系统结构
+- Utility modules become a dumping ground for real business logic
+- Framework structure looks clean but actual control flow is hidden in decorators or imports
+- Shared mutable state leaks across requests or tasks
+- Retry and timeout behavior differs across scripts, web handlers, and workers

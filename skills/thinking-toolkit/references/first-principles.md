@@ -1,30 +1,30 @@
-# 第一性原理
+# First principles
 
-## 适用场景
+## Good use cases
 
-- 从底层重新定义问题
-- 拆掉习惯性假设、行业惯例和路径依赖
-- 寻找不那么显而易见的战略或定位方案
+- redefining a problem from the ground up
+- stripping away habitual assumptions, industry conventions, and path dependence
+- finding less obvious strategy or positioning options
 
-## 核心追问
+## Core questions
 
-- 这件事里，真正必须成立的是什么？
-- 哪些约束其实只是默认假设，不一定是真的？
-- 如果从零重新搭一遍，什么应该保留，什么应该舍弃？
+- What truly must be true in this situation?
+- Which constraints are just defaults or assumptions rather than real constraints?
+- If we rebuilt this from zero, what would we keep and what would we discard?
 
-## 特别适合
+## Especially useful for
 
-- 职业转型
-- 产品定位 / IP 定位
-- 战略重构
+- career transitions
+- product positioning / personal brand positioning
+- strategic redesign
 
-## 误用提醒
+## Misuse warning
 
-不要把第一性原理当成“无视现实约束”的借口。时间、资源、市场行为这些真实限制仍然要考虑。
+Do not use first principles as an excuse to ignore real-world constraints. Time, resources, and market behavior still matter.
 
-## 常见输出
+## Common outputs
 
-- 核心目标
-- 不可绕开的真实约束
-- 需要拆掉的伪前提
-- 从底层重构后的方案
+- the core objective
+- non-negotiable real constraints
+- false premises that should be removed
+- a rebuilt approach from the ground up

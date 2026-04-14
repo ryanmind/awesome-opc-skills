@@ -1,30 +1,30 @@
-# 逆向思维
+# Inversion
 
-## 适用场景
+## Good use cases
 
-- 先识别失败风险，再决定怎么做
-- 提前发现最容易踩的坑
-- 给计划、内容或策略做压力测试
+- identifying failure paths before deciding how to proceed
+- spotting the most likely mistakes early
+- pressure-testing a plan, strategy, or content angle
 
-## 核心追问
+## Core questions
 
-- 这件事最可能因为什么失败？
-- 最容易犯的错误是什么？
-- 哪些事必须坚决避免？
+- What is the most likely way this fails?
+- What are the easiest mistakes to make here?
+- What must be avoided at all costs?
 
-## 特别适合
+## Especially useful for
 
-- 风险评审
-- 内容策略避坑
-- 项目规划前置检查
+- risk reviews
+- avoiding content-strategy mistakes
+- pre-flight checks before project execution
 
-## 误用提醒
+## Misuse warning
 
-不要一直停留在防守视角。逆向思维的目的是减少可避免错误，不是让自己迟迟不行动。
+Do not stay trapped in defensive thinking. Inversion is for reducing avoidable errors, not for delaying action forever.
 
-## 常见输出
+## Common outputs
 
-- 主要失败路径
-- 避坑清单
-- 执行护栏
-- 更稳妥的推进方案
+- main failure paths
+- pitfall-avoidance checklists
+- execution guardrails
+- a safer rollout plan

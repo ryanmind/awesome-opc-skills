@@ -1,30 +1,30 @@
-# 5 Why 分析法
+# 5 Whys
 
-## 适用场景
+## Good use cases
 
-- 做根因分析
-- 从表面现象一路追到真正原因
-- 诊断反复出现的问题或长期停滞
+- root-cause analysis
+- tracing a surface problem back to the real cause
+- diagnosing recurring problems or long-term stagnation
 
-## 核心追问
+## Core questions
 
-- 这件事为什么会发生？
-- 上一层原因为什么成立？
-- 更深一层的原因为什么会反复出现？
+- Why did this happen?
+- Why is that previous reason true?
+- Why does the deeper cause keep recurring?
 
-## 特别适合
+## Especially useful for
 
-- 执行问题
-- 流程问题
-- 内容产出低、反馈差、推进卡住
+- execution problems
+- process problems
+- low output, weak feedback, or stalled progress
 
-## 误用提醒
+## Misuse warning
 
-不要机械地追问到第 5 层才停。只要已经找到可执行的根因，就可以结束。
+Do not mechanically stop only after the fifth why. If you already found an actionable root cause, stop there.
 
-## 常见输出
+## Common outputs
 
-- 表面问题
-- why 追问链路
-- 根因判断
-- 修正动作
+- the surface problem
+- the chain of why-questions
+- the root-cause judgment
+- corrective actions

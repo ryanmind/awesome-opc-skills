@@ -1,32 +1,32 @@
-# SWOT 分析
+# SWOT analysis
 
-## 适用场景
+## Good use cases
 
-- 比较战略位置
-- 分清内部优势/劣势与外部机会/威胁
-- 判断应该在哪个方向上竞争
+- comparing strategic position
+- separating internal strengths/weaknesses from external opportunities/threats
+- deciding where to compete
 
-## 核心追问
+## Core questions
 
-- 哪些优势是真实存在且可持续的？
-- 哪些短板会直接限制执行？
-- 哪些外部机会是当前窗口期？
-- 哪些威胁会明显压缩上行空间？
+- Which strengths are real and sustainable?
+- Which weaknesses directly limit execution?
+- Which external opportunities represent the current window?
+- Which threats materially compress upside?
 
-## 特别适合
+## Especially useful for
 
-- 职业定位
-- 个人品牌 / IP 战略
-- 多方案比较
+- career positioning
+- personal brand / IP strategy
+- comparing multiple options
 
-## 误用提醒
+## Misuse warning
 
-不要把 SWOT 做成一张泛泛而谈的清单。每一点都应该服务于最终判断。
+Do not turn SWOT into a vague list. Every point should serve the final judgment.
 
-## 常见输出
+## Common outputs
 
-- 1～3 个最强优势
-- 1～3 个关键短板
-- 近期可抓的机会
-- 关键威胁
-- 战略含义与判断
+- 1-3 strongest strengths
+- 1-3 critical weaknesses
+- near-term opportunities to capture
+- key threats
+- strategic implications and final judgment

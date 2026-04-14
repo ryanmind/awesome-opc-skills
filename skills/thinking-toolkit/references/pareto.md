@@ -1,30 +1,30 @@
-# 二八法则
+# Pareto principle
 
-## 适用场景
+## Good use cases
 
-- 找出真正关键的少数动作
-- 在有限时间和注意力下做优先级判断
-- 砍掉低回报投入
+- finding the critical few actions that matter most
+- prioritizing under limited time and attention
+- cutting low-return effort
 
-## 核心追问
+## Core questions
 
-- 哪 20% 的动作带来了大部分结果？
-- 哪些事情应该减少、删除或忽略？
-- 最高杠杆点到底在哪里？
+- Which 20% of actions drive most of the result?
+- What should be reduced, deleted, or ignored?
+- Where is the highest leverage point?
 
-## 特别适合
+## Especially useful for
 
-- 任务规划
-- 内容选题
-- 职业聚焦
-- 系统优化
+- task planning
+- content topic selection
+- career focus
+- system optimization
 
-## 误用提醒
+## Misuse warning
 
-不要把 80/20 当成精确公式。它是优先级视角，不是数学定律。
+Do not treat 80/20 as a precise formula. It is a prioritization lens, not a mathematical law.
 
-## 常见输出
+## Common outputs
 
-- 高杠杆动作
-- 低价值干扰项
-- 建议的聚焦顺序
+- high-leverage actions
+- low-value distractions
+- recommended order of focus

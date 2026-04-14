@@ -1,220 +1,226 @@
 ---
 name: codebase-analysis
-description: 当用户需要吃透一个代码库、模块或系统实现时使用：先建立系统全景，再沿关键链路下钻到实现细节，输出一份可脱离源码阅读的系统说明，帮助读者理解系统如何启动、如何装配、数据如何流动、交互如何进入、渲染/输出如何发生，以及后续如何接手、排障、扩展与重构。适用于 iOS（ObjC/Swift）、Flutter、AI 应用、React、HarmonyOS、Python、TypeScript、Android/Kotlin、Java/Spring、Node.js/NestJS、Vue/Next.js、Go/Rust，也适用于遗留系统梳理、架构复盘、核心链路拆解、技术尽调和新人交接。
+description: Use when the user needs to deeply understand a codebase, module, or system implementation: first build a high-level system map, then drill into the most important execution paths and implementation details, and produce a handoff-quality explanation that can be understood without constantly rereading the source. Suitable for iOS (ObjC/Swift), Flutter, AI applications, React, HarmonyOS, Python, TypeScript, Android/Kotlin, Java/Spring, Node.js/NestJS, Vue/Next.js, Go/Rust, as well as legacy-system analysis, architecture reviews, critical-path breakdowns, technical due diligence, and onboarding handoffs.
 ---
 
 # Codebase Analysis
 
-把“看源码”升级成“建立可交接、可下钻、可复述的系统认知”。
-目标不是复述文件，而是**先建立系统全景，再钻透关键细节**，最终回答：
+Upgrade "reading source code" into a transferable, drillable, reusable understanding of how a system actually works.
+The goal is not to restate files. The goal is to **build the system picture first, then drill into the key implementation details**, so you can answer:
 
-- 系统怎么启动、怎么装配
-- 数据怎么流、交互怎么进入、渲染/输出怎么发生
-- 关键模块内部到底怎么实现、为什么这样实现
-- 问题应该去哪里查、需求应该在哪里改、重构会牵动什么
+- How the system starts and gets assembled
+- How data flows, how interactions enter, and how rendering or final output happens
+- How the most important modules are implemented and why they are designed that way
+- Where to debug, where to change code for new requirements, and what refactors will affect
 
-## 什么时候用
+## When to use
 
-在下面场景优先使用本 skill：
+Prefer this skill when:
 
-- 用户要“源码剖析 / 代码走读 / 架构拆解 / 系统解构”
-- 需要把一个仓库讲清楚给新同学、接手人或评审人
-- 需要在不持续翻源码的前提下理解实现路径
-- 需要定位核心链路、关键状态、依赖关系和风险点
-- 需要为排障、扩展、重构、迁移建立上下文
-- 需要输出技术尽调、模块说明、接手文档、系统全景图
+- The user asks for source analysis, code walkthroughs, architecture breakdowns, or system deconstruction
+- You need to explain a repository clearly to a new teammate, owner, or reviewer
+- You need to understand the implementation path without constantly rereading the repo
+- You need to locate core paths, critical state, dependencies, and risks
+- You need context for debugging, extension, refactoring, or migration
+- You need to produce technical due diligence notes, module docs, handoff docs, or a system map
 
-不适合优先使用本 skill 的场景：
+This skill is not the best first choice when:
 
-- 用户只是要修一个很小的点状 bug
-- 用户只要 API 用法、语法解释或代码润色
-- 用户主要需要“最新资料”而不是“读懂本地代码”
+- The user only wants a tiny bug fixed
+- The user only wants API usage, syntax help, or wording polish
+- The user mainly needs the latest external information rather than understanding local code
 
-## 成功标准
+## Success criteria
 
-完成后，读者即使不持续打开源码，也应该能回答：
+After the analysis, the reader should be able to answer:
 
-1. 系统的入口在哪里，启动顺序是什么
-2. 用户或请求经过哪些关键模块
-3. 每个核心模块的职责、边界和协作方式是什么
-4. 状态、数据、配置、依赖分别从哪里来，到哪里去
-5. 用户交互如何进入系统，渲染或最终输出如何发生
-6. 关键模块内部如何实现，关键抽象为什么这样设计
-7. 常见问题最可能卡在哪一层，如何排查
-8. 新功能应该加在哪里，为什么
-9. 如果要重构，哪些点最脆弱、最值得先动
+1. Where the system entry point is and what the startup order looks like
+2. Which key modules a request or user action moves through
+3. What each core module owns, where its boundaries are, and how it collaborates
+4. Where state, data, config, and dependencies come from and where they go
+5. How user interactions enter the system and how rendering or final output occurs
+6. How critical modules are implemented and why the main abstractions exist
+7. Which layer is most likely responsible when something breaks and how to investigate it
+8. Where a new feature should be added and why
+9. Which parts are most fragile or most valuable to refactor first
 
-如果分析完成后，读者仍然只能说出“目录里有什么”，却说不清“系统为何这样工作、实现细节卡在哪里、修改会影响什么”，说明分析还不够深入。
+If the result only tells the reader what folders exist, but not why the system behaves the way it does, where the implementation pressure points are, or what a change will affect, the analysis is not deep enough.
 
-## 默认输出合同
+## Default output contract
 
-默认产出一份“可接手、可深挖”的源码剖析文档，建议按这个顺序：
+By default, produce a handoff-friendly, drillable codebase analysis document in roughly this order:
 
-1. **一句话结论**：这个系统本质上是怎么工作的
-2. **系统全景**：主要模块、运行边界、外部依赖
-3. **入口与启动链路**：程序从哪里启动，第一批关键对象如何建立
-4. **核心运行时链路**：按 1～3 条最重要链路讲清楚调用/状态流转
-5. **模块职责拆解**：每个核心目录、类、服务、页面、状态容器负责什么
-6. **数据 / 状态 / 配置流**：输入、输出、缓存、持久化、远端依赖
-7. **关键实现细节**：关键类、函数、状态转换、分支条件、异常路径如何工作
-8. **关键抽象与设计取舍**：为什么这样分层、封装或编排
-9. **排障地图**：出现问题优先看哪里，常见断点/日志/症状是什么
-10. **扩展与重构建议**：新增需求放哪里，重构先动哪里，风险是什么
-11. **证据与未决问题**：事实、推断、仍待验证的点分开写
+1. **One-sentence conclusion**: what this system fundamentally is and how it works
+2. **System landscape**: major modules, runtime boundaries, external dependencies
+3. **Entry points and startup path**: where execution begins and how key objects are first created
+4. **Core runtime paths**: explain the 1-3 most important call/state flow paths
+5. **Module responsibility breakdown**: what each important directory, class, service, page, or state container owns
+6. **Data / state / config flow**: inputs, outputs, cache, persistence, remote dependencies
+7. **Key implementation details**: how critical classes, functions, state transitions, branches, and failure paths work
+8. **Design choices and tradeoffs**: why layering, encapsulation, or orchestration looks the way it does
+9. **Debugging map**: where to look first when something breaks, and common symptoms/log points
+10. **Extension and refactor guidance**: where new work should go, what to refactor first, and what risks exist
+11. **Evidence and open questions**: separate facts, inferences, and still-unverified points
 
-除非用户明确要“逐文件讲解”，否则不要按文件顺序流水账式复述源码。
-如果用户目标是“吃透”，不能停在架构概览，必须继续下钻到关键实现细节、状态变化和异常分支。
+Unless the user explicitly asks for a file-by-file walkthrough, do not narrate the repo in directory order.
+If the user's goal is to truly understand the system, do not stop at architecture diagrams; continue into key implementation details, state transitions, and failure branches.
 
-## 工作流
+## Workflow
 
-### 1. 先定范围
+### 1. Define the scope first
 
-先收敛以下信息；如果用户没给全，就基于仓库自行推断并明确假设：
+Gather or infer:
 
-- 分析对象：整个仓库 / 某个子系统 / 某条业务链路
-- 目标：接手、排障、扩展、重构、技术尽调、知识沉淀
-- 读者：开发、TL、架构师、跨端协作方、AI 代理
-- 技术栈：iOS / Flutter / AI / React / HarmonyOS / Python / TypeScript / Android / Kotlin / Java / Spring / Node.js / NestJS / Vue / Next.js / Go / Rust / 混合
+- Analysis target: the whole repository, a subsystem, or a business flow
+- Goal: handoff, debugging, extension, refactoring, due diligence, or knowledge capture
+- Audience: developer, tech lead, architect, collaborator, or AI agent
+- Stack: iOS, Flutter, AI, React, HarmonyOS, Python, TypeScript, Android, Kotlin, Java, Spring, Node.js, NestJS, Vue, Next.js, Go, Rust, or mixed
 
-### 2. 先建立“骨架认知”，再决定往哪里深钻
+If the user did not provide all of this, infer it from the repo and state your assumptions clearly.
 
-优先看：
+### 2. Build the skeleton first, then decide where to drill down
 
-- 目录结构
-- 依赖清单与构建文件
-- 应用入口 / 服务入口 / 主流程入口
-- 路由、状态管理、DI、配置、网络层、数据层
-- 顶层 orchestrator、coordinator、controller、service、store、agent、pipeline
+Start with:
 
-先回答“系统由哪几层组成”，再回答“某一层内部如何实现”。
-不要一开始就陷入局部细节；也不要停留在高层概览。正确顺序是：**先搭骨架，再沿主链路下钻实现。**
+- Directory structure
+- Dependency and build files
+- App entry points / service entry points / top-level execution paths
+- Routing, state management, DI, config, networking, and persistence layers
+- Top-level orchestrators, coordinators, controllers, services, stores, agents, or pipelines
 
-### 3. 以“运行链路”代替“文件列表”
+Answer "what layers make up this system" before answering "how one layer works internally."
+Do not get trapped in local detail too early, but also do not stay at a vague high level. The right sequence is: **build the skeleton first, then drill into the key joints.**
 
-优先选最关键的 1～3 条链路来拆：
+### 3. Follow the most important runtime paths
 
-- 用户启动应用后的首屏链路
-- 一次核心请求 / 操作 / 任务执行链路
-- 一条高价值业务链路（如登录、支付、问答、同步、渲染）
+After you understand the shape of the system, trace the most important paths, for example:
 
-沿着链路写清楚：
+- startup
+- login / authentication
+- request handling
+- payment / checkout
+- content generation
+- sync / background jobs
+- rendering / response output
 
-- 谁触发
-- 谁接收
-- 谁做决策
-- 谁持久化
-- 谁更新状态
-- 谁渲染或返回结果
+For each path, make clear:
 
-如果用户希望“完全吃透”，继续补充：
+- what triggers it
+- what receives it
+- what makes decisions
+- what persists data
+- what mutates state
+- what renders or returns the final result
 
-- 链路中的关键函数/类分别做了什么
-- 关键分支、异常路径、回退逻辑怎么走
-- 状态是在何处创建、传递、变更、失效
-- 哪些细节决定了当前行为，哪些只是表层包装
+If the user wants deep understanding, keep going into:
 
-### 4. 抽取“稳定知识”，也要下钻“关键细节”
+- what each critical function/class in the path actually does
+- how key branches, error paths, and fallback logic work
+- where state is created, passed, mutated, and invalidated
+- which details determine real behavior versus thin wrappers
 
-你要输出的是可复用认知，不是临时阅读痕迹。优先沉淀：
+### 4. Extract stable knowledge, but drill into critical implementation details
 
-- 模块边界
-- 核心对象关系
-- 状态来源与生命周期
-- 配置与环境切换方式
-- 异常传播路径
-- 扩展点、替换点、耦合点
-- 代码风格背后的架构约束
+You are producing reusable understanding, not temporary reading notes. Prioritize:
 
-同时，对下面内容要敢于下钻到实现层：
+- module boundaries
+- relationships between core objects
+- state sources and lifecycles
+- config and environment switching
+- exception and error propagation paths
+- extension points, replacement points, and coupling points
+- architecture constraints implied by the coding style
 
-- 关键模块内部执行顺序
-- 关键状态转换与生命周期
-- 关键接口/抽象背后的真实实现
-- 关键条件分支、失败分支、回退分支
-- 性能、并发、缓存、重试、幂等等行为细节
+At the same time, be willing to drill into implementation details for:
 
-目标不是“知道有这个模块”，而是“知道它具体怎么工作、为什么这样工作、改它会影响什么”。
+- critical execution order inside important modules
+- key state transitions and lifecycles
+- real implementations behind important interfaces/abstractions
+- important conditional branches, failure branches, and fallback branches
+- performance, concurrency, caching, retry, and idempotency behavior
 
-### 5. 明确标注信息状态
+The goal is not just "this module exists" but "this is how it works, why it works that way, and what changing it would affect."
 
-对每个关键判断尽量标记：
+### 5. Mark information status clearly
 
-- **事实**：可直接由文件、符号、配置、调用关系证明
-- **推断**：由多处证据综合判断得到
-- **待验证**：当前代码里还不能完全坐实，需要运行、日志、测试或业务确认
+For each important judgment, label it when possible as:
 
-不要把推断写成事实。
+- **Fact**: directly supported by files, symbols, config, or call relationships
+- **Inference**: derived from multiple pieces of evidence
+- **Needs verification**: cannot yet be fully confirmed without runtime checks, logs, tests, or business context
 
-## 证据规则
+Do not present inferences as hard facts.
 
-- 尽量引用具体文件、目录、类名、函数名、配置项或协议名
-- 先从入口、依赖、路由、状态、网络、持久化找主干，再下钻细节
-- 如果仓库很大，优先覆盖“高杠杆目录”和“高频调用链”，不要平均用力
-- 若存在多技术栈，只加载当前链路相关的 reference，不要全读
-- 如果发现 README 与代码不一致，以代码和配置为准，并明确指出偏差
+## Evidence rules
 
-## 技术栈路由
+- Cite specific files, directories, classes, functions, config keys, or protocol names whenever possible
+- Find the trunk from entries, dependencies, routing, state, networking, and persistence before drilling into detail
+- If the repo is large, cover the highest-leverage directories and highest-frequency call paths first; do not spread effort evenly
+- If multiple stacks are present, only load the references relevant to the current path
+- If README and code disagree, trust the code and config, and explicitly call out the mismatch
 
-按需读取以下 reference：
+## Stack routing
 
-- iOS（ObjC/Swift）：`references/ios.md`
-- Flutter：`references/flutter.md`
-- AI 应用：`references/ai.md`
-- React：`references/react.md`
-- HarmonyOS：`references/harmonyos.md`
-- Python：`references/python.md`
-- TypeScript：`references/typescript.md`
-- Android / Kotlin：`references/android-kotlin.md`
-- Java / Spring：`references/java-spring.md`
-- Node.js / NestJS：`references/node-nestjs.md`
-- Vue / Next.js：`references/vue-nextjs.md`
-- Go / Rust：`references/go-rust.md`
+Read these references on demand:
 
-常见组合建议：
+- iOS (ObjC/Swift): `references/ios.md`
+- Flutter: `references/flutter.md`
+- AI applications: `references/ai.md`
+- React: `references/react.md`
+- HarmonyOS: `references/harmonyos.md`
+- Python: `references/python.md`
+- TypeScript: `references/typescript.md`
+- Android / Kotlin: `references/android-kotlin.md`
+- Java / Spring: `references/java-spring.md`
+- Node.js / NestJS: `references/node-nestjs.md`
+- Vue / Next.js: `references/vue-nextjs.md`
+- Go / Rust: `references/go-rust.md`
 
-- React + TypeScript：先读 `react.md`，再补 `typescript.md`
-- Next.js：先读 `react.md`，再补 `vue-nextjs.md` 中的 SSR / App Router / 边界提示
-- Flutter + AI：先看 Flutter 主流程，再用 `ai.md` 拆模型调用 / 检索 / agent 编排
-- Python + AI：先看 `python.md` 的服务边界，再读 `ai.md`
-- Node.js / NestJS + AI：先读 `node-nestjs.md`，再看 `ai.md`
-- Java / Spring：优先用 `java-spring.md` 梳理启动装配、Bean 边界、请求链与任务链
-- Android / Kotlin：优先看宿主入口、页面导航、状态容器、数据层与协程边界
-- Go / Rust：优先先看进程入口、并发模型、模块边界、I/O 与错误传播
-- iOS / HarmonyOS 与跨端混合：先梳理宿主入口、容器通信，再看对应端内实现
+Common combinations:
 
-## 脚本
+- React + TypeScript: read `react.md` first, then `typescript.md`
+- Next.js: read `react.md` first, then `vue-nextjs.md` for SSR / App Router / boundary guidance
+- Flutter + AI: read the Flutter runtime flow first, then use `ai.md` for model calls / retrieval / agent orchestration
+- Python + AI: start with `python.md` for service boundaries, then `ai.md`
+- Node.js / NestJS + AI: start with `node-nestjs.md`, then `ai.md`
+- Java / Spring: use `java-spring.md` first to understand startup, bean wiring, request chains, and job flows
+- Android / Kotlin: prioritize app entry points, navigation, state containers, data layer, and coroutine boundaries
+- Go / Rust: start with process entry, concurrency model, module boundaries, I/O, and error propagation
+- iOS / HarmonyOS / hybrid apps: map the host entry and container communication first, then drill into the platform-specific internals
 
-如需快速起草剖析文档骨架，使用：
+## Scripts
+
+If you need a quick skeleton for an analysis document, use:
 
 - `scripts/scaffold_analysis_report.py`
 
-它适合先生成一个结构化 Markdown 骨架，再把源码证据填进去。
+It is useful for generating a structured Markdown outline before you fill it with source-backed evidence.
 
-示例：
+Example:
 
 ```bash
-python3 scripts/scaffold_analysis_report.py   --system-name "Payment Center"   --stack react --stack typescript   --focus 登录链路 --focus 支付链路   --output payment-center-analysis.md
+python3 scripts/scaffold_analysis_report.py   --system-name "Payment Center"   --stack react --stack typescript   --focus login-flow --focus payment-flow   --output payment-center-analysis.md
 ```
 
-## 默认回答风格
+## Default answer style
 
-- 先给整体判断，再展开细节
-- 先讲系统如何工作，再讲为什么这样实现
-- 先搭系统骨架，再下钻关键实现
-- 尽量按“链路 + 模块 + 状态 + 风险”组织
-- 少讲泛泛概念，多讲当前仓库里的真实实现
-- 如果用户要“吃透”，必须覆盖关键实现细节、异常路径和设计取舍
-- 最终回答要服务于：**理解、接手、排障、扩展、重构**
+- Start with the overall judgment, then expand into detail
+- Explain how the system works before explaining why it was implemented that way
+- Build the system skeleton first, then drill into key implementation details
+- Organize around **paths + modules + state + risks** whenever possible
+- Spend less time on generic concepts and more time on what this specific repo actually does
+- If the user wants to really understand the system, cover key implementation details, failure paths, and design tradeoffs
+- Optimize the final answer for: **understanding, handoff, debugging, extension, and refactoring**
 
-## 反模式
+## Anti-patterns
 
-避免以下问题：
+Avoid:
 
-- 机械地按目录顺序介绍文件
-- 只讲局部实现，不讲系统主链路
-- 只讲“做了什么”，不讲“为什么这样分层”
-- 只停在架构概览，不继续下钻关键细节
-- 只讲 happy path，不讲异常路径、状态变化和关键分支
-- 不区分事实、推断、待验证
-- 没有给出排障入口、扩展落点和重构风险
-- 为了“全面”而失去重点，导致读者仍然无法接手系统
+- mechanically introducing files in directory order
+- describing local implementation without the main system path
+- explaining only "what" but not "why this layering or split exists"
+- stopping at a high-level architecture summary without drilling into key details
+- describing only the happy path while ignoring failure paths, state changes, and critical branches
+- mixing facts, inferences, and open questions together
+- omitting debugging entry points, extension landing zones, and refactor risks
+- trying to be "complete" in a way that loses the actual center of gravity of the system

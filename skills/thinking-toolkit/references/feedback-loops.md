@@ -1,31 +1,31 @@
-# 反馈回路
+# Feedback loops
 
-## 适用场景
+## Good use cases
 
-- 理解一个系统为什么会越滚越大，或者越做越卡
-- 找系统中的杠杆点
-- 优化可重复执行的流程
+- understanding why a system keeps accelerating or keeps getting stuck
+- finding leverage points in a system
+- optimizing repeatable processes
 
-## 核心追问
+## Core questions
 
-- 这里的正反馈是什么？
-- 这里的负反馈或平衡机制是什么？
-- 哪个小改动能撬动整个循环？
+- What is the reinforcing loop here?
+- What is the balancing loop or negative feedback here?
+- Which small change could move the whole cycle?
 
-## 特别适合
+## Especially useful for
 
-- 内容增长
-- 习惯系统
-- 流程优化
-- 团队或产品运行机制
+- content growth
+- habit systems
+- process optimization
+- team or product operating mechanisms
 
-## 误用提醒
+## Misuse warning
 
-不要空泛地说“这是个反馈回路”。要明确写出具体行为、变量和结果之间的关系。
+Do not vaguely say "this is a feedback loop." Spell out the specific behavior, variables, and outcomes in the loop.
 
-## 常见输出
+## Common outputs
 
-- 正反馈回路
-- 负反馈 / 平衡回路
-- 杠杆点
-- 干预方案
+- reinforcing loops
+- balancing / negative loops
+- leverage points
+- intervention plans

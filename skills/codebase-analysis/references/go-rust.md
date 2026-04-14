@@ -1,51 +1,49 @@
-# Go / Rust 源码剖析提示
+# Go / Rust analysis prompts
 
-Go 和 Rust 的共同重点是：进程入口、模块边界、并发/异步模型、I/O 路径、错误传播与资源所有权（尤其 Rust）。
+For Go or Rust systems, start from process entry points, concurrency primitives, module boundaries, and I/O behavior. These systems often look small from the outside but hide important control flow in workers, traits/interfaces, and runtime orchestration.
 
-## Go 项目先看哪里
+## Start here
 
-- `go.mod`、`cmd/`、`main.go`
-- `internal/`、`pkg/`、`api/`、`configs/`
-- HTTP / gRPC / MQ / cron / worker 启动入口
-- context、goroutine、channel、pool、middleware
-- DB、cache、config、logger、tracing、feature flags
+- Entry points: `main.go`, `cmd/*`, `main.rs`, `bin/*`, workspace layout
+- Build files: `go.mod`, `Cargo.toml`, workspaces, feature flags
+- HTTP / RPC servers, CLI entry points, jobs, consumers, schedulers
+- Package/module boundaries, traits/interfaces, adapters, domain services
+- Concurrency: goroutines, channels, Tokio tasks, async runtimes, worker pools
+- Persistence, queues, caches, external clients, config loading
 
-## Rust 项目先看哪里
+## Focus on
 
-- `Cargo.toml`、workspace、crate 边界
-- `src/main.rs`、`lib.rs`、bin targets
-- async runtime：tokio / async-std
-- handler / service / repository / domain / adapter
-- trait、error type、ownership、borrowing、Arc/Mutex/RwLock
+### 1. Startup and dependency wiring
+- How config is loaded and validated
+- Which services are created at startup and in what order
+- Where dependency injection or manual wiring happens
 
-## 重点关注
+### 2. Request / job execution paths
+- How requests, commands, or jobs move through handlers, services, and storage
+- Where validation, retries, timeouts, and error translation happen
+- How background workers are coordinated and shut down
 
-### 1. 入口与模块边界
-- 进程如何启动，配置如何加载
-- HTTP、gRPC、任务 worker 是否共用同一套核心服务
-- 包 / crate 的边界是否真正体现架构边界
+### 3. Concurrency and ownership boundaries
+- Which state is shared versus isolated
+- How goroutines / async tasks communicate and fail
+- Where backpressure, cancellation, and resource cleanup are enforced
 
-### 2. 并发与资源
-- Go：goroutine、channel、context cancel、并发控制在哪里做
-- Rust：async task、ownership、共享状态与锁粒度如何设计
-- 超时、取消、重试、背压由谁负责
+### 4. Observability and reliability
+- Where metrics, logging, tracing, and panic handling live
+- Which errors are retried, surfaced, or intentionally swallowed
+- Where data races, deadlocks, or resource leaks are most likely
 
-### 3. 数据与错误传播
-- 一次请求如何穿过 handler、service、storage、external client
-- 错误是被包装、转换还是吞掉
-- 是否有统一 tracing、metrics、structured logs
+## Questions to answer
 
-## 你要回答的问题
+- What is the real path from process start to the first meaningful unit of work?
+- How does a core request or job move through transport, service, domain, and storage layers?
+- Where should you look first for latency spikes, queue buildup, worker stalls, or inconsistent state?
+- Should a new capability be implemented at the handler layer, service layer, module boundary, or shared runtime utility?
 
-- 进程启动后哪些组件最先建立，哪些组件是系统主干
-- 一个核心请求 / 任务如何流经各模块与并发边界
-- 死锁、阻塞、goroutine 泄漏、内存增长、超时传播异常优先查哪里
-- 新功能应该放在 handler、service、domain、adapter 还是独立 worker
+## Common risks
 
-## 常见风险
-
-- Go 项目按目录分层，但 context 和并发边界混乱
-- goroutine 启得容易，回收与取消没闭环
-- Rust 项目为了绕过所有权约束，过度共享状态
-- crate / package 切分很多，但真正边界不稳定
-- I/O 失败、超时、重试策略散落，系统行为不可预测
+- Concurrency logic is implicit and hard to reconstruct
+- Shared helpers become hidden global coupling points
+- Interfaces / traits look clean but conceal tangled control flow
+- Error handling is inconsistent across layers
+- Runtime behavior differs sharply from the neat package layout

@@ -224,4 +224,4 @@ Reference this skill in your conversations:
 
 ---
 
-[中文版本 / Chinese Version](./README.zh-CN.md)
+[Archived translation note](./README.zh-CN.md)

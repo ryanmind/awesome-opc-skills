@@ -1,30 +1,30 @@
-# 机会成本
+# Opportunity cost
 
-## 适用场景
+## Good use cases
 
-- 比较互斥选项
-- 把隐藏的代价显性化
-- 判断“应该做什么”和“应该不做什么”
+- comparing mutually exclusive options
+- making hidden tradeoffs explicit
+- deciding both what to do and what not to do
 
-## 核心追问
+## Core questions
 
-- 选择这个，意味着放弃什么？
-- 时间、精力、资源还能投到哪些更值的地方？
-- 备选项是不是更有价值？
+- If we choose this, what are we giving up?
+- Where else could the same time, energy, or resources create more value?
+- Is the alternative actually more valuable?
 
-## 特别适合
+## Especially useful for
 
-- 平台选择
-- 职业路径选择
-- 时间分配
+- platform choices
+- career-path decisions
+- time allocation
 
-## 误用提醒
+## Misuse warning
 
-不要因为备选项太多而无限犹豫。机会成本的目的，是让取舍更清晰，不是让人瘫住。
+Do not become endlessly indecisive just because there are many alternatives. The purpose of opportunity cost is clearer tradeoffs, not paralysis.
 
-## 常见输出
+## Common outputs
 
-- 当前建议选择
-- 主要放弃掉的替代项
-- 每条路径对应的隐形代价
-- 最终判断
+- the recommended current choice
+- the main alternatives being given up
+- the hidden costs attached to each path
+- the final judgment

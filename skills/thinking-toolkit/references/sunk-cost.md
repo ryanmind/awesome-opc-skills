@@ -1,29 +1,29 @@
-# 沉没成本
+# Sunk cost
 
-## 适用场景
+## Good use cases
 
-- 判断一件事该继续、该停止，还是该缩减
-- 把过去投入和未来价值拆开看
-- 避免因为“已经付出了很多”而做错误决策
+- deciding whether to continue, stop, or reduce commitment
+- separating past investment from future value
+- avoiding bad decisions driven by "but I already put so much into this"
 
-## 核心追问
+## Core questions
 
-- 如果过去没有投入过，现在还会不会选择继续？
-- 现在继续，是因为这件事真的值得，还是因为舍不得之前的投入？
-- 未来还有没有足够大的价值支撑继续追加？
+- If you had not invested anything yet, would you still choose to continue now?
+- Are you continuing because it is truly worth it, or because you cannot let go of what was already spent?
+- Is there enough future value left to justify more investment?
 
-## 特别适合
+## Especially useful for
 
-- 低回报项目
-- 已经拖太久的承诺
-- 职业死胡同
+- low-return projects
+- commitments that have dragged on too long
+- career dead ends
 
-## 误用提醒
+## Misuse warning
 
-不要把“沉没成本”理解成“随时都该放弃”。判断重点是未来价值，而不只是过去浪费。
+Do not interpret sunk cost as "you should always quit." The key is future value, not merely avoiding past waste.
 
-## 常见输出
+## Common outputs
 
-- 哪些投入已经不可回收
-- 未来剩余价值还有多少
-- 继续 / 停止 / 缩减建议
+- investments that cannot be recovered
+- how much future value remains
+- continue / stop / reduce recommendations

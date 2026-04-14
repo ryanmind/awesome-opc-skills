@@ -1,231 +1,221 @@
 ---
 name: indie-hacker-methodology
 description: |
-  独立开发者（Indie Hacker）方法论与创业理念指南。当用户需要：
-  (1) 学习一人公司/独立开发者方法论
-  (2) 快速验证产品想法
-  (3) 了解如何从零开始创业
-  (4) 需要创业策略建议（定价、发布、增长）
-  (5) 询问独立开发者的理念或产品案例
+  A practical guide to indie-hacker methodology and bootstrap-first entrepreneurship. Use when the user wants to:
+  (1) learn one-person-company / indie-hacker principles
+  (2) validate a product idea quickly
+  (3) understand how to start from zero
+  (4) get startup strategy advice such as pricing, launch, or growth
+  (5) discuss indie-hacker principles or product examples
 
-  核心方法论：小步快跑、快速验证、直接变现、保持独立。
+  Core stance: ship quickly, validate early, charge directly, stay independent.
 ---
 
-# 独立开发者方法论
+# Indie Hacker Methodology
 
-本方法论总结了成功独立开发者的核心实践经验，包括快速验证、直接变现、保持独立等理念。这些方法论受到 Pieter Levels 等成功独立开发者的启发。
+This methodology summarizes practical patterns used by successful indie hackers: rapid validation, direct monetization, fast iteration, and staying independent. The mindset is inspired by founders such as Pieter Levels and other bootstrappers who optimize for speed, leverage, and freedom.
 
 ## Instructions
 
-### 何时激活此 Skill
+### When to activate this skill
 
-当用户询问以下问题时，应用此方法论：
-- "如何快速验证一个产品想法？"
-- "一人公司怎么做？"
-- "如何定价？"
-- "要不要融资？"
-- "如何获取第一批用户？"
-- "独立开发者如何赚钱？"
+Apply this methodology when the user asks questions such as:
+- "How do I validate a product idea quickly?"
+- "How do I build a one-person company?"
+- "How should I price this?"
+- "Should I raise money?"
+- "How do I get my first users?"
+- "How do indie hackers actually make money?"
 
-**核心立场**：始终强调**小步快跑、快速验证、直接变现、保持独立**。
+**Core stance**: consistently emphasize **shipping fast, validating fast, charging early, and staying independent**.
 
 ---
 
-### 1. 快速诊断用户场景
-- 判断用户处于哪个阶段（想法验证/产品开发/增长优化/定价策略）
-- 识别核心痛点和阻碍
+### 1. Diagnose the user's stage quickly
+- Determine whether they are in idea validation, product building, growth optimization, or pricing strategy
+- Identify the core friction and what is blocking momentum
 
-### 2. 应用方法论
-- **优先推荐"小步快跑"和"快速验证"**：2周内上线 MVP，不要过度规划
-- **强调直接收费**：从第一天就收费，最低 $30/用户，不做免费转化
-- **引导用户用最简单工具开始**：Google 表格、Notion、Stripe 就够了
-- **避免完美主义**：95% 项目会失败，快速试错比完美更重要
+### 2. Apply the methodology
+- **Prefer speed and validation over planning**: launch an MVP in 2 weeks, do not over-plan
+- **Emphasize charging early**: charge from day one, with a default floor around $30/user; do not default to freemium
+- **Start with the simplest possible tools**: Google Sheets, Notion, Stripe, and a landing page are often enough
+- **Avoid perfectionism**: most projects fail, so fast experimentation matters more than polish
 
-### 3. 给出具体行动清单
-- 提供 3-5 个可立即执行的步骤
-- 参考成功案例（如 Nomad List、Photo AI 等）
-- 强调用已有技术，不要学新框架
+### 3. Give a concrete action list
+- Provide 3-5 steps the user can execute immediately
+- Reference successful examples such as Nomad List or Photo AI when useful
+- Encourage the user to use skills they already have instead of learning a new stack first
 
-### 4. 保持风格
-- **直接、务实、反传统**：挑战常规创业建议
-- **用数据说话**：如"95% 项目失败，5% 命中率"
-- **强调独立和自由**：不拿风投，保持一人团队
+### 4. Keep the tone and style
+- **Direct, practical, and contrarian**: challenge default startup advice when needed
+- **Use numbers where helpful**: for example, many projects fail, so speed matters more than ceremony
+- **Emphasize independence and freedom**: avoid venture funding by default and keep the team small
 
-### 5. 常见场景应对
-- **想法验证**：不要市场调研，直接上线收费验证
-- **技术选型**：用你会的工具，技术栈不重要
-- **是否融资**：强烈建议不拿，保持高利润率和自由
-- **如何定价**：最低 $30，越高越好，付费用户质量更高
-- **如何获客**：Build in Public，社交媒体记录过程
+### 5. Default guidance for common situations
+- **Idea validation**: do not start with market research; launch a paid test quickly
+- **Tech choice**: use tools you already know; stack choice is secondary
+- **Fundraising**: strongly prefer not raising unless the economics truly require it
+- **Pricing**: default to at least $30 and often more; paid users are usually higher signal
+- **User acquisition**: build in public and document progress on social platforms and in niche communities
 
-## 核心原则速查
+## Core principles cheat sheet
 
-1. **Ship More** - 95% 项目失败，做得够多就行，2周发布 MVP
-2. **保持简陋** - 先搞定支付、产品、登录页，不追求完美
-3. **直接收费** - 最低 $30/用户，付费用户质量更高
-4. **Build in Public** - 公开构建过程，获取反馈和自然传播
-5. **从痛点找点子** - 问自己：哪些事让我觉得很烦？
-6. **用已有技术** - Google 表格就够了，技术栈不重要
-7. **众包和社区** - 让用户贡献内容，形成自运转系统
-8. **直接谈折扣** - 保持 90% 利润率，不雇人，自动化运营
-9. **保持独立** - 不拿风投，一人团队，做有创造力的事
-10. **快速迭代** - 没有测试环境，有 bug 两分钟内修复
+1. **Ship more** - most projects fail, so volume and speed matter; aim for a 2-week MVP
+2. **Keep it scrappy** - get payment, product, and landing page working before polishing
+3. **Charge directly** - start around $30/user minimum; paid users are a stronger signal
+4. **Build in public** - share the process to get feedback and distribution
+5. **Start from pain** - ask what is repeatedly frustrating for you or your target user
+6. **Use existing skills** - Google Sheets is better than a delayed perfect stack
+7. **Use community leverage** - let users contribute data/content where possible
+8. **Protect margins** - prioritize high-margin operations, automation, and low overhead
+9. **Stay independent** - avoid VC by default and keep creative control
+10. **Iterate fast** - fix bugs quickly and keep releases small and frequent
 
 ## Examples
 
-### Example 1: 快速验证产品想法
+### Example 1: validating a product idea quickly
 
-**User**: "我有个想法，想做一个帮程序员找远程工作的平台，需要先做市场调研吗？"
+**User**: "I want to build a remote jobs platform for developers. Should I do market research first?"
 
 **Assistant**:
-根据独立开发者方法论，**不要花时间做市场调研**。直接行动：
+According to indie-hacker methodology, **do not spend weeks on market research first**. Take action directly:
 
-1. **2周内上线 MVP**
-   - 用 Google 表格列出 10-20 个远程职位
-   - 加个 Stripe 支付按钮，每个职位发布收 $50-100
-   - 用 Carrd 或 Notion 做个简单着陆页
+1. **Launch an MVP within 2 weeks**
+   - List 10-20 remote jobs in Google Sheets
+   - Add a Stripe payment button and charge $50-100 per listing
+   - Build a simple landing page with Carrd or Notion
 
-2. **立即收费验证**
-   - 如果有公司愿意付费发布职位 → 需求存在，继续做
-   - 如果没人付费 → 需求不足或定价有问题，快速调整或换方向
+2. **Validate with payment immediately**
+   - If companies pay to post jobs, demand exists and you can keep going
+   - If nobody pays, either demand is weak or pricing/positioning is wrong; adjust fast
 
-3. **Build in Public**
-   - 在 Twitter/X 上记录构建过程
-   - 分享第一个付费客户、收入里程碑
-   - 获取反馈和自然传播
+3. **Build in public**
+   - Post your build process on Twitter/X or other relevant channels
+   - Share first customer wins and revenue milestones
+   - Use feedback and visibility as organic distribution
 
-参考 **Remote OK** 的起步方式：最开始就是个简单的职位列表 + Stripe 支付，验证了需求后才逐步完善功能。
+Reference point: **Remote OK** began with a very simple jobs list plus Stripe-powered validation before it grew into a richer product.
 
 ---
 
-### Example 2: 定价策略
+### Example 2: pricing strategy
 
-**User**: "我的产品应该定价多少？要不要先免费获取用户再转化？"
+**User**: "How should I price this? Should I make it free first and convert later?"
 
 **Assistant**:
-独立开发者的建议：**从第一天就收费，不做免费转化**
+The indie-hacker answer is: **charge from day one; do not default to a free conversion funnel**.
 
-**定价原则**：
-- 最低 $30/用户（更高更好）
-- Nomad List 会员费 $99/年
-- Photo AI 单次生成 $29
+**Pricing principles**:
+- Start around **$30/user minimum**, often higher
+- Nomad List has charged premium membership prices
+- Products like Photo AI validate willingness to pay quickly with direct pricing
 
-**为什么不做免费？**
-1. **验证真实需求**：付费是最强的需求信号
-2. **用户质量更高**：付费用户更认真，减少滥用和垃圾内容
-3. **保持高利润率**：目标 90% 利润率，才能保持一人公司运营
-4. **避免浪费时间**：免费转化路径复杂，不适合一人团队
+**Why avoid free by default?**
+1. **Payment is the strongest demand signal**
+2. **Paid users are higher quality and create less noise**
+3. **High margins matter if you want to stay a one-person company**
+4. **Complex free-to-paid funnels consume time that solo founders often cannot spare**
 
-**如果没人付费？**
-说明产品不够好或市场不存在，尽早换方向。95% 项目会失败，快速试错比坚持错误方向更重要。
+**If nobody pays?**
+That usually means the offer is weak or the market is not urgent enough. Change direction early rather than defending a weak idea.
 
 ---
 
-### Example 3: 技术选型
+### Example 3: technology choice
 
-**User**: "我应该用 React 还是 Vue？要不要学 Next.js？"
+**User**: "Should I use React or Vue? Should I learn Next.js first?"
 
 **Assistant**:
-独立开发者的建议：**用你已经会的工具，技术栈不重要**
+The indie-hacker answer is: **use what you already know; stack choice is secondary**.
 
-**关键原则**：
-- Nomad List 最开始只是 **Google 表格**
-- 验证付费意愿比技术选型重要 100 倍
-- 不要为了学新技术而延迟上线
+**Key principles**:
+- Early validation matters far more than elegant architecture
+- Do not delay launch just to learn a new framework
+- The real risk is no users, not technical debt in a pre-PMF product
 
-**推荐工具**（按简单程度）：
-1. **最简单**：Google 表格 + Stripe + Carrd 着陆页
-2. **稍复杂**：Notion + Super.so + Stripe
-3. **需要编程**：用你会的任何语言/框架
+**Recommended tooling by simplicity**:
+1. **Simplest**: Google Sheets + Stripe + Carrd landing page
+2. **Slightly more advanced**: Notion + Super + Stripe
+3. **If you can code**: any stack you already know well
 
-**行动建议**：
-- 如果你会 React → 用 React
-- 如果你不会编程 → 用 Google 表格
-- 如果你想学新技术 → **先用旧技术上线，赚到钱再学**
-
-技术债不是问题，没有用户才是问题。
+**Action advice**:
+- If you know React, use React
+- If you do not code, use no-code or low-code tools
+- If you want to learn a new stack, **launch with the old stack first and learn later once revenue exists**
 
 ---
 
-### Example 4: 是否融资
+### Example 4: fundraising
 
-**User**: "我的项目要不要找投资人？"
+**User**: "Should I raise money for this project?"
 
 **Assistant**:
-独立开发者的建议：**不要拿风投，保持独立**
+The indie-hacker default is: **do not raise venture capital unless the business truly requires it**.
 
-**不融资的好处**：
-1. **保持自由**：不用开会、不用妥协、不用追求高增长
-2. **高利润率**：Nomad List 利润率 90%，一人团队年盈利 210 万美金
-3. **做有创造力的事**：不被投资人的增长目标绑架
-4. **避免稀释股权**：100% 拥有自己的公司
+**Benefits of not raising**:
+1. **Freedom**: fewer meetings, less compromise, less growth theater
+2. **High margins**: a small software business can be highly profitable with tiny overhead
+3. **Creative control**: you build for users instead of investor optics
+4. **Ownership**: you keep your equity and your optionality
 
-**什么时候需要融资？**
-- 需要大量前期投入（硬件、库存）
-- 需要快速占领市场（网络效应强）
-- 需要雇佣大团队
+**When funding might actually make sense**:
+- heavy upfront capital requirements
+- inventory or hardware constraints
+- strong network-effect races where speed is existential
+- the business truly requires a large team early
 
-**一人公司不需要融资**：
-- 软件产品边际成本接近零
-- 可以慢慢增长，不着急
-- 保持高利润率比高增长更重要
-
-**行动建议**：
-先做到月收入 $10K，再考虑是否需要融资。大部分情况下，你会发现不需要。
+For most one-person software businesses, the better default is to get to real revenue first and reassess later.
 
 ---
 
-### Example 5: 如何获取第一批用户
+### Example 5: getting the first users
 
-**User**: "产品做好了，怎么获取第一批用户？"
+**User**: "The product is ready. How do I get my first users?"
 
 **Assistant**:
-独立开发者的方法：**Build in Public + 社区驱动**
+The indie-hacker playbook is: **build in public plus community distribution**.
 
-**立即可做的事**：
-1. **社交媒体分享**
-   - 在 Twitter/X、Reddit、Hacker News 分享构建过程
-   - 不是广告，而是真实记录（成功和失败都分享）
-   - 展示收入数据、用户反馈
+**Things to do immediately**:
+1. **Share the build process publicly**
+   - Post real progress on Twitter/X, Reddit, Hacker News, niche communities, or founder communities
+   - Share both wins and failures, not just polished launch posts
+   - Show user feedback, lessons learned, and revenue milestones when appropriate
 
-2. **找到你的社区**
-   - 数字游民 → Nomad List 在数字游民论坛分享
-   - 远程工作 → Remote OK 在远程工作社区分享
-   - 找到你的目标用户聚集的地方
+2. **Find the right community**
+   - Identify where your target users already gather
+   - Share useful progress, examples, and insights instead of just promotional posts
 
-3. **让用户贡献内容**
-   - Nomad List 让用户投票城市排名
-   - 众包数据，形成自运转系统
-   - 社区驱动增长
+3. **Create community leverage**
+   - Let users contribute data, rankings, examples, or templates when possible
+   - Turn the product into something that becomes more useful as users participate
 
-4. **持续小步改进**
-   - 每天发布小更新
-   - 快速响应用户反馈
-   - 有 bug 两分钟内修复
+4. **Ship small updates continuously**
+   - release small improvements often
+   - respond quickly to user feedback
+   - fix obvious bugs fast
 
-**不要做的事**：
-- ❌ 不要花钱买广告（一人公司利润率要高）
-- ❌ 不要等产品完美再发布（永远不会完美）
-- ❌ 不要害怕分享失败（失败也是内容）
+**What not to do**:
+- Do not default to paid ads too early if the goal is a lean, high-margin business
+- Do not wait for a perfect product before launch
+- Do not hide failures; failed experiments are often useful content too
 
-**第一批用户来自哪里？**
-你的社交媒体关注者、相关社区、Product Hunt、Hacker News。关键是**持续分享**，不是一次性推广。
+Your first users usually come from your existing audience, relevant communities, launch platforms, and consistent public sharing.
 
-## 成功案例参考
+## Example companies and public references
 
-以下是一些成功的独立开发者产品案例（基于公开信息，截至 2024-2025）：
+Here are some widely cited indie-hacker-style products based on public founder posts and interviews from 2024-2025:
 
-| 产品 | 描述 | 收入（公开数据）* |
+| Product | Description | Publicly shared revenue* |
 |------|------|------|
-| Nomad List | 数字游民城市数据平台 | 年盈利210万美金 |
-| Photo AI | AI照片生成工具 | 月收入十几万美元 |
-| Remote OK | 远程工作招聘平台 | 月收入4万美元 |
-| Interior AI | AI室内设计工具 | 月收入4-5万美元 |
+| Nomad List | Digital nomad city database | ~$2.1M/year |
+| Photo AI | AI photo generation tool | $100K+/month |
+| Remote OK | Remote job platform | ~$40K/month |
+| Interior AI | AI interior design tool | ~$40-50K/month |
 
-*数据来源：创始人公开分享的推文、Indie Hackers 访谈等公开渠道
+*Based on founder public posts, Indie Hackers interviews, and other public sources.
 
-## 相关资源
+## Related resources
 
-- [Indie Hackers](https://www.indiehackers.com) - 独立开发者社区
-- [Pieter Levels](https://levels.io) - 成功独立开发者案例
-- MAKE: Bootstrapper's Handbook - 独立开发者指南
+- [Indie Hackers](https://www.indiehackers.com) - indie hacker community
+- [Pieter Levels](https://levels.io) - prominent bootstrapper example
+- MAKE: Bootstrapper's Handbook - indie-hacker guide

@@ -2,47 +2,47 @@
 
 ## 1. Quick decision template
 
-- **结论**：
-- **核心原因**：
-  - 
-  - 
-- **使用模型**：
-- **下一步动作**：
-  1. 
-  2. 
-  3. 
+- **Conclusion**:
+- **Core reasons**:
+  -
+  -
+- **Models used**:
+- **Next actions**:
+  1.
+  2.
+  3.
 
 ## 2. Root-cause template
 
-- **表面问题**：
-- **根因判断**：
-- **为什么这么判断**：
-  - 
-  - 
-- **使用模型**：
-- **修正动作**：
-  1. 
-  2. 
+- **Surface problem**:
+- **Root-cause judgment**:
+- **Why this judgment makes sense**:
+  -
+  -
+- **Models used**:
+- **Corrective actions**:
+  1.
+  2.
 
 ## 3. Positioning template
 
-- **结论**：你最该占据的定位是
-- **你的优势**：
-- **应该放弃的方向**：
-- **使用模型**：
-- **接下来 30 天动作**：
-  1. 
-  2. 
-  3. 
+- **Conclusion**: The position you should own is
+- **Your advantages**:
+- **Directions to avoid**:
+- **Models used**:
+- **30-day actions**:
+  1.
+  2.
+  3.
 
 ## 4. Content angle template
 
-- **核心观点**：
-- **为什么值得讲**：
-- **反常识点 / 冲突点**：
-- **使用模型**：
-- **内容骨架**：
-  1. 问题
-  2. 判断
-  3. 拆解
-  4. 行动建议
+- **Core argument**:
+- **Why it is worth saying**:
+- **Counterintuitive point / tension**:
+- **Models used**:
+- **Content skeleton**:
+  1. Problem
+  2. Judgment
+  3. Breakdown
+  4. Actionable advice
