@@ -5,14 +5,49 @@ import argparse
 import re
 from pathlib import Path
 
-BASE_PAT = re.compile(r'(TOKEN|KEY|SECRET|PASS|PASSWORD|COOKIE|SESSION|AUTH|WEBHOOK|DSN)', re.I)
-ID_PAT = re.compile(r'(^|_)(APP_ID|CLIENT_ID|ORG_ID|BOT_ID|TENANT_ID|WORKSPACE_ID|PROJECT_ID|TEAM_ID|USER_ID|ACCOUNT_ID|ID)($|_)', re.I)
+ID_PAT = re.compile(
+    r'(^|_)(APP_ID|CLIENT_ID|ORG_ID|BOT_ID|TENANT_ID|WORKSPACE_ID|PROJECT_ID|TEAM_ID|USER_ID|ACCOUNT_ID|ID)($|_)',
+    re.I,
+)
 ASSIGN_PAT = re.compile(r'^(?:export\s+)?([A-Za-z_][A-Za-z0-9_]*)=(.*)$')
 CAT_PAT = re.compile(r'\$\(cat\s+([^\)]+)\)')
 
+SENSITIVE_TOKENS = {
+    'TOKEN',
+    'SECRET',
+    'PASSWORD',
+    'PASS',
+    'COOKIE',
+    'WEBHOOK',
+    'DSN',
+}
+
+SENSITIVE_PAIRS = {
+    ('API', 'KEY'),
+    ('ACCESS', 'KEY'),
+    ('SECRET', 'KEY'),
+    ('PRIVATE', 'KEY'),
+    ('AUTH', 'TOKEN'),
+    ('AUTH', 'KEY'),
+    ('AUTH', 'SECRET'),
+    ('SESSION', 'TOKEN'),
+    ('SESSION', 'KEY'),
+    ('SESSION', 'SECRET'),
+    ('SESSION', 'COOKIE'),
+}
+
+
+def tokenize_name(name: str) -> list[str]:
+    return [token for token in re.split(r'[^A-Za-z0-9]+', name.upper()) if token]
+
 
 def is_sensitive(name: str, include_id: bool) -> bool:
-    return bool(BASE_PAT.search(name) or (include_id and ID_PAT.search(name)))
+    tokens = tokenize_name(name)
+    if any(token in SENSITIVE_TOKENS for token in tokens):
+        return True
+    if any((left, right) in SENSITIVE_PAIRS for left, right in zip(tokens, tokens[1:])):
+        return True
+    return bool(include_id and ID_PAT.search(name))
 
 
 def classify(rhs: str) -> tuple[str, str | None]:

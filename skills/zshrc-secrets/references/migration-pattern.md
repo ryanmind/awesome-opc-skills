@@ -50,8 +50,9 @@ Never show:
 ## Permission baseline
 
 ```bash
+mkdir -p ~/.secrets
 chmod 700 ~/.secrets
-chmod 600 ~/.secrets/*
+find ~/.secrets -type f -exec chmod 600 {} +
 ```
 
 ## Edge cases
@@ -59,6 +60,14 @@ chmod 600 ~/.secrets/*
 ### Existing file-based loads
 
 If the shell file already uses `$(cat ~/.secrets/...)`, treat it as migrated. Do not churn it unless the user asks for cleanup.
+
+### Generic names that look sensitive but are not
+
+Be conservative with broad matches. Do not auto-migrate obvious non-secret settings such as:
+
+- `KEYCHAIN_PATH`
+- `AUTHORS`
+- `MONKEY_TYPE`
 
 ### Multi-line helper functions
 

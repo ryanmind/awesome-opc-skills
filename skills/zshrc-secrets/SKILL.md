@@ -1,6 +1,6 @@
 ---
 name: zshrc-secrets
-description: Standardize sensitive shell configuration by moving TOKEN, API key, secret, password, cookie, webhook, and id-like values out of ~/.zshrc into ~/.secrets files while preserving environment variable names and behavior. Use when auditing or migrating zshrc/bashrc profile files, hardening shell env handling, updating docs after secret migration, or verifying ~/.secrets permissions without printing real values.
+description: Standardize sensitive shell configuration by moving token, API key, auth token, secret, password, cookie, webhook, DSN, and optionally id-like values out of ~/.zshrc into ~/.secrets files while preserving environment variable names and behavior. Use when auditing or migrating zshrc/bashrc profile files, hardening shell env handling, updating docs after secret migration, or verifying ~/.secrets permissions without printing real values.
 ---
 
 # Zshrc Secrets
@@ -14,14 +14,19 @@ Default to `~/.zshrc`. Reuse the same pattern for `~/.zprofile`, `~/.bashrc`, an
 Treat these names as sensitive by default:
 
 - `*TOKEN*`
-- `*KEY*`
 - `*SECRET*`
-- `*PASS*` / `*PASSWORD*`
+- `*PASSWORD*` or `*PASS*`
 - `*COOKIE*`
-- `*SESSION*`
-- `*AUTH*`
 - `*WEBHOOK*`
 - `*DSN*`
+- `*_API_KEY`
+- `*_ACCESS_KEY`
+- `*_SECRET_KEY`
+- `*_PRIVATE_KEY`
+- `*_AUTH_TOKEN`, `*_AUTH_KEY`, `*_AUTH_SECRET`
+- `*_SESSION_TOKEN`, `*_SESSION_KEY`, `*_SESSION_SECRET`, `*_SESSION_COOKIE`
+
+Be conservative with generic names like `KEY`, `AUTH`, `SESSION`, and filesystem paths. Do not migrate obvious non-secret settings like `KEYCHAIN_PATH`, `AUTHORS`, or other normal config names unless the user explicitly asks.
 
 Treat `*_ID`, `APP_ID`, `CLIENT_ID`, `ORG_ID`, `BOT_ID`, and similar identifiers as sensitive when the user asks for `id` hardening too, or when the ID is paired with a secret-bearing integration.
 
