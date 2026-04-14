@@ -1,0 +1,4 @@
+interface:
+  display_name: "Zshrc Secrets"
+  short_description: "Harden zshrc secrets via ~/.secrets"
+  default_prompt: "Use $zshrc-secrets to audit my ~/.zshrc, move sensitive env vars into ~/.secrets, and keep all output redacted."
