@@ -7,32 +7,39 @@ Generate the best commit message from the repo's actual constraints and diff. Op
 
 ## Decision Priority
 Always decide in this order:
-1. **Repo hard constraints** — commitlint, hooks, templates, release tooling, documented conventions
-2. **Explicit user instructions**
-3. **Actual diff** — staged first, unstaged only if nothing is staged
-4. **Repo history** — only when recent commit subjects show a clear, consistent, high-signal local convention
-5. **Heuristics** — use Conventional Commits best practices when stronger signals are absent
+1. **Repo hard constraints from the required check list** — `.commitlintrc*`, `commitlint.config.*`, `package.json`, `.husky/*`, `.git/hooks/*`, `lefthook.yml`, `.gitmessage`, `.github/*`
+2. **Mandatory user-rule fallback** — if none of the required check-list sources exist or none define commit-message constraints, force this skill's default rules instead of learning style from history
+3. **Explicit user instructions**
+4. **Actual diff** — staged first, unstaged only if nothing is staged
+5. **Repo history** — only when required check-list sources exist and recent commit subjects show a clear, consistent, high-signal local convention
+6. **Heuristics** — use Conventional Commits best practices when stronger signals are absent
 Never let heuristics override repository rules.
 Repo hard constraints override everything else.
-When no hard constraints exist, explicit user instructions override repo history and heuristics.
+When no required check-list constraints exist, explicit user instructions plus this skill's default rules override repo history and heuristics.
 Treat repo history as advisory, not binding. Ignore it when it is inconsistent, vague, low-quality, or conflicts with better commit-writing practice.
+Do not search for or follow undocumented conventions outside the required check list when the required check list is absent.
 
 ## Workflow
-1. **Find constraints**
-   - Check `.commitlintrc*`, `commitlint.config.*`, `package.json`, `.husky/*`, `.git/hooks/*`, `lefthook.yml`, `.gitmessage`, `.github/*`, release tooling, and docs.
+1. **Find constraints from the required check list**
+   - Check exactly these sources first: `.commitlintrc*`, `commitlint.config.*`, `package.json`, `.husky/*`, `.git/hooks/*`, `lefthook.yml`, `.gitmessage`, `.github/*`.
    - If the repo requires a non-standard format, follow it.
-2. **Inspect staged changes first** with `git diff --cached`.
-3. **Fallback to unstaged** with `git diff` only if staged diff is empty, and tell the user.
-4. **Stop if no changes** when both diffs are empty.
-5. **Learn local style** with `git log --oneline -20 --format="%s"` and adopt it only when recent history shows a clear, stable, high-signal pattern worth following.
-6. **Classify the change** by primary intent and affected area.
-7. **Run safety checks** for conflict markers, secrets, generated noise, binary-only diffs, and breaking changes.
-8. **Generate directly by default**: return the best subject immediately; add a body only when the diff is complex or the why matters; ask only if ambiguity would materially change type, scope, or breaking-change status.
+   - If none of these sources exist, or they exist but contain no commit-message constraints, immediately enter **User Rule Mode**.
+2. **User Rule Mode when no required constraints exist**
+   - Force this skill's default commit rules.
+   - Do not let repo history, undocumented docs, release tooling guesses, or vague local style override the default rules.
+   - You may still inspect `git log` for factual context, but never copy its style unless the user explicitly asks.
+3. **Inspect staged changes first** with `git diff --cached`.
+4. **Fallback to unstaged** with `git diff` only if staged diff is empty, and tell the user.
+5. **Stop if no changes** when both diffs are empty.
+6. **Learn local style** with `git log --oneline -20 --format="%s"` only when required check-list sources exist and recent history shows a clear, stable, high-signal pattern worth following.
+7. **Classify the change** by primary intent and affected area.
+8. **Run safety checks** for conflict markers, secrets, generated noise, binary-only diffs, and breaking changes.
+9. **Generate directly by default**: return the best subject immediately; add a body only when the diff is complex or the why matters; ask only if ambiguity would materially change type, scope, or breaking-change status.
 
 ## Fallback Mode (Low Context)
-Use fallback mode only when no stronger repository signal is available — for example, repo constraints are absent and recent history or usable git metadata is unavailable, inconsistent, or low-signal.
-- Repo constraints always win over fallback heuristics when present
-- Treat weak or low-quality history as no history
+Use fallback mode only when no stronger repository signal is available — for example, required check-list constraints are absent and usable git metadata is unavailable, inconsistent, or low-signal.
+- Required check-list constraints always win over fallback heuristics when present
+- If required check-list constraints are absent, treat repo history as non-binding and use User Rule Mode
 - Default to Conventional Commits best practices
 - Infer type from keywords in the diff or description
 - Omit scope unless clearly identifiable
@@ -82,7 +89,7 @@ Choose scope conservatively:
 2. Single-module repo: feature area
 3. Repo-wide or unrelated multi-area change: omit scope
 4. Stable repo history uses no scope: do not invent one
-Use formats like `[Module]type: subject` only when repo history or config clearly and consistently requires them.
+Use formats like `[Module]type: subject` only when required check-list config or explicit user instructions clearly and consistently require them.
 
 ## Body and Edge Cases
 Add a body when the why matters: multiple tightly related changes, trade-offs, migrations, caveats, or breaking changes. Prefer short factual bullets.
