@@ -1,0 +1,4 @@
+interface:
+  display_name: "Governance Layer Review"
+  short_description: "Check governance layers for mixed responsibilities"
+  default_prompt: "Use $governance-layer-review to check this governance-layer system for unclear boundaries, mixed responsibilities, duplicate rules, and naming drift."

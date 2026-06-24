@@ -38,6 +38,12 @@ Stop building things no one wants. Validate fast and focus on actual monetizatio
 - **[git-commit](./skills/git-commit/)** - Generate human-written commit messages with Conventional Commits
 - **[github-actions](./skills/github-actions/)** - Diagnose and fix GitHub Actions workflows, CI/CD pipelines, and automation issues
 
+### 🔍 Review & Analysis
+- **[governance-layer-review](./skills/governance-layer-review/)** - Detect unclear boundaries, mixed responsibilities, and drift in governance-layer systems
+
+### 📝 Knowledge Management
+- **[jaron-wiki](./skills/jaron-wiki/)** - Search, verify, and maintain a local wiki knowledge base at `~/llm-wiki`
+
 ## 🎓 Getting Started
 
 ```bash

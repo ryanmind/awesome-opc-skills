@@ -1,0 +1,4 @@
+interface:
+  display_name: "Jaron Wiki"
+  short_description: "Search, verify, and maintain the Jaron wiki"
+  default_prompt: "Use $jaron-wiki for any knowledge-related task: searching or retrieving wiki content, verifying claims against sources, updating or maintaining wiki pages, fixing broken links or tags, adding pages to index/log, or when the user asks a question that may already be covered in the wiki."
