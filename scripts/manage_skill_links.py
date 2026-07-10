@@ -6,6 +6,7 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import shutil
 import sys
 import tempfile
 import tomllib
@@ -62,7 +63,7 @@ class Plan:
 
     @property
     def changes(self) -> tuple[Operation, ...]:
-        return tuple(op for op in self.operations if op.action in {"create", "update", "remove"})
+        return tuple(op for op in self.operations if op.action in {"create", "update", "replace", "remove"})
 
 
 def expand_path(value: str) -> Path:
@@ -182,7 +183,10 @@ def build_plan(config: Config, state: dict[str, Any], *, unlink_all: bool = Fals
             operations.append(Operation("create", target_name, skill, link, source))
             continue
         if not link.is_symlink():
-            operations.append(Operation("conflict", target_name, skill, link, detail="real file or directory exists"))
+            if link.is_dir():
+                operations.append(Operation("replace", target_name, skill, link, source, "existing directory"))
+            else:
+                operations.append(Operation("conflict", target_name, skill, link, detail="real file exists"))
             continue
 
         actual = link_target(link)
@@ -243,7 +247,7 @@ def build_plan(config: Config, state: dict[str, Any], *, unlink_all: bool = Fals
                     )
                 )
 
-    order = {"conflict": 0, "remove": 1, "update": 2, "create": 3, "forget": 4, "keep": 5}
+    order = {"conflict": 0, "remove": 1, "replace": 2, "update": 3, "create": 4, "forget": 5, "keep": 6}
     operations.sort(key=lambda op: (order[op.action], op.target, op.skill, str(op.link)))
     return Plan(config=config, operations=tuple(operations))
 
@@ -287,6 +291,9 @@ def apply_plan(plan: Plan, *, unlink_all: bool = False) -> None:
         for operation in plan.operations:
             if operation.action == "remove":
                 operation.link.unlink()
+            elif operation.action == "replace":
+                shutil.rmtree(operation.link)
+                operation.link.symlink_to(operation.source, target_is_directory=True)
             elif operation.action == "update":
                 operation.link.unlink()
                 operation.link.symlink_to(operation.source, target_is_directory=True)

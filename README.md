@@ -37,7 +37,7 @@ python3 scripts/manage_skill_links.py sync --dry-run
 python3 scripts/manage_skill_links.py sync
 ```
 
-The manager creates only configured links, updates links after the configured source path changes, removes deselected managed links, rejects duplicates, and never overwrites unmanaged files, directories, or links.
+The manager creates only configured links, updates links after the configured source path changes, removes deselected managed links, replaces existing directories at configured destinations, rejects duplicates, and never overwrites unmanaged files or symbolic links.
 
 ## Validate
 

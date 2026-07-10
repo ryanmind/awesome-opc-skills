@@ -72,11 +72,22 @@ class SkillLinkManagerTests(unittest.TestCase):
         with self.assertRaisesRegex(ConfigError, "duplicates"):
             load_config(self.config_path)
 
-    def test_real_directory_is_conflict(self) -> None:
+    def test_replaces_existing_directory(self) -> None:
         (self.target / "alpha").mkdir(parents=True)
+        (self.target / "alpha" / "old.txt").write_text("old", encoding="utf-8")
         config = load_config(self.config_path)
         plan = build_plan(config, load_state(config.state))
-        self.assertEqual(plan.conflicts[0].detail, "real file or directory exists")
+        self.assertEqual([op.action for op in plan.changes], ["replace"])
+        apply_plan(plan)
+        self.assertTrue((self.target / "alpha").is_symlink())
+        self.assertEqual(Path(os.readlink(self.target / "alpha")), self.source / "skills" / "alpha")
+
+    def test_real_file_is_conflict(self) -> None:
+        self.target.mkdir(parents=True)
+        (self.target / "alpha").write_text("old", encoding="utf-8")
+        config = load_config(self.config_path)
+        plan = build_plan(config, load_state(config.state))
+        self.assertEqual(plan.conflicts[0].detail, "real file exists")
 
     def test_external_link_is_conflict(self) -> None:
         self.target.mkdir(parents=True)
