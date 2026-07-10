@@ -44,17 +44,15 @@ The manager creates only configured links, updates links after the configured so
 ```bash
 python3 scripts/validate_skills.py
 python3 -m unittest discover -s tests
-PYTHONPYCACHEPREFIX=/tmp/agent-skills-pycache python3 -m compileall -q scripts tests skills
+python3 -m compileall -q scripts tests skills
 ```
 
 ## Skills
 
-- [ai-coding-workflow](skills/ai-coding-workflow/SKILL.md)
-- [codebase-analysis](skills/codebase-analysis/SKILL.md)
 - [design-convergence-review](skills/design-convergence-review/SKILL.md)
 - [first-principles](skills/first-principles/SKILL.md)
 - [git-commit](skills/git-commit/SKILL.md)
-- [jaron-wiki](skills/jaron-wiki/SKILL.md)
+- [llm-wiki](skills/llm-wiki/SKILL.md)
 
 Human-facing project documentation is maintained in `~/llm-wiki/workshop/agent-skills/raw/` and exposed through the repository `docs` symbolic link.
 

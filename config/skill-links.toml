@@ -9,7 +9,7 @@ path = "~/.codex/skills"
 skills = [
   "design-convergence-review",
   "first-principles",
-  "jaron-wiki",
+  "llm-wiki",
   "git-commit",
 ]
 
@@ -18,7 +18,7 @@ path = "~/.claude/skills"
 skills = [
   "design-convergence-review",
   "first-principles",
-  "jaron-wiki",
+  "llm-wiki",
   "git-commit",
 ]
 
@@ -27,6 +27,6 @@ path = "~/.hermes/skills"
 skills = [
   "design-convergence-review",
   "first-principles",
-  "jaron-wiki",
+  "llm-wiki",
   "git-commit",
 ]

@@ -1,4 +1,0 @@
-interface:
-  display_name: "Local Wiki"
-  short_description: "Search and maintain a local Markdown wiki"
-  default_prompt: "Use $jaron-wiki to search, retrieve, verify, or maintain ~/llm-wiki with token-efficient local scripts and on-demand references."

@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import json
-import os
 import subprocess
 import sys
 import tempfile
@@ -10,11 +9,11 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
-SEARCH = ROOT / "skills" / "jaron-wiki" / "scripts" / "wiki_search.py"
-PAGE = ROOT / "skills" / "jaron-wiki" / "scripts" / "wiki_page.py"
+SEARCH = ROOT / "skills" / "llm-wiki" / "scripts" / "wiki_search.py"
+PAGE = ROOT / "skills" / "llm-wiki" / "scripts" / "wiki_page.py"
 
 
-class JaronWikiScriptTests(unittest.TestCase):
+class LlmWikiScriptTests(unittest.TestCase):
     def setUp(self) -> None:
         self.temp = tempfile.TemporaryDirectory()
         self.root = Path(self.temp.name)
@@ -54,7 +53,6 @@ Backlink target.
         )
         self.write_page("raw/runtime.md", "# Raw runtime\n\nsource facts")
         self.write_page("index.md", "# Wiki Index\n\n- [[domains/agent/concepts/agent-runtime]]")
-        self.env = {**os.environ, "PYTHONDONTWRITEBYTECODE": "1"}
 
     def tearDown(self) -> None:
         self.temp.cleanup()
@@ -75,7 +73,6 @@ Backlink target.
             text=True,
             capture_output=True,
             check=True,
-            env=self.env,
         )
         return json.loads(completed.stdout)
 
@@ -127,7 +124,6 @@ Backlink target.
             text=True,
             capture_output=True,
             check=False,
-            env=self.env,
         )
         self.assertEqual(completed.returncode, 2)
         payload = json.loads(completed.stdout)

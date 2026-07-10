@@ -1,13 +1,11 @@
 ---
-name: jaron-wiki
+name: llm-wiki
 description: "Token-efficient search, retrieval, verification, and maintenance for the local Markdown wiki at ~/llm-wiki. Use for wiki-first answers, llm-wiki lookup, source checking, formal-page creation or update candidates, broken link/tag/index/log upkeep, and local replacement of llm-wiki-mcp retrieval workflows."
 ---
 
-# Jaron Wiki
+# LLM Wiki
 
 Use `~/llm-wiki` as the primary knowledge source when the user asks for knowledge that may already be captured there.
-
-Recommended future package name: `local-wiki`. Keep `jaron-wiki` until callers, symlink config, docs catalogs, and prompts are migrated together.
 
 ## Core Rules
 
@@ -44,9 +42,9 @@ Only read the references needed for the current intent.
 Use these helpers before opening large wiki files:
 
 ```bash
-python3 skills/jaron-wiki/scripts/wiki_search.py --query "agent runtime" --limit 8 --json
-python3 skills/jaron-wiki/scripts/wiki_page.py domains/agent/concepts/agent-runtime --max-chars 12000 --json
-python3 skills/jaron-wiki/scripts/wiki_validate.py --json
+python3 skills/llm-wiki/scripts/wiki_search.py --query "agent runtime" --limit 8 --json
+python3 skills/llm-wiki/scripts/wiki_page.py domains/agent/concepts/agent-runtime --max-chars 12000 --json
+python3 skills/llm-wiki/scripts/wiki_validate.py --json
 ```
 
 The scripts return compact JSON by default when `--json` is passed. Use narrow `--limit`, `--scope`, and `--max-chars` values to keep context small.
