@@ -1,0 +1,139 @@
+from __future__ import annotations
+
+import json
+import os
+import subprocess
+import sys
+import tempfile
+import unittest
+from pathlib import Path
+
+
+ROOT = Path(__file__).resolve().parents[1]
+SEARCH = ROOT / "skills" / "jaron-wiki" / "scripts" / "wiki_search.py"
+PAGE = ROOT / "skills" / "jaron-wiki" / "scripts" / "wiki_page.py"
+
+
+class JaronWikiScriptTests(unittest.TestCase):
+    def setUp(self) -> None:
+        self.temp = tempfile.TemporaryDirectory()
+        self.root = Path(self.temp.name)
+        self.write_page(
+            "domains/agent/concepts/agent-runtime.md",
+            """---
+title: Agent Runtime
+created: 2026-07-10
+updated: 2026-07-10
+type: concept
+tags: [ai, agent]
+sources: [raw/runtime.md]
+confidence: high
+---
+
+# Agent Runtime
+
+Runtime content links to [[domains/agent/concepts/tool-calling]].
+""",
+        )
+        self.write_page(
+            "domains/agent/concepts/tool-calling.md",
+            """---
+title: Tool Calling
+created: 2026-07-10
+updated: 2026-07-10
+type: concept
+tags: [ai, agent]
+sources: [raw/tools.md]
+confidence: medium
+---
+
+# Tool Calling
+
+Backlink target.
+""",
+        )
+        self.write_page("raw/runtime.md", "# Raw runtime\n\nsource facts")
+        self.write_page("index.md", "# Wiki Index\n\n- [[domains/agent/concepts/agent-runtime]]")
+        self.env = {**os.environ, "PYTHONDONTWRITEBYTECODE": "1"}
+
+    def tearDown(self) -> None:
+        self.temp.cleanup()
+
+    def write_page(self, relative: str, content: str) -> None:
+        path = self.root / relative
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(content, encoding="utf-8")
+
+    def write_bytes(self, relative: str, content: bytes) -> None:
+        path = self.root / relative
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_bytes(content)
+
+    def run_json(self, script: Path, *args: str) -> dict[str, object]:
+        completed = subprocess.run(
+            [sys.executable, str(script), "--root", str(self.root), *args, "--json"],
+            text=True,
+            capture_output=True,
+            check=True,
+            env=self.env,
+        )
+        return json.loads(completed.stdout)
+
+    def test_search_returns_compact_metadata(self) -> None:
+        payload = self.run_json(SEARCH, "--query", "runtime", "--limit", "1")
+        self.assertEqual(payload["count"], 1)
+        result = payload["results"][0]
+        self.assertEqual(result["slug"], "domains/agent/concepts/agent-runtime")
+        self.assertEqual(result["confidence"], "high")
+        self.assertIn("Runtime", result["snippet"])
+
+    def test_page_reads_slug_and_backlinks(self) -> None:
+        payload = self.run_json(
+            PAGE,
+            "domains/agent/concepts/tool-calling",
+            "--max-chars",
+            "10",
+            "--with-backlinks",
+        )
+        self.assertEqual(payload["title"], "Tool Calling")
+        self.assertEqual(payload["returned_chars"], 10)
+        self.assertTrue(payload["truncated"])
+        self.assertEqual(payload["backlinks"][0]["slug"], "domains/agent/concepts/agent-runtime")
+
+    def test_raw_scope_reads_raw_source(self) -> None:
+        payload = self.run_json(PAGE, "raw/runtime.md", "--scope", "raw", "--max-chars", "200")
+        self.assertEqual(payload["path"], "raw/runtime.md")
+        self.assertIn("source facts", payload["content"])
+
+    def test_search_skips_binary_raw_sources(self) -> None:
+        self.write_bytes("raw/source.pdf", b"%PDF-1.7\x00binary")
+        payload = self.run_json(SEARCH, "--query", "runtime", "--scope", "raw")
+        self.assertEqual(payload["skipped_unsupported"], 1)
+        self.assertEqual(payload["results"][0]["path"], "raw/runtime.md")
+
+    def test_page_rejects_binary_raw_source(self) -> None:
+        self.write_bytes("raw/source.pdf", b"%PDF-1.7\x00binary")
+        completed = subprocess.run(
+            [
+                sys.executable,
+                str(PAGE),
+                "--root",
+                str(self.root),
+                "raw/source.pdf",
+                "--scope",
+                "raw",
+                "--json",
+            ],
+            text=True,
+            capture_output=True,
+            check=False,
+            env=self.env,
+        )
+        self.assertEqual(completed.returncode, 2)
+        payload = json.loads(completed.stdout)
+        self.assertEqual(payload["error"], "unsupported content")
+        self.assertEqual(payload["path"], "raw/source.pdf")
+
+
+if __name__ == "__main__":
+    unittest.main()

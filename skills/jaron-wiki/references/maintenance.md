@@ -1,0 +1,52 @@
+# Maintenance
+
+Use this reference for health checks, linting, index repair, broken-link checks, source-map drift, and periodic wiki cleanup.
+
+## Required Reads
+
+Resolve the wiki root using `SKILL.md`. Before proposing or applying maintenance changes to formal pages, raw sources, governance files, or generated metadata, read:
+
+1. `<wiki-root>/SCHEMA.md`
+2. `<wiki-root>/AGENTS.md`
+3. Affected sections of `<wiki-root>/index.md`
+4. Enough of `<wiki-root>/log.md` to follow retention and entry conventions
+
+Read-only health checks may run before these files are loaded, but only with commands that do not write. Do not decide or apply a repair without the required reads.
+
+## Read-Only Checks
+
+Run the local wrapper first:
+
+```bash
+python3 skills/jaron-wiki/scripts/wiki_validate.py --json
+```
+
+For deeper read-only checks, run from the resolved wiki root:
+
+```bash
+python3 scripts/wiki_lint.py
+python3 scripts/wiki_lint.py --strict
+```
+
+## Source Map Update
+
+`generate_source_map.py` writes `_meta/source-map.json`; it is not a read-only check. Run it only after the user authorizes applying the maintenance change or approves a candidate that includes the generated metadata update.
+
+When regeneration is authorized, follow the source-map closure in `create-or-update.md`. Use `--accept-reviewed` only after reviewing source changes that may affect compiled pages.
+
+## Maintenance Priorities
+
+Check in this order:
+
+1. Broken `[[wikilinks]]`.
+2. Missing, duplicate, or stale `index.md` entries.
+3. Invalid frontmatter, tags, sources, page types, confidence, or contested metadata.
+4. Source-map drift for raw sources.
+5. `confidence: low` pages that need evidence.
+6. `contested: true` pages that may now be resolvable.
+7. Orphan pages and duplicate concepts.
+8. Oversized `concept` or `comparison` pages that may contain multiple independently recalled topics.
+
+## Reporting
+
+Report findings as root causes with the smallest safe fix. For write operations, produce candidates unless the user has authorized applying maintenance changes.
