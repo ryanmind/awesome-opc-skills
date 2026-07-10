@@ -1,4 +1,0 @@
-interface:
-  display_name: "A-Share Value Investing"
-  short_description: "Evaluate A-share stocks with a long-term value framework"
-  default_prompt: "Use $a-share-value-investing to evaluate this A-share stock or ETF for long-term value, valuation, position sizing, and exit discipline."

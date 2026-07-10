@@ -1,94 +1,63 @@
-# Awesome OPC Skills
+# Agent Skills
 
-[**English**](README.md) | [简体中文](README_zh-CN.md)
+Single source of truth for self-maintained agent skills, with configurable symbolic-link distribution to Codex, Claude, and Hermes.
 
-> **The AI Playbook for One Person Companies (OPC)**: Leverage LLMs for 10x output and build highly profitable businesses as a solo developer.
+[简体中文](README_zh-CN.md)
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](http://makeapullrequest.com)
-[![AI-Powered](https://img.shields.io/badge/AI-Powered-blue.svg)](https://claude.ai/code)
+## Structure
 
-## 🔥 Top 3 Killer Skills
+```text
+agent-skills/
+├── skills/                  # Canonical runtime packages
+├── config/skill-links.toml  # Source path, targets, and selected skills
+├── scripts/                 # Validation and link reconciliation
+├── tests/                   # Filesystem behavior tests
+└── docs -> ~/llm-wiki/workshop/agent-skills/raw
+```
 
-### 1. ⚡ Ultra-Fast Delivery: AI Coding Workflow (`ai-coding-workflow`)
-Stop typing boilerplate and step into the role of Architect & Code Reviewer.
-- **💡 30 Seconds to Use**: In Cursor or Claude Code, type: `@ai-coding-workflow Generate a login component with error handling based on our existing API.`
-- **✨ The Result**: AI outputs complete code conforming to your project's UI standards, handles edge cases, and leaves you with only a quick code review before shipping.
+Each runtime package follows this contract:
 
-### 2. 🧠 Ultimate Clarity: First Principles (`first-principles`)
-Strip away dogma and surface-level thinking to make ruthless, high-quality decisions.
-- **💡 30 Seconds to Use**: When stuck on a decision, type: `@first-principles I'm a solo dev with 500 DAU. Should I migrate to microservices?`
-- **✨ The Result**: AI deconstructs the "big tech syndrome", identifies delivery speed as your true bottleneck, and strongly recommends a modular monolith instead.
+```text
+skills/<skill-name>/
+├── SKILL.md
+├── agents/openai.yaml
+├── references/   # optional, loaded on demand
+├── scripts/      # optional, deterministic helpers
+└── assets/       # optional, output resources
+```
 
-### 3. 💰 Ruthless Validation: Indie Hacker Methodology (`indie-hacker-methodology`)
-Stop building things no one wants. Validate fast and focus on actual monetization.
-- **💡 30 Seconds to Use**: Got an idea? Type: `@indie-hacker-methodology Evaluate this idea: a general habit-tracking app for students.`
-- **✨ The Result**: AI hits you with the hard truth (low willingness to pay, saturated market) and suggests pivoting to a more painful, monetizable niche with 3 actionable startup steps.
+## Manage Links
 
----
-
-## 📚 Full Skills Collection
-
-### 🧠 Methodology & Philosophy
-- **[indie-hacker-methodology](./skills/indie-hacker-methodology/SKILL.md)** - Rapid validation, direct monetization, stay independent ([guide](./docs/skills/indie-hacker-methodology.md))
-- **[first-principles](./skills/first-principles/SKILL.md)** - High-standard decision analysis with brutal clarity
-- **[thinking-toolkit](./skills/thinking-toolkit/SKILL.md)** - Select mental models for decisions, tradeoffs, and root-cause analysis
-- **[a-share-value-investing](./skills/a-share-value-investing/SKILL.md)** - Long-term A-share and ETF evaluation with valuation discipline
-
-### 🤖 AI-Powered Development
-- **[ai-coding-workflow](./skills/ai-coding-workflow/SKILL.md)** - AI-assisted development workflow ([guide](./docs/skills/ai-coding-workflow.md))
-- **[git-commit](./skills/git-commit/SKILL.md)** - Generate repository-aware commit messages
-- **[github-actions](./skills/github-actions/SKILL.md)** - Diagnose and fix GitHub Actions and CI/CD failures
-- **[zshrc-secrets](./skills/zshrc-secrets/SKILL.md)** - Move shell secrets into redacted, permission-safe storage ([guide](./docs/skills/zshrc-secrets.md))
-
-### 🔍 Review & Analysis
-- **[codebase-analysis](./skills/codebase-analysis/SKILL.md)** - Build a system map and trace critical implementation paths
-- **[governance-layer-review](./skills/governance-layer-review/SKILL.md)** - Detect unclear boundaries, mixed responsibilities, and drift ([guide](./docs/skills/governance-layer-review.md))
-- **[design-convergence-review](./skills/design-convergence-review/SKILL.md)** - Review design documents and folders for implementation readiness ([guide](./docs/skills/design-convergence-review.md))
-
-### 📝 Knowledge Management
-- **[jaron-wiki](./skills/jaron-wiki/SKILL.md)** - Search, verify, and maintain a local wiki knowledge base at `~/llm-wiki`
-
-## 🧱 Repository Architecture
-
-- Runtime packages live only under `skills/` and contain `SKILL.md`, `agents/openai.yaml`, and optional `references/`, `scripts/`, or `assets/`.
-- Human-facing guides live under `docs/skills/`; they never override runtime instructions.
-- `python3 scripts/validate_skills.py` enforces the package contract locally and in CI.
-
-See [Repository Architecture](./docs/architecture.md) and [Contributing](./CONTRIBUTING.md).
-
-## 🎓 Getting Started
+Edit `config/skill-links.toml`, then run:
 
 ```bash
-git clone https://github.com/ryanmind/awesome-opc-skills.git
-cd awesome-opc-skills
+python3 scripts/manage_skill_links.py status
+python3 scripts/manage_skill_links.py check
+python3 scripts/manage_skill_links.py sync --dry-run
+python3 scripts/manage_skill_links.py sync
 ```
 
-Reference skills in Codex or compatible agent conversations:
+The manager creates only configured links, updates links after the configured source path changes, removes deselected managed links, rejects duplicates, and never overwrites unmanaged files, directories, or links.
+
+## Validate
+
+```bash
+python3 scripts/validate_skills.py
+python3 -m unittest discover -s tests
+PYTHONPYCACHEPREFIX=/tmp/agent-skills-pycache python3 -m compileall -q scripts tests skills
 ```
-"Use indie-hacker-methodology to validate my product idea"
-"Generate a commit message for my changes"
-```
 
-## 🛠️ Recommended AI Stack
+## Skills
 
-**Development:** Claude Code, Cursor, GitHub Copilot
-**Design:** Midjourney, Figma AI, v0.dev
-**Infrastructure:** Vercel, Supabase, Cloudflare
-**Automation:** Make.com, Zapier, n8n
+- [ai-coding-workflow](skills/ai-coding-workflow/SKILL.md)
+- [codebase-analysis](skills/codebase-analysis/SKILL.md)
+- [design-convergence-review](skills/design-convergence-review/SKILL.md)
+- [first-principles](skills/first-principles/SKILL.md)
+- [git-commit](skills/git-commit/SKILL.md)
+- [jaron-wiki](skills/jaron-wiki/SKILL.md)
 
-## 🤝 Contributing
+Human-facing project documentation is maintained in `~/llm-wiki/workshop/agent-skills/raw/` and exposed through the repository `docs` symbolic link.
 
-Contributions welcome! See [CONTRIBUTING.md](./CONTRIBUTING.md) for guidelines.
+## License
 
-## 📜 License
-
-MIT License - see [LICENSE](./LICENSE) for details
-
-## ⚠️ Disclaimer
-
-Just sharing experiences. Any stats mentioned are from public sources. Not financial or business advice!
-
----
-
-**Built with ❤️ by solo developers, for solo developers**
+MIT

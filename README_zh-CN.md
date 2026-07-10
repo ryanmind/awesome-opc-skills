@@ -1,94 +1,63 @@
-# Awesome OPC Skills
+# Agent Skills
 
-[English](README.md) | [**简体中文**](README_zh-CN.md)
+自研 Agent Skills 的唯一源码基座，通过配置和软链接增量分发到 Codex、Claude 与 Hermes。
 
-> **一人公司 (OPC) 的 AI 战术板**：借助大模型实现 10 倍速产出，助力独立开发者打造高利润商业模式。
+[English](README.md)
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](http://makeapullrequest.com)
-[![AI-Powered](https://img.shields.io/badge/AI-Powered-blue.svg)](https://claude.ai/code)
+## 目录结构
 
-## 🔥 核心能力：3 个最强连招 (Top 3 Skills)
+```text
+agent-skills/
+├── skills/                  # Skill 运行包唯一源码
+├── config/skill-links.toml  # 基座路径、目标目录和 Skill 选择
+├── scripts/                 # 校验与软链接同步
+├── tests/                   # 文件系统行为测试
+└── docs -> ~/llm-wiki/workshop/agent-skills/raw
+```
 
-### 1. ⚡ 极速交付：AI 编程工作流 (ai-coding-workflow)
-打破“手写代码”瓶颈，转变为架构师和 Code Reviewer。
-- **💡 30秒怎么用**：在 Cursor 或 Claude Code 中输入 `@ai-coding-workflow 结合现有后端接口，为我生成一个带错误处理的登录组件`。
-- **✨ 结果反馈**：AI 不仅输出代码，还会主动遵循项目已有的 UI 规范，并处理边界错误，你只需 Review 后即可完美运行。
+每个 Skill 使用统一契约：
 
-### 2. 🧠 决策破局：第一性原理 (first-principles)
-剥离表象直击本质，专治技术选型困难和伪需求。
-- **💡 30秒怎么用**：遇到纠结的选型时输入 `@first-principles 目前我是单人开发，产品日活不到1000，我要不要转微服务架构？`。
-- **✨ 结果反馈**：AI 无情拆解“大厂执念”，明确单人项目核心瓶颈是业务迭代速度，强烈建议保持单体架构并给出无成本的模块化方案。
+```text
+skills/<skill-name>/
+├── SKILL.md
+├── agents/openai.yaml
+├── references/   # 可选，按需加载
+├── scripts/      # 可选，确定性工具
+└── assets/       # 可选，输出资源
+```
 
-### 3. 💰 商业验证：独立黑客方法论 (indie-hacker-methodology)
-避免闭门造车，避免“造出没人用的东西”，用最低成本验证想法并完成直接变现。
-- **💡 30秒怎么用**：萌生一个点子时输入 `@indie-hacker-methodology 帮我评估：我想做一个面向大学生的习惯打卡 App`。
-- **✨ 结果反馈**：AI 直接给出“防坑指南”：指出该群体付费意愿极低、且竞品泛滥；建议转向为“考研党/职场人”做刚需服务，并提供 3 个可执行的冷启动破局思路。
+## 管理软链接
 
----
-
-## 📚 完整技能库清单
-
-### 🧠 方法论与哲学 (Methodology & Philosophy)
-- **[独立黑客方法论 (indie-hacker-methodology)](./skills/indie-hacker-methodology/SKILL.md)** - 快速验证想法，直接变现，保持独立自由（[说明](./docs/skills/indie-hacker-methodology.md)）
-- **[第一性原理 (first-principles)](./skills/first-principles/SKILL.md)** - 剥离表象直击本质的决策分析
-- **[思维工具箱 (thinking-toolkit)](./skills/thinking-toolkit/SKILL.md)** - 为决策、权衡和根因分析选择合适的思维模型
-- **[A 股价值投资 (a-share-value-investing)](./skills/a-share-value-investing/SKILL.md)** - 长期选股、估值、仓位和卖出纪律
-
-### 🤖 AI 驱动开发 (AI-Powered Development)
-- **[AI 编程工作流 (ai-coding-workflow)](./skills/ai-coding-workflow/SKILL.md)** - 规范 AI 辅助开发和验证流程（[说明](./docs/skills/ai-coding-workflow.md)）
-- **[Git 提交助手 (git-commit)](./skills/git-commit/SKILL.md)** - 生成符合仓库约定的提交信息
-- **[GitHub 自动化排错 (github-actions)](./skills/github-actions/SKILL.md)** - 诊断 GitHub Actions 与 CI/CD 故障
-- **[Shell 密钥治理 (zshrc-secrets)](./skills/zshrc-secrets/SKILL.md)** - 将 shell 密钥迁移到脱敏且权限安全的存储（[说明](./docs/skills/zshrc-secrets.md)）
-
-### 🔍 审查与分析 (Review & Analysis)
-- **[代码库分析 (codebase-analysis)](./skills/codebase-analysis/SKILL.md)** - 建立系统全景并追踪关键实现链路
-- **[设计收敛审查 (design-convergence-review)](./skills/design-convergence-review/SKILL.md)** - 审查单个设计文档或设计文件夹是否已具备实现条件（[说明](./docs/skills/design-convergence-review.md)）
-- **[治理层审查 (governance-layer-review)](./skills/governance-layer-review/SKILL.md)** - 检查治理层系统中的边界混合、职责重复和长期漂移（[说明](./docs/skills/governance-layer-review.zh-CN.md)）
-
-### 📝 知识管理 (Knowledge Management)
-- **[Jaron Wiki (jaron-wiki)](./skills/jaron-wiki/SKILL.md)** - 检索、验证和维护本地 `~/llm-wiki` 知识库
-
-## 🧱 仓库架构
-
-- `skills/` 只保存运行包：`SKILL.md`、`agents/openai.yaml`，以及可选的 `references/`、`scripts/`、`assets/`。
-- 面向人的说明统一放在 `docs/skills/`，不得覆盖运行规则。
-- `python3 scripts/validate_skills.py` 在本地与 CI 中强制校验目录契约。
-
-详见 [仓库架构](./docs/architecture.md) 与 [贡献指南](./CONTRIBUTING.md)。
-
-## 🎓 快速开始
+修改 `config/skill-links.toml` 后执行：
 
 ```bash
-git clone https://github.com/ryanmind/awesome-opc-skills.git
-cd awesome-opc-skills
+python3 scripts/manage_skill_links.py status
+python3 scripts/manage_skill_links.py check
+python3 scripts/manage_skill_links.py sync --dry-run
+python3 scripts/manage_skill_links.py sync
 ```
 
-你可以在与 Claude 代码助手对话时直接引用这些技能，例如：
+管理器只创建配置中的链接；基座路径变化后增量更新旧链接；清理取消选择的受管链接；拒绝重复配置；不会覆盖未受管的文件、目录或软链接。
+
+## 验证
+
+```bash
+python3 scripts/validate_skills.py
+python3 -m unittest discover -s tests
+PYTHONPYCACHEPREFIX=/tmp/agent-skills-pycache python3 -m compileall -q scripts tests skills
 ```
-"使用 indie-hacker-methodology 技能帮我验证这个产品想法"
-"为我这段代码更改生成符合规范的 commit message"
-```
 
-## 🛠️ 推荐 AI 技术栈
+## Skills
 
-**开发:** Claude Code, Cursor, GitHub Copilot
-**设计:** Midjourney, Figma AI, v0.dev
-**基础设施:** Vercel, Supabase, Cloudflare
-**工作流自动化:** Make.com, Zapier, n8n
+- [ai-coding-workflow](skills/ai-coding-workflow/SKILL.md)
+- [codebase-analysis](skills/codebase-analysis/SKILL.md)
+- [design-convergence-review](skills/design-convergence-review/SKILL.md)
+- [first-principles](skills/first-principles/SKILL.md)
+- [git-commit](skills/git-commit/SKILL.md)
+- [jaron-wiki](skills/jaron-wiki/SKILL.md)
 
-## 🤝 贡献指南
+项目真实文档维护在 `~/llm-wiki/workshop/agent-skills/raw/`，仓库通过 `docs` 软链接访问。
 
-我们非常欢迎你的加入！请查看 [CONTRIBUTING.md](./CONTRIBUTING.md) 了解详细指南。
+## License
 
-## 📜 开源协议
-
-MIT License - 详情请参阅 [LICENSE](./LICENSE) 文件
-
-## ⚠️ 免责声明
-
-纯经验分享与交流，提到的数据均来自网络，不构成任何商业投资建议。
-
----
-
-**由独立开发者打造，为独立开发者赋能 ❤️**
+MIT

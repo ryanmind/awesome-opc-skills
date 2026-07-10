@@ -151,6 +151,7 @@ def validate_catalog(skill_names: set[str]) -> list[str]:
 
 def validate_markdown_links() -> list[str]:
     errors: list[str] = []
+    external_docs = (ROOT / "docs").is_symlink()
     for path in sorted(ROOT.rglob("*.md")):
         if ".git" in path.parts:
             continue
@@ -160,6 +161,8 @@ def validate_markdown_links() -> list[str]:
             if not target or target.startswith(("http://", "https://", "mailto:", "#")):
                 continue
             target = target.split("#", 1)[0]
+            if external_docs and path.parent == ROOT and Path(target).parts[:1] == ("docs",):
+                continue
             resolved = (path.parent / target).resolve()
             if not resolved.exists():
                 errors.append(
