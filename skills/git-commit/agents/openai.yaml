@@ -1,4 +1,4 @@
 interface:
   display_name: "Git Commit"
-  short_description: "Draft repo-aware Git commit messages"
-  default_prompt: "Use $git-commit when I say git commit, commit these changes, or ask for a repo-aware commit message."
+  short_description: "Draft messages or commit staged Git changes"
+  default_prompt: "Use $git-commit to draft a repository-aware commit message or commit the staged changes and verify the result."
