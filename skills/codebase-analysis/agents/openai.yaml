@@ -1,4 +1,4 @@
 interface:
   display_name: "Codebase Analysis"
-  short_description: "Build the system picture first, then drill into key paths and implementation details"
+  short_description: "Map systems, key paths, and implementation details"
   default_prompt: "Use $codebase-analysis to map this repository at the system level first, then drill into the most important execution paths and implementation details so I can understand, debug, extend, and hand off the codebase."

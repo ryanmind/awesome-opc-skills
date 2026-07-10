@@ -70,9 +70,9 @@ During the review, prioritize:
 
 ### Step 3: produce a structured conclusion
 Use:
-- `templates/review-report.md`
+- `assets/review-report.md`
 
-`templates/review-report.md` provides only the output structure. It does not introduce new evaluation criteria.
+`assets/review-report.md` provides only the output structure. It does not introduce new evaluation criteria.
 
 For a formal review, include at least:
 - the current layer map
@@ -100,7 +100,7 @@ For a formal review, include at least:
 - `references/standard.md`: layer standard, evaluation rules, and output conventions
 - `references/failure-modes.md`: common failure modes and how to spot them
 - `references/example.md`: minimal examples and calibration guidance
-- `templates/review-report.md`: governance boundary review report template
+- `assets/review-report.md`: governance boundary review report template
 
 ---
 

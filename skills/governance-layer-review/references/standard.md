@@ -245,4 +245,4 @@ Recommend only necessary changes:
 - which rule-style statements should be rewritten as method guidance
 - which changes need immediate action and which can be monitored later
 
-For a formal written review, prefer `templates/review-report.md`. The template provides structure only and does not replace this standard.
+For a formal written review, prefer `assets/review-report.md`. The template provides structure only and does not replace this standard.

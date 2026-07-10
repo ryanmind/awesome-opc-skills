@@ -53,19 +53,17 @@
 - 用明确证据解释判断
 - 给出恢复清晰边界所需的最小改动建议
 
-## 仓库结构
+## 运行包结构
 
 ```text
-.
+skills/governance-layer-review/
 ├── SKILL.md
-├── README.md
-├── README.zh-CN.md
 ├── agents/openai.yaml
 ├── references/
 │   ├── standard.md
 │   ├── failure-modes.md
 │   └── example.md
-└── templates/
+└── assets/
     └── review-report.md
 ```
 
@@ -76,7 +74,7 @@
 - `references/standard.md` — 判定标准与 review 规则
 - `references/failure-modes.md` — 常见失败模式
 - `references/example.md` — 最小示例与尺度校准
-- `templates/review-report.md` — 结构化报告模板
+- `assets/review-report.md` — 结构化报告模板
 
 ## 使用示例
 

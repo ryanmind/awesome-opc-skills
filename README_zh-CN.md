@@ -30,13 +30,32 @@
 ## 📚 完整技能库清单
 
 ### 🧠 方法论与哲学 (Methodology & Philosophy)
-- **[独立黑客方法论 (indie-hacker-methodology)](./skills/indie-hacker-methodology/)** - 快速验证想法，直接变现，保持独立自由
-- **[第一性原理 (first-principles)](./skills/first-principles/)** - 剥离表象直击本质的极致决策分析方法
+- **[独立黑客方法论 (indie-hacker-methodology)](./skills/indie-hacker-methodology/SKILL.md)** - 快速验证想法，直接变现，保持独立自由（[说明](./docs/skills/indie-hacker-methodology.md)）
+- **[第一性原理 (first-principles)](./skills/first-principles/SKILL.md)** - 剥离表象直击本质的决策分析
+- **[思维工具箱 (thinking-toolkit)](./skills/thinking-toolkit/SKILL.md)** - 为决策、权衡和根因分析选择合适的思维模型
+- **[A 股价值投资 (a-share-value-investing)](./skills/a-share-value-investing/SKILL.md)** - 长期选股、估值、仓位和卖出纪律
 
 ### 🤖 AI 驱动开发 (AI-Powered Development)
-- **[AI 编程工作流 (ai-coding-workflow)](./skills/ai-coding-workflow/)** - 结合 Claude Code, Cursor 与 GitHub Copilot 实现 10 倍开发效率
-- **[Git 提交助手 (git-commit)](./skills/git-commit/)** - 自动生成符合 Conventional Commits 规范且像人类写的 Commit Info
-- **[GitHub 自动化排错 (github-actions)](./skills/github-actions/)** - 智能诊断和修复 GitHub Actions 工作流及 CI/CD 自动化管道
+- **[AI 编程工作流 (ai-coding-workflow)](./skills/ai-coding-workflow/SKILL.md)** - 规范 AI 辅助开发和验证流程（[说明](./docs/skills/ai-coding-workflow.md)）
+- **[Git 提交助手 (git-commit)](./skills/git-commit/SKILL.md)** - 生成符合仓库约定的提交信息
+- **[GitHub 自动化排错 (github-actions)](./skills/github-actions/SKILL.md)** - 诊断 GitHub Actions 与 CI/CD 故障
+- **[Shell 密钥治理 (zshrc-secrets)](./skills/zshrc-secrets/SKILL.md)** - 将 shell 密钥迁移到脱敏且权限安全的存储（[说明](./docs/skills/zshrc-secrets.md)）
+
+### 🔍 审查与分析 (Review & Analysis)
+- **[代码库分析 (codebase-analysis)](./skills/codebase-analysis/SKILL.md)** - 建立系统全景并追踪关键实现链路
+- **[设计收敛审查 (design-convergence-review)](./skills/design-convergence-review/SKILL.md)** - 审查单个设计文档或设计文件夹是否已具备实现条件（[说明](./docs/skills/design-convergence-review.md)）
+- **[治理层审查 (governance-layer-review)](./skills/governance-layer-review/SKILL.md)** - 检查治理层系统中的边界混合、职责重复和长期漂移（[说明](./docs/skills/governance-layer-review.zh-CN.md)）
+
+### 📝 知识管理 (Knowledge Management)
+- **[Jaron Wiki (jaron-wiki)](./skills/jaron-wiki/SKILL.md)** - 检索、验证和维护本地 `~/llm-wiki` 知识库
+
+## 🧱 仓库架构
+
+- `skills/` 只保存运行包：`SKILL.md`、`agents/openai.yaml`，以及可选的 `references/`、`scripts/`、`assets/`。
+- 面向人的说明统一放在 `docs/skills/`，不得覆盖运行规则。
+- `python3 scripts/validate_skills.py` 在本地与 CI 中强制校验目录契约。
+
+详见 [仓库架构](./docs/architecture.md) 与 [贡献指南](./CONTRIBUTING.md)。
 
 ## 🎓 快速开始
 

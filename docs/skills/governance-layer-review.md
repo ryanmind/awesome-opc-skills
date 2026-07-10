@@ -53,19 +53,17 @@ A useful review should:
 - explain the judgment with concrete evidence
 - recommend the smallest set of changes needed to restore clean boundaries
 
-## Repository structure
+## Runtime package structure
 
 ```text
-.
+skills/governance-layer-review/
 ├── SKILL.md
-├── README.md
-├── README.zh-CN.md
 ├── agents/openai.yaml
 ├── references/
 │   ├── standard.md
 │   ├── failure-modes.md
 │   └── example.md
-└── templates/
+└── assets/
     └── review-report.md
 ```
 
@@ -76,7 +74,7 @@ A useful review should:
 - `references/standard.md` — evaluation standard and review rules
 - `references/failure-modes.md` — common failure patterns
 - `references/example.md` — minimal examples for calibration
-- `templates/review-report.md` — structured report template
+- `assets/review-report.md` — structured report template
 
 ## Example prompt
 

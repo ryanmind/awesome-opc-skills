@@ -47,7 +47,6 @@ ID-like values such as `APP_ID` or `CLIENT_ID` are included only when requested 
 ```text
 skills/zshrc-secrets/
 ├── SKILL.md
-├── README.md
 ├── agents/openai.yaml
 ├── references/migration-pattern.md
 └── scripts/audit_zshrc_secrets.py

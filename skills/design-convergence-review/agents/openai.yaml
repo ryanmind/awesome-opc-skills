@@ -1,0 +1,4 @@
+interface:
+  display_name: "Design Convergence Review"
+  short_description: "Review design docs and folders for convergence"
+  default_prompt: "Use $design-convergence-review to review this design document or folder for implementation readiness."

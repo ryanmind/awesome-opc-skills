@@ -34,7 +34,7 @@ description: "Diagnose and fix GitHub Actions, CI/CD, cron, and repository autom
 - When encountering detailed GitHub Actions issues, read `references/github-actions.md`.
 - Prioritize reading the sections directly related to the current failure; do not read the entire document unless necessary.
 - Focus on: Trigger routing, `permissions`, `GITHUB_TOKEN`, fork PRs, `workflow_call`, `matrix`, `concurrency`, cache/artifacts, and scheduled task timezones.
-- To reference standardized code structures, check the examples in the `examples/` directory (if applicable).
+- For the concurrency example, read `references/concurrency-example.md`.
 
 ## Validation Requirements
 

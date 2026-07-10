@@ -124,4 +124,4 @@ Found ways to improve this skill? PRs welcome!
 
 ---
 
-[Archived translation note](./README.zh-CN.md)
+[Archived translation note](./indie-hacker-methodology.zh-CN.md)

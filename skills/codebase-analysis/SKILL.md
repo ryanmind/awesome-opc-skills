@@ -1,6 +1,14 @@
 ---
 name: codebase-analysis
-description: Use when the user needs to deeply understand a codebase, module, or system implementation: first build a high-level system map, then drill into the most important execution paths and implementation details, and produce a handoff-quality explanation that can be understood without constantly rereading the source. Suitable for iOS (ObjC/Swift), Flutter, AI applications, React, HarmonyOS, Python, TypeScript, Android/Kotlin, Java/Spring, Node.js/NestJS, Vue/Next.js, Go/Rust, as well as legacy-system analysis, architecture reviews, critical-path breakdowns, technical due diligence, and onboarding handoffs.
+description: >-
+  Use when the user needs to deeply understand a codebase, module, or system
+  implementation: first build a high-level system map, then drill into the most
+  important execution paths and implementation details, and produce a handoff-quality
+  explanation that can be understood without constantly rereading the source. Suitable
+  for iOS (ObjC/Swift), Flutter, AI applications, React, HarmonyOS, Python, TypeScript,
+  Android/Kotlin, Java/Spring, Node.js/NestJS, Vue/Next.js, Go/Rust, as well as
+  legacy-system analysis, architecture reviews, critical-path breakdowns, technical
+  due diligence, and onboarding handoffs.
 ---
 
 # Codebase Analysis

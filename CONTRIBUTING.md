@@ -1,199 +1,146 @@
 # Contributing to Awesome OPC Skills
 
-Thank you for your interest in contributing! This guide will help you add new skills or improve existing ones.
+This repository follows the current Codex skill package model. Keep runtime packages small, deterministic, and free of duplicated user documentation.
 
-## 🎯 What We're Looking For
+## Repository Contract
 
-Skills that help solo developers and one-person companies:
+Each skill lives at `skills/<skill-name>/`.
 
-- **Automation tools** - Save time on repetitive tasks
-- **Development workflows** - Ship faster with better processes
-- **Business methodologies** - Build profitable products
-- **Productivity tools** - Do more with less
-- **Marketing automation** - Grow without a team
+```text
+skills/<skill-name>/
+├── SKILL.md              # required: the only execution-instruction source
+├── agents/
+│   └── openai.yaml       # required by this repository: UI metadata
+├── references/           # optional: material the agent reads on demand
+├── scripts/              # optional: deterministic executable helpers
+└── assets/               # optional: templates or files copied into outputs
+```
 
-## 📋 Contribution Process
+Allowed top-level entries inside a skill package are exactly:
 
-### 1. Fork and Clone
+- `SKILL.md`
+- `agents/`
+- `references/`
+- `scripts/`
+- `assets/`
+
+Do not add `README.md`, `README.zh-CN.md`, `SKILL.zh-CN.md`, `templates/`, `examples/`, `config/`, changelogs, installation guides, or quick-reference files inside a runtime skill package.
+
+## File Responsibilities
+
+### `SKILL.md`
+
+- Use YAML frontmatter containing only `name` and `description`.
+- Match `name` to the skill directory exactly.
+- Use lowercase letters, digits, and hyphens only.
+- Put all trigger conditions in `description` because it controls skill activation.
+- Keep the body focused on instructions another agent needs to execute the task.
+- Prefer imperative instructions and progressive disclosure.
+- Keep detailed domain knowledge in `references/` instead of duplicating it.
+
+### `agents/openai.yaml`
+
+Provide:
+
+```yaml
+interface:
+  display_name: "Human-facing name"
+  short_description: "A 25-64 character UI description"
+  default_prompt: "Use $skill-name to perform a concrete task."
+```
+
+Quote every string. The default prompt must explicitly mention `$skill-name`.
+
+### `references/`
+
+Store content the agent may need to read while executing:
+
+- domain rules
+- API or schema notes
+- calibration examples
+- detailed checklists
+- reusable response structures
+
+Link every reference directly from `SKILL.md`. Avoid nested reference chains.
+
+### `scripts/`
+
+Store deterministic helpers that prevent repeatedly rewriting the same code. Scripts must:
+
+- avoid hardcoded credentials
+- use redacted output for sensitive data
+- provide a useful `--help` when they expose a CLI
+- be executed during validation when practical
+
+### `assets/`
+
+Store files intended for output rather than agent context, such as document templates, starter files, or media. If the agent must read a Markdown file to make a decision, that file belongs in `references/`, not `assets/`.
+
+## Human Documentation
+
+User-facing guides belong outside runtime packages:
+
+```text
+docs/skills/<skill-name>.md
+docs/skills/<skill-name>.zh-CN.md
+```
+
+Human guides are optional. They may explain installation, examples, or motivation, but must not define execution rules that differ from `SKILL.md`.
+
+The root `README.md` and `README_zh-CN.md` are the skill catalog. Link runtime definitions directly to `skills/<skill-name>/SKILL.md` and optional guides to `docs/skills/`.
+
+## Add a Skill
+
+1. Initialize the package with the official skill creator:
+
+   ```bash
+   python3 "$CODEX_HOME/skills/.system/skill-creator/scripts/init_skill.py" \
+     <skill-name> \
+     --path skills \
+     --interface 'display_name=...' \
+     --interface 'short_description=...' \
+     --interface 'default_prompt=Use $<skill-name> to ...'
+   ```
+
+2. Replace every scaffold placeholder in `SKILL.md`.
+3. Create only the resource directories the skill actually needs.
+4. Add an optional human guide under `docs/skills/`, not inside the skill.
+5. Add the skill to both root catalog files.
+6. Add an entry under `CHANGELOG.md` → `Unreleased`.
+7. Run validation.
+
+## Validate
 
 ```bash
-git clone https://github.com/ryanmind/awesome-opc-skills.git
-cd awesome-opc-skills
+python3 scripts/validate_skills.py
 ```
 
-### 2. Create a Branch
+When the official validator is available locally, also run:
 
 ```bash
-git checkout -b feat/add-your-skill-name
+python3 "$CODEX_HOME/skills/.system/skill-creator/scripts/quick_validate.py" \
+  skills/<skill-name>
 ```
 
-### 3. Add Your Skill
+## Quality Bar
 
-Create a new directory under `skills/`:
+- The skill has a narrow, reusable responsibility.
+- Trigger conditions are specific enough to avoid accidental activation.
+- Instructions do not duplicate general model knowledge without a reason.
+- Inputs, evidence boundaries, output contract, and stop conditions are explicit.
+- No secret, proprietary configuration, generated artifact, or machine-local path is committed unless the path is the skill's intentional domain contract.
+- Scripts and examples are tested in proportion to risk.
+- Repository validation passes without warnings or ignored failures.
 
-```bash
-mkdir -p skills/your-skill-name
-cd skills/your-skill-name
+## Git
+
+Use Conventional Commits unless repository tooling establishes a stricter rule:
+
+```text
+feat(skill-name): add capability
+fix(skill-name): correct behavior
+docs: update skill catalog
+chore: maintain repository tooling
 ```
 
-### 4. Required Files
-
-Every skill must include:
-
-- **SKILL.md** - Skill definition (required by Claude Code)
-- **README.md** - User-friendly documentation
-- **scripts/** - Executable scripts (if applicable)
-- **config/** - Configuration examples (use placeholders, no real credentials)
-
-### 5. SKILL.md Template
-
-```markdown
----
-name: your-skill-name
-description: |
-  Clear description of what this skill does. When it activates,
-  and what problems it solves. Be specific about triggers.
----
-
-# Your Skill Name
-
-Brief overview of what this skill does.
-
-## When to Use
-
-This skill activates when:
-- User mentions X
-- Context includes Y
-- User asks for Z
-
-## Instructions
-
-Step-by-step instructions for Claude to follow...
-
-## Examples
-
-Example usage scenarios...
-```
-
-### 6. README.md Template
-
-```markdown
-# Your Skill Name
-
-Brief description of the skill.
-
-## Features
-
-- Feature 1
-- Feature 2
-- Feature 3
-
-## Installation
-
-\`\`\`bash
-# Installation steps
-\`\`\`
-
-## Usage
-
-\`\`\`bash
-# Usage examples
-\`\`\`
-
-## Configuration
-
-Explain configuration options...
-
-## Examples
-
-Provide real-world examples...
-```
-
-## ✅ Quality Checklist
-
-Before submitting your PR:
-
-- [ ] SKILL.md follows the template
-- [ ] README.md is clear and complete
-- [ ] No sensitive information (API keys, passwords, company names)
-- [ ] Configuration uses placeholders (e.g., `YOUR_API_KEY`)
-- [ ] Scripts are tested and working
-- [ ] Code follows existing style
-- [ ] Primary documentation is in English (Chinese translations welcome as separate files)
-- [ ] Examples are practical and realistic
-
-## 🚫 What NOT to Include
-
-- ❌ Real API keys, passwords, or credentials
-- ❌ Company-specific configurations
-- ❌ Large binary files (.ipa, .apk, etc.)
-- ❌ Proprietary code or trade secrets
-- ❌ Overly complex solutions (keep it simple)
-
-## 📝 Commit Message Format
-
-Use conventional commits:
-
-```
-feat(skill-name): add new feature
-fix(skill-name): fix bug
-docs(skill-name): update documentation
-refactor(skill-name): refactor code
-```
-
-## 🌐 Language Policy
-
-**Primary Language: English**
-- All main documentation (README.md, SKILL.md) should be in English
-- This ensures accessibility for the global developer community
-
-**Chinese Translations Welcome:**
-- Create separate files: `README.zh-CN.md`, `SKILL.zh-CN.md`
-- Link to translations from the main English file
-- Keep translations synchronized with English versions
-
-**Example Structure:**
-```
-skills/your-skill/
-├── README.md (English)
-├── README.zh-CN.md (Chinese)
-├── SKILL.md (English)
-└── SKILL.zh-CN.md (Chinese)
-```
-
-## 🔍 Code Review
-
-We'll review your PR for:
-
-1. **Functionality** - Does it work as described?
-2. **Security** - No sensitive information exposed?
-3. **Quality** - Is the code clean and maintainable?
-4. **Documentation** - Is it clear and complete?
-5. **OPC Alignment** - Does it help solo developers?
-
-## 💡 Ideas for New Skills
-
-Not sure what to contribute? Here are some ideas:
-
-- **rapid-mvp** - Build MVPs in 2 weeks
-- **stripe-integration** - Quick payment setup
-- **seo-automation** - Automate SEO tasks
-- **email-marketing** - Email campaign automation
-- **analytics-dashboard** - Simple analytics setup
-- **landing-page-generator** - Quick landing pages
-- **pricing-calculator** - Pricing strategy tool
-
-## 🤝 Community
-
-- Be respectful and constructive
-- Help others in discussions
-- Share your experience as a solo developer
-- Learn from each other
-
-## 📧 Questions?
-
-Open an issue or start a discussion. We're here to help!
-
----
-
-**Thank you for contributing to the OPC community!**
+Do not add `Co-Authored-By`, `Signed-off-by`, or AI-contribution trailers.

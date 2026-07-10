@@ -8,12 +8,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- Design convergence review skill for single documents and multi-document design folders
+- Repository architecture contract, skill package validator, and GitHub Actions validation workflow
 - AI-powered coding workflow skill with Claude Code, Cursor, and Copilot integration
 - AI-first development philosophy and modern tech stack recommendations
 - Success metrics comparing traditional vs AI-augmented development
 - Comprehensive AI tools comparison and productivity benchmarks
 
 ### Changed
+- Standardized every skill package on `SKILL.md`, `agents/openai.yaml`, and optional `references/`, `scripts/`, or `assets/`
+- Moved human-facing skill guides from runtime packages to `docs/skills/`
+- Moved templates and agent-readable examples into their correct resource directories
 - Repositioned from "one person company" to "AI-augmented solo developer"
 - Updated philosophy to emphasize 10x productivity with AI
 - Enhanced value proposition with AI-first approach

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Thinking Toolkit"
+  short_description: "Choose mental models for decisions and analysis"
+  default_prompt: "Use $thinking-toolkit to analyze this problem with the smallest useful set of mental models and recommend next actions."

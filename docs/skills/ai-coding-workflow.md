@@ -223,5 +223,3 @@ Reference this skill in your conversations:
 **Remember**: AI doesn't replace developers—it makes them 10x more productive.
 
 ---
-
-[Archived translation note](./README.zh-CN.md)

@@ -30,19 +30,32 @@ Stop building things no one wants. Validate fast and focus on actual monetizatio
 ## 📚 Full Skills Collection
 
 ### 🧠 Methodology & Philosophy
-- **[indie-hacker-methodology](./skills/indie-hacker-methodology/)** - Rapid validation, direct monetization, stay independent
-- **[first-principles](./skills/first-principles/)** - High-standard decision analysis with brutal clarity
+- **[indie-hacker-methodology](./skills/indie-hacker-methodology/SKILL.md)** - Rapid validation, direct monetization, stay independent ([guide](./docs/skills/indie-hacker-methodology.md))
+- **[first-principles](./skills/first-principles/SKILL.md)** - High-standard decision analysis with brutal clarity
+- **[thinking-toolkit](./skills/thinking-toolkit/SKILL.md)** - Select mental models for decisions, tradeoffs, and root-cause analysis
+- **[a-share-value-investing](./skills/a-share-value-investing/SKILL.md)** - Long-term A-share and ETF evaluation with valuation discipline
 
 ### 🤖 AI-Powered Development
-- **[ai-coding-workflow](./skills/ai-coding-workflow/)** - 10x productivity with Claude Code, Cursor, and GitHub Copilot
-- **[git-commit](./skills/git-commit/)** - Generate human-written commit messages with Conventional Commits
-- **[github-actions](./skills/github-actions/)** - Diagnose and fix GitHub Actions workflows, CI/CD pipelines, and automation issues
+- **[ai-coding-workflow](./skills/ai-coding-workflow/SKILL.md)** - AI-assisted development workflow ([guide](./docs/skills/ai-coding-workflow.md))
+- **[git-commit](./skills/git-commit/SKILL.md)** - Generate repository-aware commit messages
+- **[github-actions](./skills/github-actions/SKILL.md)** - Diagnose and fix GitHub Actions and CI/CD failures
+- **[zshrc-secrets](./skills/zshrc-secrets/SKILL.md)** - Move shell secrets into redacted, permission-safe storage ([guide](./docs/skills/zshrc-secrets.md))
 
 ### 🔍 Review & Analysis
-- **[governance-layer-review](./skills/governance-layer-review/)** - Detect unclear boundaries, mixed responsibilities, and drift in governance-layer systems
+- **[codebase-analysis](./skills/codebase-analysis/SKILL.md)** - Build a system map and trace critical implementation paths
+- **[governance-layer-review](./skills/governance-layer-review/SKILL.md)** - Detect unclear boundaries, mixed responsibilities, and drift ([guide](./docs/skills/governance-layer-review.md))
+- **[design-convergence-review](./skills/design-convergence-review/SKILL.md)** - Review design documents and folders for implementation readiness ([guide](./docs/skills/design-convergence-review.md))
 
 ### 📝 Knowledge Management
-- **[jaron-wiki](./skills/jaron-wiki/)** - Search, verify, and maintain a local wiki knowledge base at `~/llm-wiki`
+- **[jaron-wiki](./skills/jaron-wiki/SKILL.md)** - Search, verify, and maintain a local wiki knowledge base at `~/llm-wiki`
+
+## 🧱 Repository Architecture
+
+- Runtime packages live only under `skills/` and contain `SKILL.md`, `agents/openai.yaml`, and optional `references/`, `scripts/`, or `assets/`.
+- Human-facing guides live under `docs/skills/`; they never override runtime instructions.
+- `python3 scripts/validate_skills.py` enforces the package contract locally and in CI.
+
+See [Repository Architecture](./docs/architecture.md) and [Contributing](./CONTRIBUTING.md).
 
 ## 🎓 Getting Started
 
@@ -51,7 +64,7 @@ git clone https://github.com/ryanmind/awesome-opc-skills.git
 cd awesome-opc-skills
 ```
 
-Reference skills in Claude Code conversations:
+Reference skills in Codex or compatible agent conversations:
 ```
 "Use indie-hacker-methodology to validate my product idea"
 "Generate a commit message for my changes"

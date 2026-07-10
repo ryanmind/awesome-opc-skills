@@ -1,6 +1,12 @@
 ---
 name: thinking-toolkit
-description: Use when the user needs to analyze a problem, make a decision, compare tradeoffs, find a root cause, clarify positioning, structure an argument, or identify leverage points in a system. Automatically choose the most suitable 1-3 mental models from first principles, inversion, SWOT, 5 Whys, Pareto, opportunity cost, and related references, then answer in a conclusion-first format: judgment first, then reasons, models used, and next actions.
+description: >-
+  Use when the user needs to analyze a problem, make a decision, compare tradeoffs,
+  find a root cause, clarify positioning, structure an argument, or identify leverage
+  points in a system. Automatically choose the most suitable 1-3 mental models from
+  first principles, inversion, SWOT, 5 Whys, Pareto, opportunity cost, and related
+  references, then answer in a conclusion-first format: judgment first, then reasons,
+  models used, and next actions.
 ---
 
 # Thinking Toolkit
@@ -116,7 +122,7 @@ Prioritize:
 - `first-principles.md`
 - `inversion.md`
 - `pareto.md`
-- `assets/output-templates.md`
+- `references/output-templates.md`
 
 Use for:
 - breaking down an argument
@@ -136,7 +142,7 @@ Use for:
 Load references on demand rather than all at once:
 
 - If you want a model's use cases, misuse warnings, and output shape, open the relevant `references/*.md`
-- If you want reusable answer structures, open `assets/output-templates.md`
+- If you want reusable answer structures, open `references/output-templates.md`
 - Unless you truly need a cross-model comparison, do not load every reference file at once
 
 ## General answer flow

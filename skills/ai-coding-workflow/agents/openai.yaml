@@ -1,0 +1,4 @@
+interface:
+  display_name: "AI Coding Workflow"
+  short_description: "Apply a practical AI-assisted development workflow"
+  default_prompt: "Use $ai-coding-workflow to improve this development workflow with scoped AI assistance, verification, and delivery controls."

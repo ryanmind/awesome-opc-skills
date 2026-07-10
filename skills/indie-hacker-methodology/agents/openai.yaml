@@ -1,0 +1,4 @@
+interface:
+  display_name: "Indie Hacker Methodology"
+  short_description: "Validate and grow a bootstrapped product"
+  default_prompt: "Use $indie-hacker-methodology to evaluate this product idea, validate demand, choose pricing, and define the smallest launch."

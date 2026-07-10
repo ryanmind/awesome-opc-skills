@@ -1,0 +1,4 @@
+interface:
+  display_name: "GitHub Actions"
+  short_description: "Diagnose GitHub Actions and CI failures"
+  default_prompt: "Use $github-actions to diagnose this workflow failure from triggers and permissions through jobs, steps, and scripts."
