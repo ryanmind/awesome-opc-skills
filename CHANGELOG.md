@@ -1,58 +1,61 @@
-# Changelog
+# 更新日志
 
-All notable changes to this project will be documented in this file.
+所有值得注意的变更都将记录在此文件中。
 
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
-and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+本文件格式基于 [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)，
+项目遵循 [语义化版本控制](https://semver.org/spec/v2.0.0.html)。
 
-## [Unreleased]
+## [未发布]
 
-### Added
-- Configurable, incremental symbolic-link distribution for Codex, Claude, and Hermes
-- Filesystem tests for path relocation, deduplication, conflicts, pruning, and idempotence
-- Design convergence review skill for single documents and multi-document design folders
-- Repository architecture contract, skill package validator, and GitHub Actions validation workflow
-- AI-powered coding workflow skill with Claude Code, Cursor, and Copilot integration
-- AI-first development philosophy and modern tech stack recommendations
-- Success metrics comparing traditional vs AI-augmented development
-- Comprehensive AI tools comparison and productivity benchmarks
+### 新增
 
-### Changed
-- Repositioned the repository as `agent-skills`, a self-maintained skill source and distribution base
-- Moved human-facing project documentation to the llm-wiki workshop and exposed it through `docs`
-- Standardized every skill package on `SKILL.md`, `agents/openai.yaml`, and optional `references/`, `scripts/`, or `assets/`
-- Moved human-facing skill guides from runtime packages to `docs/skills/`
-- Moved templates and agent-readable examples into their correct resource directories
-- Repositioned from "one person company" to "AI-augmented solo developer"
-- Updated philosophy to emphasize 10x productivity with AI
-- Enhanced value proposition with AI-first approach
+- 可配置的增量符号链接分发，支持 Codex、Claude 和 Hermes
+- 文件系统测试：路径重定位、去重、冲突、修剪与幂等性
+- 设计一致性评审技能，支持单文档和多文档设计文件夹
+- 仓库架构契约、技能包验证器和 GitHub Actions 验证工作流
+- AI 驱动的编码工作流技能，集成 Claude Code、Cursor 和 Copilot
+- AI 优先的开发理念与现代技术栈推荐
+- 与传统开发对比的成功指标，强调 AI 增强开发
+- 综合 AI 工具对比与生产力基准
 
-### Removed
-- Removed low-value, overly generic, or obsolete skills: `a-share-value-investing`, `thinking-toolkit`, `github-actions`, `governance-layer-review`, `indie-hacker-methodology`, and `zshrc-secrets`
+### 变更
 
-### Planned
-- AI design system skill (Midjourney + Figma AI)
-- AI content engine for marketing automation
-- AI customer support automation
-- Rapid prototyping skill
-- Launch checklist skill
-- Pricing strategy skill
-- Build in public tools
+- 将仓库重新定位为 `agent-skills`，作为自我维护的技能源和分发基础
+- 将面向用户的项目文档移至 llm-wiki workshop，并通过 `docs` 暴露
+- 将每个技能包统一为 `SKILL.md`、`agents/openai.yaml` 和可选的 `references/`、`scripts/`、`assets/`
+- 将面向用户的技能指南从运行时包移至 `docs/skills/`
+- 将模板和代理可读示例移至其正确的资源目录
+- 定位从"个人公司"转变为"AI 增强的独立开发者"
+- 更新理念以强调 AI 下的 10 倍生产力
+- 通过 AI 优先方法增强价值主张
+
+### 移除
+
+- 移除了低价值、过于通用或已过时的技能：`a-share-value-investing`、`thinking-toolkit`、`github-actions`、`governance-layer-review`、`indie-hacker-methodology` 和 `zshrc-secrets`
+
+### 计划中
+
+- AI 设计系统技能（Midjourney + Figma AI）
+- 用于营销自动化的 AI 内容引擎
+- AI 客户支持自动化
+- 快速原型技能
+- 启动检查清单技能
+- 定价策略技能
+- Build in public 工具
 
 ## [1.0.0] - 2026-03-05
 
-### Added
-- Initial repository structure
-- Indie Hacker methodology skill (独立开发者方法论)
-- Core documentation (Philosophy, Best Practices)
-- Contributing guidelines
-- MIT License
-- README with project overview
+### 新增
 
-### Documentation
-- OPC philosophy deep dive
-- Best practices for solo developers
-- Skill development guidelines
+- 初始仓库结构
+- 独立开发者方法论技能
+- 核心文档（理念、最佳实践）
+- 贡献指南
+- MIT 许可证
+- 项目概述 README
 
-[Unreleased]: https://github.com/ryanmind/awesome-opc-skills/compare/v1.0.0...HEAD
-[1.0.0]: https://github.com/ryanmind/awesome-opc-skills/releases/tag/v1.0.0
+### 文档
+
+- OPC 理念深度解析
+- 独立开发者的最佳实践
+- 技能开发指南
