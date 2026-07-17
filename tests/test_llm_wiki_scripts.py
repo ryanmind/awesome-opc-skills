@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import shutil
 import subprocess
 import sys
 import tempfile
@@ -11,6 +12,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 SEARCH = ROOT / "skills" / "llm-wiki" / "scripts" / "wiki_search.py"
 PAGE = ROOT / "skills" / "llm-wiki" / "scripts" / "wiki_page.py"
+SKILL_DIR = ROOT / "skills" / "llm-wiki"
 
 
 class LlmWikiScriptTests(unittest.TestCase):
@@ -129,6 +131,33 @@ Backlink target.
         payload = json.loads(completed.stdout)
         self.assertEqual(payload["error"], "unsupported content")
         self.assertEqual(payload["path"], "raw/source.pdf")
+
+    def test_installed_script_does_not_create_bytecode_in_skill(self) -> None:
+        installed_scripts = self.root / "installed-skill" / "scripts"
+        shutil.copytree(
+            SKILL_DIR / "scripts",
+            installed_scripts,
+            ignore=shutil.ignore_patterns("__pycache__", "*.pyc"),
+        )
+        self.run_json(installed_scripts / "wiki_search.py", "--query", "runtime", "--limit", "1")
+        generated = [
+            path
+            for path in installed_scripts.rglob("*")
+            if path.name == "__pycache__" or path.suffix == ".pyc"
+        ]
+        self.assertEqual(generated, [])
+
+    def test_documented_script_paths_are_skill_relative(self) -> None:
+        docs = [
+            SKILL_DIR / "SKILL.md",
+            SKILL_DIR / "references" / "search-and-retrieve.md",
+            SKILL_DIR / "references" / "maintenance.md",
+            SKILL_DIR / "references" / "mcp-replacement.md",
+        ]
+        for path in docs:
+            text = path.read_text(encoding="utf-8")
+            self.assertNotIn("skills/llm-wiki/scripts", text)
+            self.assertIn("$SKILL_DIR/scripts", text)
 
 
 if __name__ == "__main__":

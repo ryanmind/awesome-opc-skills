@@ -10,12 +10,12 @@ These are workflow substitutes, not MCP API-compatible implementations. The scri
 
 | MCP-style operation | Local workflow substitute |
 | --- | --- |
-| `search_wiki` | `scripts/wiki_search.py --scope formal --json` |
-| `read_page` | `scripts/wiki_page.py <slug> --json` |
-| `read_raw_source` | `scripts/wiki_page.py <raw-path> --scope raw --json` |
-| `find_related_pages` | `wiki_search.py` plus `wiki_page.py --with-backlinks` |
-| `find_referencing_pages` | `wiki_search.py --source <path> --json` |
-| `run_lint` | `scripts/wiki_validate.py --json` |
+| `search_wiki` | `python3 "$SKILL_DIR/scripts/wiki_search.py" --scope formal --json` |
+| `read_page` | `python3 "$SKILL_DIR/scripts/wiki_page.py" <slug> --json` |
+| `read_raw_source` | `python3 "$SKILL_DIR/scripts/wiki_page.py" <raw-path> --scope raw --json` |
+| `find_related_pages` | `wiki_search.py` plus `wiki_page.py --with-backlinks` from `$SKILL_DIR/scripts/` |
+| `find_referencing_pages` | `python3 "$SKILL_DIR/scripts/wiki_search.py" --source <path> --json` |
+| `run_lint` | `python3 "$SKILL_DIR/scripts/wiki_validate.py" --json` |
 | `create_formal_page_candidate` | Agent workflow in `create-or-update.md` |
 | `update_index_candidate` | Agent workflow in `create-or-update.md` |
 | `create_log_candidate` | Agent workflow in `create-or-update.md` |

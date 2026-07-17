@@ -39,12 +39,14 @@ Only read the references needed for the current intent.
 
 ## Script First
 
+Resolve `SKILL_DIR` to the absolute directory containing this loaded `SKILL.md`. Use that resolved path for every bundled script; do not assume the current working directory is the `agent-skills` repository.
+
 Use these helpers before opening large wiki files:
 
 ```bash
-python3 skills/llm-wiki/scripts/wiki_search.py --query "agent runtime" --limit 8 --json
-python3 skills/llm-wiki/scripts/wiki_page.py domains/agent/concepts/agent-runtime --max-chars 12000 --json
-python3 skills/llm-wiki/scripts/wiki_validate.py --json
+python3 "$SKILL_DIR/scripts/wiki_search.py" --query "agent runtime" --limit 8 --json
+python3 "$SKILL_DIR/scripts/wiki_page.py" domains/agent/concepts/agent-runtime --max-chars 12000 --json
+python3 "$SKILL_DIR/scripts/wiki_validate.py" --json
 ```
 
 The scripts return compact JSON by default when `--json` is passed. Use narrow `--limit`, `--scope`, and `--max-chars` values to keep context small.

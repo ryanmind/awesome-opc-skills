@@ -341,7 +341,7 @@ def main(argv: list[str] | None = None) -> int:
         if args.command == "status":
             return 0
         if args.command == "check":
-            return 1 if any(op.action not in {"keep", "forget"} for op in plan.operations) else 0
+            return 1 if any(op.action != "keep" for op in plan.operations) else 0
         if plan.conflicts:
             return 2
         if args.dry_run:

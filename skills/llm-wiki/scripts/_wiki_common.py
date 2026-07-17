@@ -6,7 +6,6 @@ import re
 from pathlib import Path
 from typing import Any
 
-
 DEFAULT_ROOT = Path(os.environ.get("LLM_WIKI_ROOT", "~/llm-wiki")).expanduser()
 IGNORED_PARTS = {".git", ".obsidian", ".claude"}
 
@@ -134,7 +133,11 @@ def formal_pages(root: Path) -> list[Path]:
             pages.extend(base_path.rglob("*.md"))
     workshop = root / "workshop"
     if workshop.exists():
-        pages.extend(path / "README.md" for path in workshop.iterdir() if (path / "README.md").is_file())
+        pages.extend(
+            path / "README.md"
+            for path in workshop.iterdir()
+            if (path / "README.md").is_file()
+        )
     for name in ("index.md", "SCHEMA.md", "AGENTS.md", "_meta/topic-map.md"):
         path = root / name
         if path.is_file():

@@ -44,7 +44,7 @@ The manager creates only configured links, updates links after the configured so
 ```bash
 python3 scripts/validate_skills.py
 python3 -m unittest discover -s tests
-python3 -m compileall -q scripts tests skills
+PYTHONPYCACHEPREFIX="${TMPDIR:-/tmp}/agent-skills-pycache" python3 -m compileall -q scripts tests skills
 ```
 
 ## Skills

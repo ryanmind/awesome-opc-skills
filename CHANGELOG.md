@@ -12,11 +12,10 @@
 - 可配置的增量符号链接分发，支持 Codex、Claude 和 Hermes
 - 文件系统测试：路径重定位、去重、冲突、修剪与幂等性
 - 设计一致性评审技能，支持单文档和多文档设计文件夹
+- 第一性原理分析技能，覆盖决策、诊断和沟通任务
+- Git 提交技能，支持提交消息生成与受控提交执行
+- llm-wiki 技能，支持本地 Wiki 的检索、验证和维护
 - 仓库架构契约、技能包验证器和 GitHub Actions 验证工作流
-- AI 驱动的编码工作流技能，集成 Claude Code、Cursor 和 Copilot
-- AI 优先的开发理念与现代技术栈推荐
-- 与传统开发对比的成功指标，强调 AI 增强开发
-- 综合 AI 工具对比与生产力基准
 
 ### 变更
 
@@ -32,16 +31,6 @@
 ### 移除
 
 - 移除了低价值、过于通用或已过时的技能：`a-share-value-investing`、`thinking-toolkit`、`github-actions`、`governance-layer-review`、`indie-hacker-methodology` 和 `zshrc-secrets`
-
-### 计划中
-
-- AI 设计系统技能（Midjourney + Figma AI）
-- 用于营销自动化的 AI 内容引擎
-- AI 客户支持自动化
-- 快速原型技能
-- 启动检查清单技能
-- 定价策略技能
-- Build in public 工具
 
 ## [1.0.0] - 2026-03-05
 

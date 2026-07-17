@@ -11,6 +11,10 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 SKILLS_DIR = ROOT / "skills"
 ALLOWED_ENTRIES = {"SKILL.md", "agents", "references", "scripts", "assets"}
+REQUIRED_SKILL_FIELDS = {"name", "description"}
+OPTIONAL_SKILL_FIELDS = {"license", "allowed-tools", "metadata"}
+REQUIRED_OPENAI_INTERFACE_FIELDS = {"display_name", "short_description", "default_prompt"}
+OPTIONAL_OPENAI_INTERFACE_FIELDS = {"icon_small", "icon_large", "brand_color"}
 NAME_RE = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
 FIELD_RE = re.compile(r"^([A-Za-z_][A-Za-z0-9_-]*):(?:\s*(.*))?$")
 QUOTED_FIELD_RE = re.compile(r'^\s{2}([a-z_]+):\s+"(.*)"\s*$')
@@ -97,9 +101,16 @@ def validate_skill(skill_dir: Path) -> list[str]:
     else:
         fields, frontmatter_errors = parse_frontmatter(skill_file)
         errors.extend(f"{skill_file.relative_to(ROOT)}: {error}" for error in frontmatter_errors)
-        if set(fields) != {"name", "description"}:
+        field_names = set(fields)
+        missing = REQUIRED_SKILL_FIELDS - field_names
+        unexpected = field_names - REQUIRED_SKILL_FIELDS - OPTIONAL_SKILL_FIELDS
+        if missing:
             errors.append(
-                f"{skill_file.relative_to(ROOT)}: frontmatter fields must be exactly name and description"
+                f"{skill_file.relative_to(ROOT)}: missing required frontmatter fields {sorted(missing)}"
+            )
+        if unexpected:
+            errors.append(
+                f"{skill_file.relative_to(ROOT)}: unsupported frontmatter fields {sorted(unexpected)}"
             )
         if fields.get("name") != name:
             errors.append(f"{skill_file.relative_to(ROOT)}: name must match directory {name!r}")
@@ -112,10 +123,16 @@ def validate_skill(skill_dir: Path) -> list[str]:
     else:
         fields, yaml_errors = parse_openai_yaml(openai_file)
         errors.extend(f"{openai_file.relative_to(ROOT)}: {error}" for error in yaml_errors)
-        required = {"display_name", "short_description", "default_prompt"}
-        if set(fields) != required:
+        field_names = set(fields)
+        missing = REQUIRED_OPENAI_INTERFACE_FIELDS - field_names
+        unexpected = field_names - REQUIRED_OPENAI_INTERFACE_FIELDS - OPTIONAL_OPENAI_INTERFACE_FIELDS
+        if missing:
             errors.append(
-                f"{openai_file.relative_to(ROOT)}: interface fields must be exactly {sorted(required)}"
+                f"{openai_file.relative_to(ROOT)}: missing required interface fields {sorted(missing)}"
+            )
+        if unexpected:
+            errors.append(
+                f"{openai_file.relative_to(ROOT)}: unsupported interface fields {sorted(unexpected)}"
             )
         short_description = fields.get("short_description", "")
         if short_description and not 25 <= len(short_description) <= 64:

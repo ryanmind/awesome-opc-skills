@@ -6,7 +6,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from scripts.manage_skill_links import ConfigError, apply_plan, build_plan, load_config, load_state, verify
+from scripts.manage_skill_links import ConfigError, apply_plan, build_plan, load_config, load_state, main, verify
 
 
 class SkillLinkManagerTests(unittest.TestCase):
@@ -134,6 +134,16 @@ class SkillLinkManagerTests(unittest.TestCase):
         apply_plan(plan, unlink_all=True)
         self.assertFalse(os.path.lexists(self.target / "alpha"))
         self.assertTrue(external.is_symlink())
+
+    def test_check_fails_until_stale_state_is_reconciled(self) -> None:
+        self.sync()
+        (self.target / "alpha").unlink()
+        self.write_config([])
+
+        args = ["check", "--config", str(self.config_path)]
+        self.assertEqual(main(args), 1)
+        self.assertEqual(main(["sync", "--config", str(self.config_path)]), 0)
+        self.assertEqual(main(args), 0)
 
 
 if __name__ == "__main__":

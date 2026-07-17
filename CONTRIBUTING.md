@@ -30,7 +30,7 @@ skills/<skill-name>/
 
 ### `SKILL.md`
 
-- 使用 YAML 前置元数据，仅包含 `name` 和 `description`。
+- 使用 YAML 前置元数据；`name` 和 `description` 为必需字段，可选字段仅允许当前官方校验器支持的 `license`、`allowed-tools` 和 `metadata`。
 - `name` 必须与技能目录名称完全一致。
 - 仅使用小写字母、数字和连字符。
 - 将所有触发条件放入 `description` 中，因为它控制技能激活。
@@ -50,6 +50,7 @@ interface:
 ```
 
 所有字符串都必须用引号包裹。默认提示必须显式提及 `$skill-name`。
+明确需要 UI 品牌资源时，可增加 `icon_small`、`icon_large` 和 `brand_color`；未知字段仍视为契约错误。
 
 ### `references/`
 

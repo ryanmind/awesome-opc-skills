@@ -18,7 +18,7 @@ Read-only health checks may run before these files are loaded, but only with com
 Run the local wrapper first:
 
 ```bash
-python3 skills/llm-wiki/scripts/wiki_validate.py --json
+python3 "$SKILL_DIR/scripts/wiki_validate.py" --json
 ```
 
 For deeper read-only checks, run from the resolved wiki root:

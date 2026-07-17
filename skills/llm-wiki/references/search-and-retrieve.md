@@ -7,7 +7,7 @@ Use this reference for read-only lookup and wiki-backed answers.
 1. Search with the script before opening files:
 
    ```bash
-   python3 skills/llm-wiki/scripts/wiki_search.py --query "<query>" --scope formal --limit 8 --json
+   python3 "$SKILL_DIR/scripts/wiki_search.py" --query "<query>" --scope formal --limit 8 --json
    ```
 
 2. Prefer results in this order:
@@ -19,7 +19,7 @@ Use this reference for read-only lookup and wiki-backed answers.
 3. Read only the smallest sufficient pages:
 
    ```bash
-   python3 skills/llm-wiki/scripts/wiki_page.py "<slug-or-path>" --max-chars 12000 --json
+   python3 "$SKILL_DIR/scripts/wiki_page.py" "<slug-or-path>" --max-chars 12000 --json
    ```
 
 4. Expand through backlinks or outbound links only when the current page is insufficient.

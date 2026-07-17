@@ -6,6 +6,8 @@ import sys
 from pathlib import Path
 from typing import Any
 
+sys.dont_write_bytecode = True
+
 SCRIPT_DIR = Path(__file__).resolve().parent
 sys.path.insert(0, str(SCRIPT_DIR))
 
@@ -45,7 +47,12 @@ def resolve_page(root: Path, target: str, scope: str) -> Path | None:
         except UnsupportedContentError:
             continue
         page = compact_page(root, path, text)
-        if normalized in {page_slug(root, path), rel(root, path), path.stem, str(page.get("title"))}:
+        if normalized in {
+            page_slug(root, path),
+            rel(root, path),
+            path.stem,
+            str(page.get("title")),
+        }:
             return path
     return None
 
@@ -65,9 +72,13 @@ def backlinks(root: Path, path: Path, *, limit: int) -> list[dict[str, Any]]:
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Read one ~/llm-wiki page by slug or path.")
+    parser = argparse.ArgumentParser(
+        description="Read one ~/llm-wiki page by slug or path."
+    )
     parser.add_argument("target", help="Slug or path, with or without .md.")
-    parser.add_argument("--root", help="Wiki root. Defaults to $LLM_WIKI_ROOT or ~/llm-wiki.")
+    parser.add_argument(
+        "--root", help="Wiki root. Defaults to $LLM_WIKI_ROOT or ~/llm-wiki."
+    )
     parser.add_argument("--scope", choices=("formal", "raw", "all"), default="formal")
     parser.add_argument("--max-chars", type=int, default=12000)
     parser.add_argument("--offset", type=int, default=0)
@@ -83,7 +94,12 @@ def main() -> int:
 
     path = resolve_page(root, args.target, args.scope)
     if path is None:
-        payload = {"error": "page not found", "target": args.target, "scope": args.scope, "root": str(root)}
+        payload = {
+            "error": "page not found",
+            "target": args.target,
+            "scope": args.scope,
+            "root": str(root),
+        }
         if args.json:
             dump_json(payload)
         else:
@@ -110,18 +126,16 @@ def main() -> int:
     max_chars = max(0, args.max_chars)
     content = body[offset : offset + max_chars] if max_chars else ""
     payload: dict[str, Any] = compact_page(root, path, text)
-    payload.update(
-        {
-            "root": str(root),
-            "frontmatter": frontmatter,
-            "wikilinks": wikilinks(body),
-            "total_chars": len(body),
-            "offset": offset,
-            "returned_chars": len(content),
-            "truncated": offset + len(content) < len(body),
-            "content": content,
-        }
-    )
+    payload.update({
+        "root": str(root),
+        "frontmatter": frontmatter,
+        "wikilinks": wikilinks(body),
+        "total_chars": len(body),
+        "offset": offset,
+        "returned_chars": len(content),
+        "truncated": offset + len(content) < len(body),
+        "content": content,
+    })
     if args.with_backlinks:
         payload["backlinks"] = backlinks(root, path, limit=args.backlink_limit)
 

@@ -44,7 +44,7 @@ python3 scripts/manage_skill_links.py sync
 ```bash
 python3 scripts/validate_skills.py
 python3 -m unittest discover -s tests
-python3 -m compileall -q scripts tests skills
+PYTHONPYCACHEPREFIX="${TMPDIR:-/tmp}/agent-skills-pycache" python3 -m compileall -q scripts tests skills
 ```
 
 ## Skills
