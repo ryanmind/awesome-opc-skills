@@ -4,18 +4,14 @@
 from __future__ import annotations
 
 import argparse
-import json
 import os
 import shutil
 import sys
-import tempfile
 import tomllib
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any
 
 
-STATE_VERSION = 1
 REPO_ROOT = Path(__file__).resolve().parents[1]
 
 
@@ -33,7 +29,6 @@ class Target:
 @dataclass(frozen=True)
 class Config:
     source: Path
-    state: Path
     targets: tuple[Target, ...]
 
 
@@ -63,7 +58,7 @@ class Plan:
 
     @property
     def changes(self) -> tuple[Operation, ...]:
-        return tuple(op for op in self.operations if op.action in {"create", "update", "replace", "remove"})
+        return tuple(op for op in self.operations if op.action in {"create", "replace", "remove"})
 
 
 def expand_path(value: str) -> Path:
@@ -85,14 +80,10 @@ def load_config(path: Path) -> Config:
     if not isinstance(distribution, dict):
         raise ConfigError("missing [distribution] table")
     source_raw = distribution.get("source")
-    state_raw = distribution.get("state")
     if not isinstance(source_raw, str) or not source_raw:
         raise ConfigError("distribution.source must be a non-empty path")
-    if not isinstance(state_raw, str) or not state_raw:
-        raise ConfigError("distribution.state must be a non-empty path")
 
     source = expand_path(source_raw)
-    state = expand_path(state_raw)
     if not source.is_absolute():
         raise ConfigError("distribution.source must resolve to an absolute path")
     skills_root = source / "skills"
@@ -131,19 +122,7 @@ def load_config(path: Path) -> Config:
                 raise ConfigError(f"unknown or invalid skill for {name}: {skill}")
         targets.append(Target(name=name, path=target_path, skills=tuple(skills_raw)))
 
-    return Config(source=source, state=state, targets=tuple(targets))
-
-
-def load_state(path: Path) -> dict[str, Any]:
-    if not path.exists():
-        return {"version": STATE_VERSION, "source": None, "links": {}}
-    try:
-        state = json.loads(path.read_text(encoding="utf-8"))
-    except (OSError, json.JSONDecodeError) as exc:
-        raise ConfigError(f"invalid state file {path}: {exc}") from exc
-    if state.get("version") != STATE_VERSION or not isinstance(state.get("links"), dict):
-        raise ConfigError(f"unsupported state file: {path}")
-    return state
+    return Config(source=source, targets=tuple(targets))
 
 
 def link_target(path: Path) -> Path | None:
@@ -173,12 +152,30 @@ def desired_links(config: Config) -> dict[str, tuple[str, str, Path, Path]]:
     return desired
 
 
-def build_plan(config: Config, state: dict[str, Any], *, unlink_all: bool = False) -> Plan:
-    desired = {} if unlink_all else desired_links(config)
-    recorded: dict[str, str] = {str(key): str(value) for key, value in state.get("links", {}).items()}
+def build_plan(config: Config, *, unlink_all: bool = False) -> Plan:
+    desired = desired_links(config)
     operations: list[Operation] = []
 
-    for key, (target_name, skill, link, source) in desired.items():
+    for _key, (target_name, skill, link, source) in desired.items():
+        if unlink_all:
+            if not os.path.lexists(link):
+                continue
+            actual = link_target(link)
+            if actual is not None and same_path(actual, source):
+                operations.append(Operation("remove", target_name, skill, link, source))
+            else:
+                operations.append(
+                    Operation(
+                        "conflict",
+                        target_name,
+                        skill,
+                        link,
+                        source,
+                        "current entry does not point to configured source",
+                    )
+                )
+            continue
+
         if not os.path.lexists(link):
             operations.append(Operation("create", target_name, skill, link, source))
             continue
@@ -194,28 +191,7 @@ def build_plan(config: Config, state: dict[str, Any], *, unlink_all: bool = Fals
             operations.append(Operation("keep", target_name, skill, link, source))
             continue
 
-        previous = recorded.get(key)
-        if previous is not None and actual is not None and same_path(actual, Path(previous)):
-            operations.append(Operation("update", target_name, skill, link, source, "recorded managed link"))
-            continue
-
-        operations.append(Operation("conflict", target_name, skill, link, source, "unmanaged symbolic link exists"))
-
-    for key, previous_raw in sorted(recorded.items()):
-        if key in desired:
-            continue
-        link = Path(key)
-        previous = Path(previous_raw)
-        target_name = link.parent.name
-        skill = link.name
-        if not os.path.lexists(link):
-            operations.append(Operation("forget", target_name, skill, link, detail="recorded link already absent"))
-            continue
-        actual = link_target(link)
-        if actual is not None and same_path(actual, previous):
-            operations.append(Operation("remove", target_name, skill, link, previous))
-        else:
-            operations.append(Operation("conflict", target_name, skill, link, previous, "recorded path no longer matches"))
+        operations.append(Operation("replace", target_name, skill, link, source, "existing symbolic link"))
 
     for target in config.targets:
         if not target.path.is_dir():
@@ -247,31 +223,14 @@ def build_plan(config: Config, state: dict[str, Any], *, unlink_all: bool = Fals
                     )
                 )
 
-    order = {"conflict": 0, "remove": 1, "replace": 2, "update": 3, "create": 4, "forget": 5, "keep": 6}
+    order = {"conflict": 0, "remove": 1, "replace": 2, "create": 3, "keep": 4}
     operations.sort(key=lambda op: (order[op.action], op.target, op.skill, str(op.link)))
     return Plan(config=config, operations=tuple(operations))
 
 
-def state_for_plan(plan: Plan) -> dict[str, Any]:
-    links: dict[str, str] = {}
-    for target in plan.config.targets:
-        for skill in target.skills:
-            links[str(target.path / skill)] = str(plan.config.source / "skills" / skill)
-    return {"version": STATE_VERSION, "source": str(plan.config.source), "links": links}
-
-
-def write_state(path: Path, state: dict[str, Any]) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    payload = json.dumps(state, indent=2, sort_keys=True) + "\n"
-    with tempfile.NamedTemporaryFile("w", encoding="utf-8", dir=path.parent, delete=False) as handle:
-        handle.write(payload)
-        temp_path = Path(handle.name)
-    os.replace(temp_path, path)
-
-
 def print_plan(plan: Plan) -> None:
     if not plan.operations:
-        print("No managed links configured.")
+        print("No configured links.")
         return
     for operation in plan.operations:
         print(operation.render())
@@ -282,7 +241,13 @@ def print_plan(plan: Plan) -> None:
     print(f"Summary: {summary}")
 
 
-def apply_plan(plan: Plan, *, unlink_all: bool = False) -> None:
+def _require_source(operation: Operation) -> Path:
+    if operation.source is None:
+        raise ConfigError(f"{operation.action} operation requires a source: {operation.link}")
+    return operation.source
+
+
+def apply_plan(plan: Plan) -> None:
     if plan.conflicts:
         raise ConfigError("refusing to mutate while conflicts exist")
 
@@ -292,14 +257,16 @@ def apply_plan(plan: Plan, *, unlink_all: bool = False) -> None:
             if operation.action == "remove":
                 operation.link.unlink()
             elif operation.action == "replace":
-                shutil.rmtree(operation.link)
-                operation.link.symlink_to(operation.source, target_is_directory=True)
-            elif operation.action == "update":
-                operation.link.unlink()
-                operation.link.symlink_to(operation.source, target_is_directory=True)
+                source = _require_source(operation)
+                if operation.link.is_symlink():
+                    operation.link.unlink()
+                else:
+                    shutil.rmtree(operation.link)
+                operation.link.symlink_to(source, target_is_directory=True)
             elif operation.action == "create":
+                source = _require_source(operation)
                 operation.link.parent.mkdir(parents=True, exist_ok=True)
-                operation.link.symlink_to(operation.source, target_is_directory=True)
+                operation.link.symlink_to(source, target_is_directory=True)
             else:
                 continue
             completed.append(operation)
@@ -307,15 +274,10 @@ def apply_plan(plan: Plan, *, unlink_all: bool = False) -> None:
         summary = ", ".join(f"{op.action}:{op.link}" for op in completed) or "none"
         raise ConfigError(f"filesystem operation failed: {exc}; completed operations: {summary}") from exc
 
-    state = {"version": STATE_VERSION, "source": str(plan.config.source), "links": {}}
-    if not unlink_all:
-        state = state_for_plan(plan)
-    write_state(plan.config.state, state)
 
-
-def verify(config: Config, state: dict[str, Any], *, unlink_all: bool = False) -> None:
-    plan = build_plan(config, state, unlink_all=unlink_all)
-    remaining = [op for op in plan.operations if op.action not in {"keep", "forget"}]
+def verify(config: Config, *, unlink_all: bool = False) -> None:
+    plan = build_plan(config, unlink_all=unlink_all)
+    remaining = [op for op in plan.operations if op.action == "conflict" or (not unlink_all and op.action not in {"keep"})]
     if remaining:
         rendered = "\n".join(op.render() for op in remaining)
         raise ConfigError(f"verification failed:\n{rendered}")
@@ -333,9 +295,8 @@ def main(argv: list[str] | None = None) -> int:
     args = parse_args(argv)
     try:
         config = load_config(args.config.absolute())
-        state = load_state(config.state)
         unlink_all = args.command == "unlink"
-        plan = build_plan(config, state, unlink_all=unlink_all)
+        plan = build_plan(config, unlink_all=unlink_all)
         print_plan(plan)
 
         if args.command == "status":
@@ -347,9 +308,9 @@ def main(argv: list[str] | None = None) -> int:
         if args.dry_run:
             return 0
 
-        apply_plan(plan, unlink_all=unlink_all)
-        verify(config, load_state(config.state), unlink_all=unlink_all)
-        print("Verified final managed-link state.")
+        apply_plan(plan)
+        verify(config, unlink_all=unlink_all)
+        print("Verified final configured-link state.")
         return 0
     except ConfigError as exc:
         print(f"ERROR: {exc}", file=sys.stderr)

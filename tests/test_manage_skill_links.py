@@ -6,7 +6,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from scripts.manage_skill_links import ConfigError, apply_plan, build_plan, load_config, load_state, main, verify
+from scripts.manage_skill_links import ConfigError, apply_plan, build_plan, load_config, main, verify
 
 
 class SkillLinkManagerTests(unittest.TestCase):
@@ -15,7 +15,6 @@ class SkillLinkManagerTests(unittest.TestCase):
         self.root = Path(self.temp.name)
         self.source = self.root / "source"
         self.target = self.root / "target"
-        self.state = self.root / "state" / "links.json"
         self.config_path = self.root / "skill-links.toml"
         self.create_skill("alpha")
         self.create_skill("beta")
@@ -39,7 +38,6 @@ class SkillLinkManagerTests(unittest.TestCase):
                     "",
                     "[distribution]",
                     f"source = {json.dumps(str(source))}",
-                    f"state = {json.dumps(str(self.state))}",
                     "",
                     "[targets.test]",
                     f"path = {json.dumps(str(self.target))}",
@@ -52,9 +50,9 @@ class SkillLinkManagerTests(unittest.TestCase):
 
     def sync(self) -> None:
         config = load_config(self.config_path)
-        plan = build_plan(config, load_state(config.state))
+        plan = build_plan(config)
         apply_plan(plan)
-        verify(config, load_state(config.state))
+        verify(config)
 
     def test_creates_links_and_second_sync_is_noop(self) -> None:
         self.sync()
@@ -63,7 +61,7 @@ class SkillLinkManagerTests(unittest.TestCase):
         self.assertEqual(Path(os.readlink(link)), self.source / "skills" / "alpha")
 
         config = load_config(self.config_path)
-        plan = build_plan(config, load_state(config.state))
+        plan = build_plan(config)
         self.assertFalse(plan.changes)
         self.assertEqual([op.action for op in plan.operations], ["keep"])
 
@@ -76,7 +74,7 @@ class SkillLinkManagerTests(unittest.TestCase):
         (self.target / "alpha").mkdir(parents=True)
         (self.target / "alpha" / "old.txt").write_text("old", encoding="utf-8")
         config = load_config(self.config_path)
-        plan = build_plan(config, load_state(config.state))
+        plan = build_plan(config)
         self.assertEqual([op.action for op in plan.changes], ["replace"])
         apply_plan(plan)
         self.assertTrue((self.target / "alpha").is_symlink())
@@ -86,64 +84,64 @@ class SkillLinkManagerTests(unittest.TestCase):
         self.target.mkdir(parents=True)
         (self.target / "alpha").write_text("old", encoding="utf-8")
         config = load_config(self.config_path)
-        plan = build_plan(config, load_state(config.state))
+        plan = build_plan(config)
         self.assertEqual(plan.conflicts[0].detail, "real file exists")
 
-    def test_external_link_is_conflict(self) -> None:
+    def test_replaces_external_link(self) -> None:
         self.target.mkdir(parents=True)
         (self.target / "alpha").symlink_to(self.root / "external", target_is_directory=True)
         config = load_config(self.config_path)
-        plan = build_plan(config, load_state(config.state))
-        self.assertEqual(plan.conflicts[0].detail, "unmanaged symbolic link exists")
+        plan = build_plan(config)
+        self.assertEqual([op.action for op in plan.changes], ["replace"])
+        apply_plan(plan)
+        self.assertEqual(Path(os.readlink(self.target / "alpha")), self.source / "skills" / "alpha")
 
-    def test_removes_deselected_managed_link(self) -> None:
+    def test_leaves_deselected_link_untouched(self) -> None:
         self.sync()
         self.write_config([])
         config = load_config(self.config_path)
-        plan = build_plan(config, load_state(config.state))
-        self.assertEqual([op.action for op in plan.changes], ["remove"])
+        plan = build_plan(config)
+        self.assertFalse(plan.operations)
         apply_plan(plan)
-        self.assertFalse(os.path.lexists(self.target / "alpha"))
+        self.assertTrue((self.target / "alpha").is_symlink())
 
-    def test_repairs_link_after_source_moves(self) -> None:
+    def test_source_move_replaces_existing_link(self) -> None:
         self.sync()
         moved = self.root / "moved source"
         self.source.rename(moved)
         self.write_config(["alpha"], source=moved)
 
         config = load_config(self.config_path)
-        plan = build_plan(config, load_state(config.state))
-        self.assertEqual([op.action for op in plan.changes], ["update"])
+        plan = build_plan(config)
+        self.assertEqual([op.action for op in plan.changes], ["replace"])
         apply_plan(plan)
-        verify(config, load_state(config.state))
+        verify(config)
         self.assertEqual(Path(os.readlink(self.target / "alpha")), moved / "skills" / "alpha")
 
     def test_reports_duplicate_alias(self) -> None:
         self.sync()
         (self.target / "alias").symlink_to(self.source / "skills" / "alpha", target_is_directory=True)
         config = load_config(self.config_path)
-        plan = build_plan(config, load_state(config.state))
+        plan = build_plan(config)
         self.assertTrue(any("duplicate alias" in op.detail for op in plan.conflicts))
 
-    def test_unlink_only_removes_recorded_links(self) -> None:
+    def test_unlink_removes_current_configured_link_only(self) -> None:
         self.sync()
         external = self.target / "external"
         external.symlink_to(self.root / "elsewhere", target_is_directory=True)
         config = load_config(self.config_path)
-        plan = build_plan(config, load_state(config.state), unlink_all=True)
-        apply_plan(plan, unlink_all=True)
+        plan = build_plan(config, unlink_all=True)
+        apply_plan(plan)
         self.assertFalse(os.path.lexists(self.target / "alpha"))
         self.assertTrue(external.is_symlink())
 
-    def test_check_fails_until_stale_state_is_reconciled(self) -> None:
+    def test_check_ignores_deselected_link(self) -> None:
         self.sync()
-        (self.target / "alpha").unlink()
         self.write_config([])
 
         args = ["check", "--config", str(self.config_path)]
-        self.assertEqual(main(args), 1)
-        self.assertEqual(main(["sync", "--config", str(self.config_path)]), 0)
         self.assertEqual(main(args), 0)
+        self.assertTrue((self.target / "alpha").is_symlink())
 
 
 if __name__ == "__main__":

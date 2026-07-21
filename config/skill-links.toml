@@ -2,7 +2,6 @@ version = 1
 
 [distribution]
 source = "~/Desktop/00-projects/agent-skills"
-state = "~/.local/state/agent-skills/links.json"
 
 [targets.codex]
 path = "~/.codex/skills"
