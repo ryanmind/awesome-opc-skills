@@ -12,3 +12,4 @@ Read this file only when the target is a folder or multiple related files.
 8. Identify relationships among requirements, overviews, architecture, module designs, interfaces, data models, flows, ADRs, tests, and acceptance documents.
 9. Review each document internally, then review cross-document coverage, authority, duplication, references, versions, and contradictions.
 10. Keep the requested folder as the design-set boundary by default. Treat relevant parent or sibling documents as external evidence only; do not silently expand them into the reviewed set.
+11. When the set is too large to read completely, prioritize entry files and documents on the traceability chain, list every unread file as not reviewed, and report coverage as partial in the Review Basis. Never silently sample or skip.
