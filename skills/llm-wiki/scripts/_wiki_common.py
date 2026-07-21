@@ -3,11 +3,36 @@ from __future__ import annotations
 import json
 import os
 import re
+from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
 DEFAULT_ROOT = Path(os.environ.get("LLM_WIKI_ROOT", "~/llm-wiki")).expanduser()
-IGNORED_PARTS = {".git", ".obsidian", ".claude"}
+CONFIG_NAME = "llm-wiki.json"
+LEGACY_CONFIG_NAME = ".llm-wiki.json"
+DEFAULT_FORMAL_GLOBS = (
+    "domains/**/*.md",
+    "entities/**/*.md",
+    "workshop/*/README.md",
+    "_meta/topic-map.md",
+    "index.md",
+    "SCHEMA.md",
+    "AGENTS.md",
+)
+DEFAULT_RAW_GLOBS = ("raw/**/*", "workshop/*/raw/**/*")
+DEFAULT_IGNORED_PARTS = frozenset({".git", ".obsidian", ".claude"})
+
+
+class WikiConfigError(ValueError):
+    pass
+
+
+@dataclass(frozen=True)
+class WikiLayout:
+    formal: tuple[str, ...]
+    raw: tuple[str, ...]
+    ignored_parts: frozenset[str]
+    path: Path | None = None
 
 
 class UnsupportedContentError(ValueError):
@@ -19,7 +44,71 @@ def resolve_root(root: str | None) -> Path:
     return candidate.resolve()
 
 
+def resolve_layout(root: Path, config: str | None = None) -> WikiLayout:
+    """Load an optional per-wiki layout, retaining the historical defaults."""
+    if config:
+        config_path = Path(config).expanduser()
+        if not config_path.is_absolute():
+            config_path = root / config_path
+    else:
+        configured = os.environ.get("LLM_WIKI_CONFIG")
+        config_path = (
+            Path(configured).expanduser() if configured else root / CONFIG_NAME
+        )
+        if configured and not config_path.is_absolute():
+            config_path = root / config_path
+        if not configured and not config_path.is_file():
+            legacy_path = root / LEGACY_CONFIG_NAME
+            if legacy_path.is_file():
+                config_path = legacy_path
+
+    if not config_path.is_file():
+        if config or os.environ.get("LLM_WIKI_CONFIG"):
+            raise WikiConfigError(f"wiki config not found: {config_path}")
+        return WikiLayout(
+            DEFAULT_FORMAL_GLOBS, DEFAULT_RAW_GLOBS, DEFAULT_IGNORED_PARTS
+        )
+
+    try:
+        data = json.loads(config_path.read_text(encoding="utf-8"))
+    except (OSError, UnicodeDecodeError, json.JSONDecodeError) as exc:
+        raise WikiConfigError(f"invalid wiki config: {config_path}") from exc
+    if not isinstance(data, dict):
+        raise WikiConfigError("wiki config must be a JSON object")
+
+    formal = _config_patterns(data, "formal", DEFAULT_FORMAL_GLOBS)
+    raw = _config_patterns(data, "raw", DEFAULT_RAW_GLOBS)
+    ignored = data.get("ignored_parts", list(DEFAULT_IGNORED_PARTS))
+    if not isinstance(ignored, list) or not all(
+        isinstance(item, str) and item for item in ignored
+    ):
+        raise WikiConfigError(
+            "wiki config 'ignored_parts' must be a list of non-empty strings"
+        )
+    return WikiLayout(formal, raw, frozenset(ignored), config_path.resolve())
+
+
+def _config_patterns(
+    data: dict[str, Any], key: str, default: tuple[str, ...]
+) -> tuple[str, ...]:
+    value = data.get(key, list(default))
+    if not isinstance(value, list) or not all(
+        isinstance(item, str) and item for item in value
+    ):
+        raise WikiConfigError(
+            f"wiki config '{key}' must be a list of non-empty strings"
+        )
+    for pattern in value:
+        path = Path(pattern)
+        if path.is_absolute() or ".." in path.parts:
+            raise WikiConfigError(
+                f"wiki config '{key}' contains path outside root: {pattern}"
+            )
+    return tuple(value)
+
+
 def ensure_inside(root: Path, path: Path) -> Path:
+    root = root.resolve()
     resolved = path.resolve()
     try:
         resolved.relative_to(root)
@@ -121,56 +210,47 @@ def page_slug(root: Path, path: Path) -> str:
     return relative[:-3] if relative.endswith(".md") else relative
 
 
-def formal_pages(root: Path) -> list[Path]:
-    pages: list[Path] = []
-    for base in ("domains", "entities"):
-        base_path = root / base
-        if base_path.exists():
-            pages.extend(base_path.rglob("*.md"))
-    workshop = root / "workshop"
-    if workshop.exists():
-        pages.extend(
-            path / "README.md"
-            for path in workshop.iterdir()
-            if (path / "README.md").is_file()
-        )
-    for name in ("index.md", "SCHEMA.md", "AGENTS.md", "_meta/topic-map.md"):
-        path = root / name
-        if path.is_file():
-            pages.append(path)
-    return sorted(
-        set(
-            ensure_inside(root, path)
-            for path in pages
-            if path.is_file()
-            and not any(part in IGNORED_PARTS for part in path.parts)
-        )
-    )
+def _layout_pages(
+    root: Path, patterns: tuple[str, ...], layout: WikiLayout
+) -> list[Path]:
+    pages: set[Path] = set()
+    for pattern in patterns:
+        try:
+            pages.update(root.glob(pattern))
+        except ValueError as exc:
+            raise WikiConfigError(f"invalid wiki glob pattern: {pattern}") from exc
+    safe_pages: list[Path] = []
+    for path in pages:
+        if not path.is_file() or any(
+            part in layout.ignored_parts for part in path.parts
+        ):
+            continue
+        try:
+            safe_pages.append(ensure_inside(root, path))
+        except ValueError:
+            # A configured glob may match a symlink outside the wiki; retrieval must not follow it.
+            continue
+    return sorted(set(safe_pages))
 
 
-def raw_pages(root: Path) -> list[Path]:
-    pages: list[Path] = []
-    raw = root / "raw"
-    if raw.exists():
-        pages.extend(raw.rglob("*"))
-    workshop = root / "workshop"
-    if workshop.exists():
-        for raw_dir in workshop.glob("*/raw"):
-            pages.extend(raw_dir.rglob("*"))
-    return sorted(
-        ensure_inside(root, path)
-        for path in pages
-        if path.is_file() and not any(part in IGNORED_PARTS for part in path.parts)
-    )
+def formal_pages(root: Path, layout: WikiLayout | None = None) -> list[Path]:
+    layout = layout or resolve_layout(root)
+    return _layout_pages(root, layout.formal, layout)
 
 
-def iter_scope(root: Path, scope: str) -> list[Path]:
+def raw_pages(root: Path, layout: WikiLayout | None = None) -> list[Path]:
+    layout = layout or resolve_layout(root)
+    return _layout_pages(root, layout.raw, layout)
+
+
+def iter_scope(root: Path, scope: str, layout: WikiLayout | None = None) -> list[Path]:
+    layout = layout or resolve_layout(root)
     if scope == "formal":
-        return formal_pages(root)
+        return formal_pages(root, layout)
     if scope == "raw":
-        return raw_pages(root)
+        return raw_pages(root, layout)
     if scope == "all":
-        return sorted(set(formal_pages(root) + raw_pages(root)))
+        return sorted(set(formal_pages(root, layout) + raw_pages(root, layout)))
     raise ValueError(f"unknown scope: {scope}")
 
 

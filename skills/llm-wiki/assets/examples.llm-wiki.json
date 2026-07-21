@@ -1,0 +1,14 @@
+{
+  "formal": [
+    "notes/**/*.md",
+    "README.md"
+  ],
+  "raw": [
+    "sources/**/*"
+  ],
+  "ignored_parts": [
+    ".git",
+    ".obsidian",
+    ".claude"
+  ]
+}

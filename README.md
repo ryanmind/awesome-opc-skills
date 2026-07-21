@@ -39,6 +39,25 @@ python3 scripts/manage_skill_links.py sync
 
 The manager creates and verifies only the links listed in configuration, leaves deselected links untouched, replaces existing directories or symlinks at configured destinations, rejects duplicates, and never overwrites unmanaged files.
 
+## LLM Wiki Layout
+
+The `llm-wiki` skill reads `<wiki-root>/llm-wiki.json` to discover formal pages and raw sources. Without this file, it uses the built-in `domains/`, `entities/`, `workshop/`, and `raw/` layout.
+
+The bundled [examples.llm-wiki.json](skills/llm-wiki/assets/examples.llm-wiki.json) demonstrates the schema; copy and adapt it at the wiki root:
+
+```json
+{
+  "formal": [
+    "notes/**/*.md",
+    "README.md"
+  ],
+  "raw": ["sources/**/*"],
+  "ignored_parts": [".git", ".obsidian", ".claude"]
+}
+```
+
+Search, page lookup, lint, source-map generation, and validation use the same layout. `SCHEMA.md`, `AGENTS.md`, `index.md`, and `log.md` remain at the wiki root. Use `--config <path>` or `LLM_WIKI_CONFIG` when the configuration is stored elsewhere.
+
 ## Validate
 
 ```bash

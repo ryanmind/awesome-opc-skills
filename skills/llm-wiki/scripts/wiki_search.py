@@ -4,26 +4,9 @@ from __future__ import annotations
 import argparse
 import re
 import sys
-from pathlib import Path
 from typing import Any
 
 sys.dont_write_bytecode = True
-
-SCRIPT_DIR = Path(__file__).resolve().parent
-sys.path.insert(0, str(SCRIPT_DIR))
-
-from _wiki_common import (
-    UnsupportedContentError,
-    compact_page,
-    dump_json,
-    iter_scope,
-    read_text,
-    resolve_root,
-    snippet,
-    tokens,
-    wikilinks,
-)
-
 
 def score_page(
     page: dict[str, Any],
@@ -34,13 +17,25 @@ def score_page(
     page_type: str | None,
     source: str | None,
 ) -> tuple[int, list[str]]:
+    from _wiki_common import tokens, wikilinks
+
     reasons: list[str] = []
     score = 0
     title = str(page.get("title") or "")
     path = str(page["path"])
     slug = str(page["slug"])
-    tags = page.get("tags") if isinstance(page.get("tags"), list) else []
-    sources = page.get("sources") if isinstance(page.get("sources"), list) else []
+    raw_tags = page.get("tags")
+    tags: list[str] = (
+        [item for item in raw_tags if isinstance(item, str)]
+        if isinstance(raw_tags, list)
+        else []
+    )
+    raw_sources = page.get("sources")
+    sources: list[str] = (
+        [item for item in raw_sources if isinstance(item, str)]
+        if isinstance(raw_sources, list)
+        else []
+    )
 
     if tag and tag not in tags:
         return 0, []
@@ -50,9 +45,14 @@ def score_page(
         return 0, []
 
     normalized_query = query.strip().lower()
-    haystack = f"{title}\n{path}\n{slug}\n{' '.join(map(str, tags))}\n{text}".lower()
+    haystack = f"{title}\n{path}\n{slug}\n{' '.join(tags)}\n{text}".lower()
     if normalized_query:
-        if normalized_query in {title.lower(), slug.lower(), path.lower(), f"{slug}.md".lower()}:
+        if normalized_query in {
+            title.lower(),
+            slug.lower(),
+            path.lower(),
+            f"{slug}.md".lower(),
+        }:
             score += 100
             reasons.append("exact")
         if normalized_query in title.lower():
@@ -95,14 +95,41 @@ def score_page(
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Search ~/llm-wiki with compact metadata output.")
-    parser.add_argument("--query", "-q", default="", help="Text, slug, title, tag, or concept to search for.")
-    parser.add_argument("--root", help="Wiki root. Defaults to $LLM_WIKI_ROOT or ~/llm-wiki.")
+    from _wiki_common import (
+        UnsupportedContentError,
+        compact_page,
+        dump_json,
+        iter_scope,
+        read_text,
+        resolve_layout,
+        resolve_root,
+        snippet,
+    )
+
+    parser = argparse.ArgumentParser(
+        description="Search ~/llm-wiki with compact metadata output."
+    )
+    parser.add_argument(
+        "--query",
+        "-q",
+        default="",
+        help="Text, slug, title, tag, or concept to search for.",
+    )
+    parser.add_argument(
+        "--root", help="Wiki root. Defaults to $LLM_WIKI_ROOT or ~/llm-wiki."
+    )
+    parser.add_argument(
+        "--config",
+        help="Layout JSON path. Defaults to <root>/llm-wiki.json when present.",
+    )
     parser.add_argument("--scope", choices=("formal", "raw", "all"), default="formal")
     parser.add_argument("--limit", type=int, default=10)
     parser.add_argument("--tag")
     parser.add_argument("--type", dest="page_type")
-    parser.add_argument("--source", help="Filter formal pages by frontmatter source path, or raw paths by path.")
+    parser.add_argument(
+        "--source",
+        help="Filter formal pages by frontmatter source path, or raw paths by path.",
+    )
     parser.add_argument("--json", action="store_true", help="Emit JSON.")
     args = parser.parse_args()
     if args.limit < 0:
@@ -113,9 +140,20 @@ def main() -> int:
         print(f"wiki root not found: {root}", file=sys.stderr)
         return 2
 
+    try:
+        layout = resolve_layout(root, args.config)
+    except ValueError as exc:
+        print(str(exc), file=sys.stderr)
+        return 2
+
     results: list[dict[str, Any]] = []
     skipped_unsupported = 0
-    for path in iter_scope(root, args.scope):
+    try:
+        paths = iter_scope(root, args.scope, layout)
+    except ValueError as exc:
+        print(str(exc), file=sys.stderr)
+        return 2
+    for path in paths:
         try:
             text = read_text(path)
         except UnsupportedContentError:
@@ -134,18 +172,17 @@ def main() -> int:
         )
         if not score:
             continue
-        page.update(
-            {
-                "score": score,
-                "match_reasons": reasons,
-                "snippet": snippet(text, args.query),
-            }
-        )
+        page.update({
+            "score": score,
+            "match_reasons": reasons,
+            "snippet": snippet(text, args.query),
+        })
         results.append(page)
 
     results.sort(key=lambda item: (-int(item["score"]), str(item["path"])))
     payload = {
         "root": str(root),
+        "config": str(layout.path) if layout.path else None,
         "scope": args.scope,
         "query": args.query,
         "count": len(results[: args.limit]),

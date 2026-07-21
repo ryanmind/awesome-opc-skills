@@ -13,6 +13,7 @@ from typing import Any
 ROOT = Path(__file__).resolve().parents[1]
 SEARCH = ROOT / "skills" / "llm-wiki" / "scripts" / "wiki_search.py"
 PAGE = ROOT / "skills" / "llm-wiki" / "scripts" / "wiki_page.py"
+VALIDATE = ROOT / "skills" / "llm-wiki" / "scripts" / "wiki_validate.py"
 SKILL_DIR = ROOT / "skills" / "llm-wiki"
 
 
@@ -132,6 +133,93 @@ Backlink target.
         payload = json.loads(completed.stdout)
         self.assertEqual(payload["error"], "unsupported content")
         self.assertEqual(payload["path"], "raw/source.pdf")
+
+    def test_custom_layout_json_controls_formal_and_raw_scopes(self) -> None:
+        self.write_page("notes/concepts/runtime.md", "# Custom runtime\n\ncustom formal page")
+        self.write_page("sources/runtime.txt", "custom raw source")
+        self.write_page(
+            "llm-wiki.json",
+            json.dumps(
+                {
+                    "formal": ["notes/**/*.md"],
+                    "raw": ["sources/**/*"],
+                }
+            ),
+        )
+
+        formal = self.run_json(SEARCH, "--query", "custom", "--limit", "5")
+        self.assertEqual([item["path"] for item in formal["results"]], ["notes/concepts/runtime.md"])
+        raw = self.run_json(SEARCH, "--query", "custom", "--scope", "raw", "--limit", "5")
+        self.assertEqual([item["path"] for item in raw["results"]], ["sources/runtime.txt"])
+
+    def test_custom_layout_page_lookup_uses_configured_scope(self) -> None:
+        self.write_page("notes/concepts/runtime.md", "# Custom runtime\n\ncustom formal page")
+        self.write_page(
+            "llm-wiki.json",
+            json.dumps({"formal": ["notes/**/*.md"], "raw": ["sources/**/*"]}),
+        )
+        payload = self.run_json(PAGE, "notes/concepts/runtime", "--max-chars", "100")
+        self.assertEqual(payload["path"], "notes/concepts/runtime.md")
+
+    def test_layout_rejects_patterns_that_escape_root(self) -> None:
+        self.write_page("llm-wiki.json", json.dumps({"formal": ["../outside/**/*.md"]}))
+        completed = subprocess.run(
+            [sys.executable, str(SEARCH), "--root", str(self.root), "--query", "runtime", "--json"],
+            text=True,
+            capture_output=True,
+            check=False,
+        )
+        self.assertEqual(completed.returncode, 2)
+        self.assertIn("outside root", completed.stderr)
+
+    def test_custom_layout_skips_symlinks_that_escape_root(self) -> None:
+        outside = Path(self.temp.name).parent / f"outside-{self.root.name}"
+        outside.mkdir()
+        self.addCleanup(shutil.rmtree, outside, ignore_errors=True)
+        (outside / "secret.md").write_text("secret", encoding="utf-8")
+        (self.root / "notes").mkdir(parents=True, exist_ok=True)
+        (self.root / "notes" / "outside.md").symlink_to(outside / "secret.md")
+        self.write_page(
+            "llm-wiki.json",
+            json.dumps({"formal": ["notes/**/*.md"], "raw": []}),
+        )
+        payload = self.run_json(SEARCH, "--query", "secret", "--limit", "5")
+        self.assertEqual(payload["count"], 0)
+
+    def test_legacy_hidden_layout_filename_is_still_supported(self) -> None:
+        self.write_page("notes/concepts/runtime.md", "# Custom runtime\n\nlegacy config")
+        self.write_page(
+            ".llm-wiki.json",
+            json.dumps({"formal": ["notes/**/*.md"], "raw": ["sources/**/*"]}),
+        )
+        payload = self.run_json(SEARCH, "--query", "legacy", "--limit", "5")
+        self.assertEqual(payload["results"][0]["path"], "notes/concepts/runtime.md")
+
+    def test_validate_forwards_explicit_layout_to_native_lint(self) -> None:
+        lint = self.root / "scripts" / "wiki_lint.py"
+        lint.parent.mkdir(parents=True, exist_ok=True)
+        lint.write_text(
+            "import json, sys\nprint(json.dumps(sys.argv[1:]))\n",
+            encoding="utf-8",
+        )
+        config = self.root / "custom-layout.json"
+        config.write_text("{}", encoding="utf-8")
+        completed = subprocess.run(
+            [
+                sys.executable,
+                str(VALIDATE),
+                "--root",
+                str(self.root),
+                "--config",
+                str(config),
+                "--json",
+            ],
+            text=True,
+            capture_output=True,
+            check=True,
+        )
+        payload = json.loads(completed.stdout)
+        self.assertEqual(json.loads(payload["stdout"]), ["--config", str(config)])
 
     def test_installed_script_does_not_create_bytecode_in_skill(self) -> None:
         installed_scripts = self.root / "installed-skill" / "scripts"

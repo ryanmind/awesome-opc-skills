@@ -39,6 +39,25 @@ python3 scripts/manage_skill_links.py sync
 
 管理器只创建和校验配置中的链接；取消选择的旧链接保持不动；用软链接替换配置目标位置的旧目录或旧软链接；拒绝重复配置；不会覆盖未受管的真实文件。
 
+## LLM Wiki 目录配置
+
+`llm-wiki` Skill 通过 `<wiki-root>/llm-wiki.json` 发现正式页面和原始资料。没有该文件时，使用内置的 `domains/`、`entities/`、`workshop/` 和 `raw/` 目录结构。
+
+Skill 内置的 [examples.llm-wiki.json](skills/llm-wiki/assets/examples.llm-wiki.json) 只用于展示格式；复制到 Wiki 根目录后按实际结构修改：
+
+```json
+{
+  "formal": [
+    "notes/**/*.md",
+    "README.md"
+  ],
+  "raw": ["sources/**/*"],
+  "ignored_parts": [".git", ".obsidian", ".claude"]
+}
+```
+
+搜索、页面读取、lint、source map 生成和验证共用同一份目录配置。`SCHEMA.md`、`AGENTS.md`、`index.md` 和 `log.md` 仍固定在 wiki 根目录。配置位于其他位置时，使用 `--config <path>` 或 `LLM_WIKI_CONFIG`。
+
 ## 验证
 
 ```bash

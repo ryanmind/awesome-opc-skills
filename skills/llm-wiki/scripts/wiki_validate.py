@@ -4,19 +4,22 @@ from __future__ import annotations
 import argparse
 import subprocess
 import sys
-from pathlib import Path
 
 sys.dont_write_bytecode = True
 
-SCRIPT_DIR = Path(__file__).resolve().parent
-sys.path.insert(0, str(SCRIPT_DIR))
-
-from _wiki_common import dump_json, resolve_root
-
-
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Run wiki-native lint with compact structured output.")
-    parser.add_argument("--root", help="Wiki root. Defaults to $LLM_WIKI_ROOT or ~/llm-wiki.")
+    from _wiki_common import dump_json, resolve_root
+
+    parser = argparse.ArgumentParser(
+        description="Run wiki-native lint with compact structured output."
+    )
+    parser.add_argument(
+        "--root", help="Wiki root. Defaults to $LLM_WIKI_ROOT or ~/llm-wiki."
+    )
+    parser.add_argument(
+        "--config",
+        help="Layout JSON path. Defaults to <root>/llm-wiki.json when present.",
+    )
     parser.add_argument("--strict", action="store_true")
     parser.add_argument("--timeout", type=int, default=30)
     parser.add_argument("--json", action="store_true")
@@ -35,6 +38,8 @@ def main() -> int:
     command = [sys.executable, str(lint)]
     if args.strict:
         command.append("--strict")
+    if args.config:
+        command.extend(("--config", args.config))
     try:
         completed = subprocess.run(
             command,
