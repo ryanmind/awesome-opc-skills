@@ -105,6 +105,8 @@ def main() -> int:
     parser.add_argument("--source", help="Filter formal pages by frontmatter source path, or raw paths by path.")
     parser.add_argument("--json", action="store_true", help="Emit JSON.")
     args = parser.parse_args()
+    if args.limit < 0:
+        parser.error("--limit must be >= 0")
 
     root = resolve_root(args.root)
     if not root.is_dir():

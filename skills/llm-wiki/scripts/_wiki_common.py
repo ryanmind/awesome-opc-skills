@@ -69,11 +69,15 @@ def parse_yaml_subset(lines: list[str]) -> dict[str, Any]:
         lookahead = index + 1
         while lookahead < len(lines):
             item = lines[lookahead]
-            if item and not item.startswith((" ", "\t")):
+            stripped_item = item.strip()
+            if (
+                item
+                and not item.startswith((" ", "\t"))
+                and not stripped_item.startswith("- ")
+            ):
                 break
-            item = item.strip()
-            if item.startswith("- "):
-                items.append(item[2:].strip().strip('"').strip("'"))
+            if stripped_item.startswith("- "):
+                items.append(stripped_item[2:].strip().strip('"').strip("'"))
             lookahead += 1
         data[key] = items
         index = lookahead
@@ -117,14 +121,6 @@ def page_slug(root: Path, path: Path) -> str:
     return relative[:-3] if relative.endswith(".md") else relative
 
 
-def markdown_files(root: Path) -> list[Path]:
-    return sorted(
-        path
-        for path in root.rglob("*.md")
-        if not any(part in IGNORED_PARTS for part in path.parts)
-    )
-
-
 def formal_pages(root: Path) -> list[Path]:
     pages: list[Path] = []
     for base in ("domains", "entities"):
@@ -142,7 +138,14 @@ def formal_pages(root: Path) -> list[Path]:
         path = root / name
         if path.is_file():
             pages.append(path)
-    return sorted(set(ensure_inside(root, path) for path in pages if path.is_file()))
+    return sorted(
+        set(
+            ensure_inside(root, path)
+            for path in pages
+            if path.is_file()
+            and not any(part in IGNORED_PARTS for part in path.parts)
+        )
+    )
 
 
 def raw_pages(root: Path) -> list[Path]:

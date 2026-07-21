@@ -63,7 +63,10 @@ def backlinks(root: Path, path: Path, *, limit: int) -> list[dict[str, Any]]:
     for candidate in iter_scope(root, "formal"):
         if candidate == path:
             continue
-        text = read_text(candidate)
+        try:
+            text = read_text(candidate)
+        except (UnsupportedContentError, OSError):
+            continue
         if names.intersection(wikilinks(text)):
             found.append(compact_page(root, candidate, text))
         if len(found) >= limit:
