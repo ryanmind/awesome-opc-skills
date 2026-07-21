@@ -7,6 +7,7 @@ import sys
 import tempfile
 import unittest
 from pathlib import Path
+from typing import Any
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -69,7 +70,7 @@ Backlink target.
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_bytes(content)
 
-    def run_json(self, script: Path, *args: str) -> dict[str, object]:
+    def run_json(self, script: Path, *args: str) -> dict[str, Any]:
         completed = subprocess.run(
             [sys.executable, str(script), "--root", str(self.root), *args, "--json"],
             text=True,
@@ -152,7 +153,6 @@ Backlink target.
             SKILL_DIR / "SKILL.md",
             SKILL_DIR / "references" / "search-and-retrieve.md",
             SKILL_DIR / "references" / "maintenance.md",
-            SKILL_DIR / "references" / "mcp-replacement.md",
         ]
         for path in docs:
             text = path.read_text(encoding="utf-8")
