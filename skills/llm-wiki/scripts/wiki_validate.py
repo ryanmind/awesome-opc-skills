@@ -66,6 +66,15 @@ def main() -> int:
             "stderr": (exc.stderr or "").strip() if isinstance(exc.stderr, str) else "",
         }
 
+    if not payload["ok"] and args.config and payload.get("stderr"):
+        hint = (
+            "note: the wiki's wiki_lint.py may not support --config;"
+            " upgrade wiki scripts or remove the layout configuration"
+        )
+        if args.json:
+            payload.setdefault("hints", []).append(hint)
+        else:
+            print(hint, file=sys.stderr)
     if args.json:
         dump_json(payload)
     else:

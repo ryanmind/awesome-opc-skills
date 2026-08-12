@@ -45,7 +45,15 @@ def resolve_root(root: str | None) -> Path:
 
 
 def resolve_layout(root: Path, config: str | None = None) -> WikiLayout:
-    """Load an optional per-wiki layout, retaining the historical defaults."""
+    """Load an optional per-wiki layout, retaining the historical defaults.
+
+    Precedence (highest first):
+    1. ``--config`` CLI argument
+    2. ``LLM_WIKI_CONFIG`` environment variable
+    3. ``<root>/llm-wiki.json``
+    4. ``<root>/.llm-wiki.json`` (legacy filename)
+    5. Built-in defaults
+    """
     if config:
         config_path = Path(config).expanduser()
         if not config_path.is_absolute():
@@ -118,16 +126,71 @@ def ensure_inside(root: Path, path: Path) -> Path:
 
 
 def read_text(path: Path) -> str:
+    """Read UTF-8 or recognizably UTF-16 text and reject binary content."""
     data = path.read_bytes()
+
+    if data.startswith(b"\xef\xbb\xbf"):
+        try:
+            return data.decode("utf-8-sig")
+        except UnicodeDecodeError:
+            pass
+
+    if data.startswith((b"\xff\xfe", b"\xfe\xff")):
+        try:
+            decoded = data.decode("utf-16")
+        except UnicodeDecodeError:
+            pass
+        else:
+            if _looks_like_text(decoded):
+                return decoded
+
+    # BOM-less UTF-16 Markdown is accepted only when null-byte placement makes
+    # the byte order unambiguous. Trying both codecs blindly makes almost any
+    # even-length binary blob look like valid Unicode.
     if b"\x00" in data:
+        if len(data) % 2 != 0:
+            raise UnsupportedContentError(f"unsupported non-text content: {path}")
+        pair_count = len(data) // 2
+        even_nulls = data[0::2].count(0)
+        odd_nulls = data[1::2].count(0)
+        minimum_nulls = max(1, (pair_count * 3 + 9) // 10)
+        maximum_other_nulls = pair_count // 10
+        encoding = None
+        if odd_nulls >= minimum_nulls and even_nulls <= maximum_other_nulls:
+            encoding = "utf-16-le"
+        elif even_nulls >= minimum_nulls and odd_nulls <= maximum_other_nulls:
+            encoding = "utf-16-be"
+        if encoding:
+            try:
+                decoded = data.decode(encoding)
+            except UnicodeDecodeError:
+                pass
+            else:
+                if _looks_like_text(decoded):
+                    return decoded
         raise UnsupportedContentError(f"unsupported non-text content: {path}")
+
     try:
         return data.decode("utf-8")
-    except UnicodeDecodeError as exc:
-        raise UnsupportedContentError(f"unsupported non-UTF-8 content: {path}") from exc
+    except UnicodeDecodeError:
+        pass
+
+    raise UnsupportedContentError(f"unsupported non-text content: {path}")
+
+
+def _looks_like_text(value: str) -> bool:
+    return "\x00" not in value and not any(
+        ord(character) < 32 and character not in "\t\n\r" for character in value
+    )
 
 
 def parse_frontmatter(text: str) -> tuple[dict[str, Any], str]:
+    """Extract a minimal YAML frontmatter block from Markdown text.
+
+    Only handles flat key-value pairs, ``- `` list items, and inline ``[a, b]`` lists.
+    Nested mappings, block scalars, anchors, and YAML tags are not supported.
+    Frontmatter values must not contain a bare ``---`` on a line by itself.
+    """
     lines = text.splitlines()
     if not lines or lines[0].strip() != "---":
         return {}, text
@@ -138,6 +201,12 @@ def parse_frontmatter(text: str) -> tuple[dict[str, Any], str]:
 
 
 def parse_yaml_subset(lines: list[str]) -> dict[str, Any]:
+    """Parse a minimal subset of YAML: flat key-value pairs, ``- `` lists, inline lists.
+
+    Does not support: nested mappings, block scalars (``|`` / ``>``), YAML anchors,
+    tags, or multi-line quoted strings. Frontmatter that uses these features will be
+    parsed silently incorrectly or skipped.
+    """
     data: dict[str, Any] = {}
     index = 0
     while index < len(lines):

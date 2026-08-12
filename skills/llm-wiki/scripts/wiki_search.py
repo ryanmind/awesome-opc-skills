@@ -8,6 +8,8 @@ from typing import Any
 
 sys.dont_write_bytecode = True
 
+from _wiki_common import tokens, wikilinks
+
 def score_page(
     page: dict[str, Any],
     text: str,
@@ -17,8 +19,6 @@ def score_page(
     page_type: str | None,
     source: str | None,
 ) -> tuple[int, list[str]]:
-    from _wiki_common import tokens, wikilinks
-
     reasons: list[str] = []
     score = 0
     title = str(page.get("title") or "")
@@ -124,8 +124,8 @@ def main() -> int:
     )
     parser.add_argument("--scope", choices=("formal", "raw", "all"), default="formal")
     parser.add_argument("--limit", type=int, default=10)
-    parser.add_argument("--tag")
-    parser.add_argument("--type", dest="page_type")
+    parser.add_argument("--tag", help="Filter by tag. When combined with --type or --source, all filters must match (AND).")
+    parser.add_argument("--type", dest="page_type", help="Filter by page type (AND when combined with other filters).")
     parser.add_argument(
         "--source",
         help="Filter formal pages by frontmatter source path, or raw paths by path.",

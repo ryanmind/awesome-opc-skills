@@ -7,7 +7,9 @@ the skill for other users.
 
 The scripts look for `<wiki-root>/llm-wiki.json` after resolving the root. A path passed with
 `--config` takes precedence; `LLM_WIKI_CONFIG` is the next fallback. A missing optional file uses
-the built-in layout for backward compatibility. `.llm-wiki.json` is accepted as a legacy filename.
+the built-in layout for backward compatibility (default formal: `domains/**/*.md`, `entities/**/*.md`,
+`workshop/*/README.md`, `_meta/topic-map.md`, `index.md`, `SCHEMA.md`, `AGENTS.md`; default raw:
+`raw/**/*`, `workshop/*/raw/**/*`). `.llm-wiki.json` is accepted as a legacy filename.
 
 ## Schema
 
@@ -42,4 +44,4 @@ No script changes are needed for downstream users; copy the file to the wiki roo
 with `--config`. Search, page lookup, lint, source-map generation, and the validation wrapper use
 the same layout. Governance files (`SCHEMA.md`, `AGENTS.md`, `index.md`, and `log.md`) remain at
 the wiki root. The package includes a generic schema example at
-`../assets/examples.llm-wiki.json`.
+`$SKILL_DIR/assets/examples.llm-wiki.json`.

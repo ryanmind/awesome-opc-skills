@@ -20,7 +20,7 @@ Prefer the most verifiable current source:
 3. Raw source documents referenced by `sources:`.
 4. Formal wiki synthesis.
 
-When an external fact can change over time, verify it before answering.
+When a wiki claim depends on a source that may change over time (API behavior, version-specific features, live documentation, current events), verify it against the current live source before answering.
 
 ## Conflict Policy
 

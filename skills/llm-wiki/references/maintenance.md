@@ -11,7 +11,7 @@ Resolve the wiki root using `SKILL.md`. Before proposing or applying maintenance
 3. Affected sections of `<wiki-root>/index.md`
 4. Enough of `<wiki-root>/log.md` to follow retention and entry conventions
 
-Read-only health checks may run before these files are loaded, but only with commands that do not write. Do not decide or apply a repair without the required reads.
+Read-only health checks (`wiki_validate.py` and `wiki_lint.py` without `--fix`) may run before these files are loaded. Do not decide or apply a repair without the required reads.
 
 ## Read-Only Checks
 
@@ -32,7 +32,7 @@ python3 scripts/wiki_lint.py --strict
 
 `generate_source_map.py` writes `_meta/source-map.json`; it is not a read-only check. Run it only after the user authorizes applying the maintenance change or approves a candidate that includes the generated metadata update.
 
-When regeneration is authorized, follow the source-map closure in `create-or-update.md`. Use `--accept-reviewed` only after reviewing source changes that may affect compiled pages.
+When regeneration is authorized, you must read and follow the full source-map closure procedure in `create-or-update.md`. Use `--accept-reviewed` only after reviewing source changes that may affect compiled pages.
 
 ## Maintenance Priorities
 

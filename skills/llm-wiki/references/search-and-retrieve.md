@@ -31,7 +31,7 @@ Use this reference for read-only lookup and wiki-backed answers.
 - `--scope raw`: search raw evidence only. Use when formal pages are missing or the user asks for source material.
 - `--scope all`: search formal and raw areas. Use sparingly; ranking does not guarantee that formal results precede raw results.
 
-Formal pages include `domains/**`, `entities/**`, `workshop/*/README.md`, `_meta/topic-map.md`, `index.md`, `SCHEMA.md`, and `AGENTS.md`.
+By default, formal pages include `domains/**`, `entities/**`, `workshop/*/README.md`, `_meta/topic-map.md`, `index.md`, `SCHEMA.md`, and `AGENTS.md`. A custom `llm-wiki.json` replaces these defaults with its own `formal` globs.
 
 Raw scope covers UTF-8 text files under `raw/**` and `workshop/*/raw/**`. Binary files such as PDF, XLSX, and XMind are excluded from search; direct reads return an unsupported-content error and require a file-specific tool.
 

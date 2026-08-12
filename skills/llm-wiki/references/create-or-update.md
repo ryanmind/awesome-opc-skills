@@ -4,7 +4,7 @@ Use this reference for any operation that may change wiki content or propose a w
 
 ## Required Reads
 
-Resolve the wiki root using `SKILL.md`, then read the current governance files from that root before proposing or applying any change to formal pages, raw sources, governance files, or generated metadata:
+Resolve the wiki root as described in `SKILL.md`'s "Wiki Root" section, then read the current governance files from that root before proposing or applying any change to formal pages, raw sources, governance files, or generated metadata:
 
 1. `<wiki-root>/SCHEMA.md`
 2. `<wiki-root>/AGENTS.md`
@@ -55,10 +55,10 @@ Raw-only changes do not update `index.md` unless formal pages also changed.
 
 When a raw source changes or a formal page's `sources` field changes:
 
-1. Run `python3 scripts/wiki_lint.py` from the resolved wiki root.
+1. From the resolved wiki root, run `python3 scripts/wiki_lint.py`.
 2. Review every formal page affected by a changed source digest.
 3. Update affected formal pages when the evidence change makes them stale.
-4. Run `python3 scripts/generate_source_map.py`; use `--accept-reviewed` only after the required review.
-5. Run `python3 scripts/wiki_lint.py --strict` as the terminal validation.
+4. From the resolved wiki root, run `python3 scripts/generate_source_map.py`; use `--accept-reviewed` only after the required review.
+5. From the resolved wiki root, run `python3 scripts/wiki_lint.py --strict` as the terminal validation.
 
 Include the source-map update in the candidate or apply sequence when it changes `_meta/source-map.json`.

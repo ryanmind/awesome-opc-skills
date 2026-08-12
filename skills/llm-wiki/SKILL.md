@@ -1,11 +1,11 @@
 ---
 name: llm-wiki
-description: "Token-efficient search, retrieval, verification, and maintenance for the local Markdown wiki at ~/llm-wiki. Use ONLY when the user explicitly mentions the wiki, llm-wiki, or ~/llm-wiki. Covers wiki lookup, source checking, formal-page creation or update candidates, and broken link/tag/index/log upkeep."
+description: "Search, verify, and maintain the local Markdown wiki. Trigger only when the user explicitly invokes /llm-wiki in the current request; never trigger from context."
 ---
 
 # LLM Wiki
 
-Use `~/llm-wiki` as the primary knowledge source when the user asks for knowledge that may already be captured there.
+When invoked, search the resolved wiki root for relevant knowledge and prefer it over general knowledge. Do not proactively search the wiki unless the user has explicitly invoked `/llm-wiki`.
 
 ## Core Rules
 
@@ -26,7 +26,7 @@ Resolve the root in this order:
 2. `$LLM_WIKI_ROOT`
 3. `~/llm-wiki`
 
-Use `--root <path>` on scripts when the wiki root is not `~/llm-wiki`.
+Use `--root <path>` on scripts when the wiki root is not `~/llm-wiki`. If the resolved root does not exist, tell the user and offer to initialize a new wiki; do not fabricate wiki content.
 
 ### Optional Layout Configuration
 
@@ -48,6 +48,9 @@ default list, so users can design either scope independently. Patterns cannot be
 `LLM_WIKI_CONFIG`; an absent optional file keeps the defaults. `.llm-wiki.json` is accepted as a
 legacy filename, but new wikis should use `llm-wiki.json`.
 
+Regardless of layout configuration, governance files (`SCHEMA.md`, `AGENTS.md`, `index.md`,
+`log.md`) always live at the wiki root.
+
 ## Intent Routing
 
 - Search or answer from existing wiki content: read [search-and-retrieve.md](references/search-and-retrieve.md).
@@ -62,19 +65,25 @@ Only read the references needed for the current intent.
 
 Resolve `SKILL_DIR` to the absolute directory containing this loaded `SKILL.md`. Use that resolved path for every bundled script; do not assume the current working directory is the `agent-skills` repository.
 
-Use these helpers before opening large wiki files:
+**Retrieval helpers** – use before opening large wiki files:
 
 ```bash
 python3 "$SKILL_DIR/scripts/wiki_search.py" --query "agent runtime" --limit 8 --json
 python3 "$SKILL_DIR/scripts/wiki_page.py" domains/agent/concepts/agent-runtime --max-chars 12000 --json
+```
+
+**Validation** – use for health checks before maintenance:
+
+```bash
 python3 "$SKILL_DIR/scripts/wiki_validate.py" --json
 ```
 
-Pass `--config <path>` to `wiki_search.py`, `wiki_page.py`, or `wiki_validate.py` when the layout
-file is not at the wiki root. The wiki's `scripts/wiki_lint.py` and
-`scripts/generate_source_map.py` also accept the same option.
+Pass `--config <path>` to any of the three scripts above when the layout file is not at the wiki
+root. The wiki's own scripts (located at `<wiki-root>/scripts/wiki_lint.py` and
+`<wiki-root>/scripts/generate_source_map.py`) also accept `--config`.
 
-The scripts return compact JSON by default when `--json` is passed. Use narrow `--limit`, `--scope`, and `--max-chars` values to keep context small.
+The scripts return compact JSON when `--json` is passed. Use narrow `--limit`, `--scope`, and
+`--max-chars` values to keep context small.
 
 ## Safety Boundary
 

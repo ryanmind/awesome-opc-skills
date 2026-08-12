@@ -134,6 +134,48 @@ Backlink target.
         self.assertEqual(payload["error"], "unsupported content")
         self.assertEqual(payload["path"], "raw/source.pdf")
 
+    def test_page_reads_utf16_with_bom_and_preserves_frontmatter(self) -> None:
+        content = "---\ntitle: UTF-16 Page\n---\n\n# Encoded content"
+        for byte_order in ("utf-16-le", "utf-16-be"):
+            bom = b"\xff\xfe" if byte_order == "utf-16-le" else b"\xfe\xff"
+            relative = f"raw/{byte_order}.md"
+            self.write_bytes(relative, bom + content.encode(byte_order))
+            payload = self.run_json(
+                PAGE, relative, "--scope", "raw", "--max-chars", "200"
+            )
+            self.assertEqual(payload["title"], "UTF-16 Page")
+            self.assertIn("Encoded content", payload["content"])
+
+    def test_page_reads_bomless_utf16_when_byte_order_is_unambiguous(self) -> None:
+        content = "---\ntitle: ASCII Page\n---\n\n# ASCII content"
+        for byte_order in ("utf-16-le", "utf-16-be"):
+            relative = f"raw/bomless-{byte_order}.md"
+            self.write_bytes(relative, content.encode(byte_order))
+            payload = self.run_json(
+                PAGE, relative, "--scope", "raw", "--max-chars", "200"
+            )
+            self.assertEqual(payload["title"], "ASCII Page")
+
+    def test_page_rejects_non_utf8_binary_without_null_bytes(self) -> None:
+        self.write_bytes("raw/image.png", b"\x89PNG\r\n\x1a\n")
+        completed = subprocess.run(
+            [
+                sys.executable,
+                str(PAGE),
+                "--root",
+                str(self.root),
+                "raw/image.png",
+                "--scope",
+                "raw",
+                "--json",
+            ],
+            text=True,
+            capture_output=True,
+            check=False,
+        )
+        self.assertEqual(completed.returncode, 2)
+        self.assertEqual(json.loads(completed.stdout)["error"], "unsupported content")
+
     def test_custom_layout_json_controls_formal_and_raw_scopes(self) -> None:
         self.write_page("notes/concepts/runtime.md", "# Custom runtime\n\ncustom formal page")
         self.write_page("sources/runtime.txt", "custom raw source")
@@ -220,6 +262,35 @@ Backlink target.
         )
         payload = json.loads(completed.stdout)
         self.assertEqual(json.loads(payload["stdout"]), ["--config", str(config)])
+
+    def test_validate_failure_emits_one_json_object_with_hint(self) -> None:
+        lint = self.root / "scripts" / "wiki_lint.py"
+        lint.parent.mkdir(parents=True, exist_ok=True)
+        lint.write_text(
+            "import sys\nprint('unrecognized arguments: --config', file=sys.stderr)\n"
+            "raise SystemExit(2)\n",
+            encoding="utf-8",
+        )
+        config = self.root / "custom-layout.json"
+        config.write_text("{}", encoding="utf-8")
+        completed = subprocess.run(
+            [
+                sys.executable,
+                str(VALIDATE),
+                "--root",
+                str(self.root),
+                "--config",
+                str(config),
+                "--json",
+            ],
+            text=True,
+            capture_output=True,
+            check=False,
+        )
+        self.assertEqual(completed.returncode, 1)
+        payload = json.loads(completed.stdout)
+        self.assertFalse(payload["ok"])
+        self.assertEqual(len(payload["hints"]), 1)
 
     def test_installed_script_does_not_create_bytecode_in_skill(self) -> None:
         installed_scripts = self.root / "installed-skill" / "scripts"

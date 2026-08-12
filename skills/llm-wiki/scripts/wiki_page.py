@@ -4,26 +4,29 @@ from __future__ import annotations
 import argparse
 import sys
 from pathlib import Path
-from typing import TYPE_CHECKING, Any
-
-if TYPE_CHECKING:
-    from _wiki_common import WikiLayout
+from typing import Any
 
 sys.dont_write_bytecode = True
+
+from _wiki_common import (
+    UnsupportedContentError,
+    WikiLayout,
+    compact_page,
+    dump_json,
+    ensure_inside,
+    iter_scope,
+    page_slug,
+    parse_frontmatter,
+    read_text,
+    rel,
+    resolve_layout,
+    resolve_root,
+    wikilinks,
+)
 
 def resolve_page(
     root: Path, target: str, scope: str, layout: WikiLayout | None = None
 ) -> Path | None:
-    from _wiki_common import (
-        UnsupportedContentError,
-        compact_page,
-        ensure_inside,
-        iter_scope,
-        page_slug,
-        read_text,
-        rel,
-    )
-
     target = target.strip()
     direct_candidates = [root / target]
     if not target.endswith(".md"):
@@ -57,16 +60,6 @@ def resolve_page(
 def backlinks(
     root: Path, path: Path, *, limit: int, layout: WikiLayout | None = None
 ) -> list[dict[str, Any]]:
-    from _wiki_common import (
-        UnsupportedContentError,
-        compact_page,
-        iter_scope,
-        page_slug,
-        read_text,
-        rel,
-        wikilinks,
-    )
-
     names = {page_slug(root, path), rel(root, path), path.stem}
     found: list[dict[str, Any]] = []
     for candidate in iter_scope(root, "formal", layout):
@@ -84,18 +77,6 @@ def backlinks(
 
 
 def main() -> int:
-    from _wiki_common import (
-        UnsupportedContentError,
-        compact_page,
-        dump_json,
-        parse_frontmatter,
-        read_text,
-        rel,
-        resolve_layout,
-        resolve_root,
-        wikilinks,
-    )
-
     parser = argparse.ArgumentParser(
         description="Read one ~/llm-wiki page by slug or path."
     )
