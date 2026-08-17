@@ -29,3 +29,12 @@ skills = [
   "llm-wiki",
   "git-commit",
 ]
+
+[targets.zcode]
+path = "~/.zcode/skills"
+skills = [
+  "design-convergence-review",
+  "first-principles",
+  "llm-wiki",
+  "git-commit",
+]
