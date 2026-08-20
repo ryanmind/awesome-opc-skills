@@ -10,6 +10,7 @@ skills = [
   "first-principles",
   "llm-wiki",
   "git-commit",
+  "hermes-context-review",
 ]
 
 [targets.claude]
@@ -19,6 +20,7 @@ skills = [
   "first-principles",
   "llm-wiki",
   "git-commit",
+  "hermes-context-review",
 ]
 
 [targets.hermes]
@@ -28,6 +30,7 @@ skills = [
   "first-principles",
   "llm-wiki",
   "git-commit",
+  "hermes-context-review",
 ]
 
 [targets.zcode]
@@ -37,4 +40,5 @@ skills = [
   "first-principles",
   "llm-wiki",
   "git-commit",
+  "hermes-context-review",
 ]

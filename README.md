@@ -71,6 +71,7 @@ PYTHONPYCACHEPREFIX="${TMPDIR:-/tmp}/agent-skills-pycache" python3 -m compileall
 - [design-convergence-review](skills/design-convergence-review/SKILL.md)
 - [first-principles](skills/first-principles/SKILL.md)
 - [git-commit](skills/git-commit/SKILL.md)
+- [hermes-context-review](skills/hermes-context-review/SKILL.md)
 - [llm-wiki](skills/llm-wiki/SKILL.md)
 
 Human-facing project documentation is maintained in `~/llm-wiki/workshop/agent-skills/raw/` and exposed through the repository `docs` symbolic link.

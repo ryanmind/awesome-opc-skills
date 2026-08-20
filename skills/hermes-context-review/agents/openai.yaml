@@ -1,0 +1,4 @@
+interface:
+  display_name: "Hermes Context Review"
+  short_description: "Review Hermes persistent context rules"
+  default_prompt: "Use $hermes-context-review to review this Hermes configuration."
