@@ -1,81 +1,52 @@
 # Agent Skills
 
-自研 Agent Skills 的唯一源码基座，通过配置和软链接增量分发到 Codex、Claude 与 Hermes。
+自研 Agent Skill 的统一仓库。通过软链接分发到 Codex、Claude、Hermes 和 Zcode。
 
 [English](README.md)
 
-## 目录结构
+## 是什么
 
-```text
-agent-skills/
-├── skills/                  # Skill 运行包唯一源码
-├── config/skill-links.toml  # 基座路径、目标目录和 Skill 选择
-├── scripts/                 # 校验与软链接同步
-├── tests/                   # 文件系统行为测试
-└── docs -> ~/llm-wiki/workshop/agent-skills/raw
-```
+`skills/` 是唯一源码。每个 Skill 都以 `SKILL.md` 为入口，并可按需包含参考资料、脚本和资源。
 
-每个 Skill 使用统一契约：
+## 为什么
 
-```text
-skills/<skill-name>/
-├── SKILL.md
-├── agents/openai.yaml
-├── references/   # 可选，按需加载
-├── scripts/      # 可选，确定性工具
-└── assets/       # 可选，输出资源
-```
+维护一次，即可让所有已配置的 Agent 使用同一版本。链接管理器让分发结果可预期，并保护它不管理的文件。
 
-## 管理软链接
+## 怎么做
 
-修改 `config/skill-links.toml` 后执行：
+1. 在 `skills/` 中新增或更新 Skill。
+2. 在 `config/skill-links.toml` 中选择目标 Agent 和要分发的 Skill。
+3. 先预览变更：
 
-```bash
-python3 scripts/manage_skill_links.py status
-python3 scripts/manage_skill_links.py check
-python3 scripts/manage_skill_links.py sync --dry-run
-python3 scripts/manage_skill_links.py sync
-```
+   ```bash
+   python3 scripts/manage_skill_links.py sync --dry-run
+   ```
 
-管理器只创建和校验配置中的链接；取消选择的旧链接保持不动；用软链接替换配置目标位置的旧目录或旧软链接；拒绝重复配置；不会覆盖未受管的真实文件。
+4. 确认后同步：
 
-## LLM Wiki 目录配置
+   ```bash
+   python3 scripts/manage_skill_links.py sync
+   ```
 
-`llm-wiki` Skill 通过 `<wiki-root>/llm-wiki.json` 发现正式页面和原始资料。没有该文件时，使用内置的 `domains/`、`entities/`、`workshop/` 和 `raw/` 目录结构。
+用 `status` 查看当前链接，用 `check` 校验配置。`sync` 只处理配置中的目标位置，遇到未受管理的文件会拒绝覆盖。
 
-Skill 内置的 [examples.llm-wiki.json](skills/llm-wiki/assets/examples.llm-wiki.json) 只用于展示格式；复制到 Wiki 根目录后按实际结构修改：
+## Skills
 
-```json
-{
-  "formal": [
-    "notes/**/*.md",
-    "README.md"
-  ],
-  "raw": ["sources/**/*"],
-  "ignored_parts": [".git", ".obsidian", ".claude"]
-}
-```
-
-搜索、页面读取、lint、source map 生成和验证共用同一份目录配置。`SCHEMA.md`、`AGENTS.md`、`index.md` 和 `log.md` 仍固定在 wiki 根目录。配置位于其他位置时，使用 `--config <path>` 或 `LLM_WIKI_CONFIG`。
+| Skill | 用途 |
+| --- | --- |
+| [design-convergence-review](skills/design-convergence-review/SKILL.md) | 检查设计是否可以进入开发，并指出未收敛的阻塞问题。 |
+| [first-principles](skills/first-principles/SKILL.md) | 从证据、约束和可验证假设出发，重新推导决策或诊断。 |
+| [git-commit](skills/git-commit/SKILL.md) | 生成符合仓库规则的 Conventional Commit 信息，或提交已暂存的变更。 |
+| [hermes-context-review](skills/hermes-context-review/SKILL.md) | 审查 Hermes 上下文中的冲突、过期、不安全或冗余指令。 |
+| [llm-wiki](skills/llm-wiki/SKILL.md) | 在显式调用时搜索、验证和维护本地 Markdown Wiki。 |
 
 ## 验证
 
 ```bash
 python3 scripts/validate_skills.py
 python3 -m unittest discover -s tests
-PYTHONPYCACHEPREFIX="${TMPDIR:-/tmp}/agent-skills-pycache" python3 -m compileall -q scripts tests skills
 ```
 
-## Skills
-
-- [design-convergence-review](skills/design-convergence-review/SKILL.md)
-- [first-principles](skills/first-principles/SKILL.md)
-- [git-commit](skills/git-commit/SKILL.md)
-- [hermes-context-review](skills/hermes-context-review/SKILL.md)
-- [llm-wiki](skills/llm-wiki/SKILL.md)
-
-项目真实文档维护在 `~/llm-wiki/workshop/agent-skills/raw/`，仓库通过 `docs` 软链接访问。
-
-## License
+## 许可证
 
 MIT
