@@ -1,4 +1,4 @@
 interface:
   display_name: "First Principles"
   short_description: "Analyze hard decisions from first principles"
-  default_prompt: "Use $first-principles to separate real constraints from inherited assumptions, rebuild this problem from zero, and close it with the right decision, diagnosis, or communication path."
+  default_prompt: "Use $first-principles to separate real constraints from inherited assumptions, rebuild this problem from evidence and constraints, and close it with the right decision, diagnosis, or communication path."
