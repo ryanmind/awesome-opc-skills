@@ -5,7 +5,15 @@ description: Draft repository-aware commit messages or create Git commits from s
 
 # Git Commit
 
-Generate an accurate commit message from the actual diff. Create the commit when the user asks to commit; otherwise return the message only.
+Generate an accurate Conventional Commits message from the actual diff. Create the commit when the user asks to commit; otherwise return the message only.
+
+## Message Contract
+
+- Every generated subject MUST use `type(scope): subject` or `type: subject`.
+- Mark every confirmed breaking change with `!` before `:` or a `BREAKING CHANGE:` footer; either form is valid, and both may be used.
+- Require a type. Include a scope only when the diff or repository rules identify a stable scope; never invent one.
+- Let enforceable repository rules refine allowed types, scopes, ticket identifiers, length, casing, and trailers.
+- If an enforceable repository rule requires an incompatible message format, stop and report the conflict. Do not silently fall back to a non-Conventional subject.
 
 ## Operation Modes
 
@@ -18,12 +26,12 @@ Choose the operation from the request:
 
 Apply rules in this order:
 
-1. Enforceable repository rules
-2. Explicit user instructions that do not violate enforceable rules
-3. Clear, consistent repository history when it is useful and does not conflict above
-4. Default rules
+1. The mandatory message contract above
+2. Compatible enforceable repository rules
+3. Compatible explicit user instructions
+4. Default type, scope, subject, and body rules
 
-Treat history as advisory. Do not copy vague or inconsistent subjects.
+Do not use repository history to choose the message format.
 
 ## Workflow
 
@@ -38,12 +46,12 @@ Treat history as advisory. Do not copy vague or inconsistent subjects.
 6. If the staged diff is empty:
    - In message mode, inspect `git diff --stat` and `git diff`, clearly stating that the message is based on unstaged changes.
    - In commit mode, stop. Do not stage files unless the user explicitly asks.
-7. Stop when no relevant changes exist.
-8. Check for conflict markers, sensitive data, generated noise, binary-only changes, unrelated intents, and breaking behavior. Warn or stop when committing would be unsafe.
-9. Derive the message from the diff's primary intent. Do not invent changes or scopes.
-10. Apply confirmed repository rules and explicit user instructions.
-11. Inspect recent history only when message style remains undecided and a small subject-only sample could resolve it.
-12. Read [default-rules.md](references/default-rules.md) only for decisions that repository rules, the user, and useful history leave open.
+7. If staged changes exist, use only the staged diff as message evidence; leave unstaged and untracked changes out of the message and commit.
+8. Stop when no relevant changes exist.
+9. Check for conflict markers, sensitive data, generated noise, binary-only changes, unrelated intents, and breaking behavior. Warn or stop when committing would be unsafe.
+10. Derive the message from the diff's primary intent. Do not invent changes or scopes.
+11. Apply the mandatory message contract, then compatible repository rules and explicit user instructions.
+12. Read [default-rules.md](references/default-rules.md) for type, scope, subject, or body decisions left open.
 13. If the change has no dominant intent, recommend splitting it before producing a fallback message.
 14. In message mode, return the best message directly.
 15. In commit mode, read [commit-execution.md](references/commit-execution.md), create the commit non-interactively, and verify the result.
@@ -59,6 +67,7 @@ Default to one-shot execution or output. Ask only when the answer would material
 - Never expose secret values while reporting a sensitive-data finding.
 - Stop on unresolved conflicts or suspected secrets.
 - Do not add trailers such as `Co-Authored-By`, `Signed-off-by`, or AI attribution unless explicitly required by the user or repository.
+- Do not create or switch branches, push, amend, rebase, bypass hooks, or change signing behavior unless the user explicitly requests that separate operation.
 
 ## Output
 

@@ -4,7 +4,7 @@ Read only the sections needed when repository rules and explicit user instructio
 
 ## Message Shape
 
-- Prefer `type(scope): subject`.
+- Use `type(scope): subject` or `type: subject`; this format is mandatory.
 - Omit scope when it would be guessed, unstable, or cross-cutting.
 - Use English unless the user clearly requests another language.
 - Keep the subject specific, imperative, and without a trailing period.
@@ -36,7 +36,7 @@ If no intent dominates, recommend splitting the commit.
 
 ## Edge Cases
 
-- Breaking change: state the break and migration impact clearly. Use `!` or a `BREAKING CHANGE:` trailer when repository rules, tooling, or the user requires Conventional Commits signaling.
+- Breaking change: mark every confirmed break with `!` before `:` or a `BREAKING CHANGE:` footer. Prefer `!` for a visible subject signal; add the footer when migration impact needs explanation. `BREAKING-CHANGE:` is a valid synonym, but default to `BREAKING CHANGE:`.
 - Binary-only diff: describe the asset or artifact changed.
 - Generated files: focus on the visible source change; otherwise use `chore`.
 - Pure move or rename: use `refactor` when structure changed, otherwise `chore`.
@@ -51,6 +51,9 @@ refactor(db): migrate queries to async API
 docs: update authentication guide
 chore(deps): update axios security patch
 test(auth): cover login regression
+feat(api): remove legacy authentication
+
+BREAKING CHANGE: clients must migrate to the session API
 ```
 
 Avoid vague subjects, mixed intents, past tense, trailing periods, and claims not supported by the diff.
