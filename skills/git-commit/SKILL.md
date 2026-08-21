@@ -44,7 +44,9 @@ Do not use repository history to choose the message format.
 4. Read [repository-rules.md](references/repository-rules.md) only when a dedicated source exists or a broad candidate contains a commit-related match.
 5. Inspect staged changes with `git diff --cached --stat` and `git diff --cached`.
 6. If the staged diff is empty:
-   - In message mode, inspect `git diff --stat` and `git diff`, clearly stating that the message is based on unstaged changes.
+   - In message mode, inspect `git diff --stat` and `git diff` for unstaged tracked changes.
+   - Also identify untracked paths from `git status --short`. For relevant, safe-to-read text files, inspect their names and contents; summarize directories or binary files without attempting to read them.
+   - Clearly state when the message is based on unstaged and/or untracked changes. Stop only when neither exists.
    - In commit mode, stop. Do not stage files unless the user explicitly asks.
 7. If staged changes exist, use only the staged diff as message evidence; leave unstaged and untracked changes out of the message and commit.
 8. Stop when no relevant changes exist.
