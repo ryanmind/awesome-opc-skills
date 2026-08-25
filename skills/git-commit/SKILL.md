@@ -36,13 +36,13 @@ Do not use repository history to choose the message format.
 ## Workflow
 
 1. Determine message mode or commit mode.
-2. Run `git status --short` to identify staged, unstaged, untracked, and conflicting paths.
+2. Run `git status --short` to identify staged, unstaged, untracked, and conflicting paths. Interpret its two porcelain columns literally: `X` is the index/staged state and `Y` is the working-tree/unstaged state; the `?` in `??` means untracked, not staged. Do not infer staging boundaries from the number of edited files, an app's edit card, or `git diff --stat` alone. For example, ` M file` is unstaged-only, `M  file` is staged-only, `MM file` has both, and `?? file` is untracked-only.
 3. In commit mode, determine the commit scope before inspecting or changing the index:
-   - If both staged and unstaged or untracked changes exist, ask exactly one question:
+   - Ask exactly one A/B question only when at least one path has an actual staged/index status (`X` is neither a space nor `?`) and at least one path has an actual unstaged/worktree status (`Y` is neither a space nor `?`) or is untracked (`??`). A second edited file alone is not evidence of both scopes:
      - **A. Only commit staged changes** — leave all unstaged and untracked changes untouched.
      - **B. Commit all changes** — include staged, unstaged, and untracked changes, grouping them into atomic commits.
-   - If there are no staged changes but tracked or untracked changes exist, select all of them automatically and keep the commits atomic. Do not stop merely because the index is empty.
-   - If there are staged changes and no other changes, select the staged changes.
+   - If no path has an actual staged/index status and tracked or untracked changes exist, select all of them automatically and keep the commits atomic. Do not stop merely because the index is empty or ask A/B for multiple unstaged files.
+   - If at least one path has an actual staged/index status and no path has an actual unstaged/worktree status or is untracked, select the staged changes.
    - In message mode, do not ask this scope question or change Git state; use the existing staged-first, unstaged-fallback evidence rules below.
 4. Use low-output discovery for repository rules:
    - Find dedicated rule sources with `git ls-files`: commitlint config, hooks, `lefthook`, `.gitmessage`, and explicit commit or release configuration.

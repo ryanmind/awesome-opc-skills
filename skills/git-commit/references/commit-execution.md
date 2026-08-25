@@ -6,7 +6,7 @@ Read this file only in commit mode.
 
 Before changing the index:
 
-1. Use the scope selected by the main skill. **A** means staged-only; **B** means staged, unstaged, and untracked changes; an empty index with other changes means all changes.
+1. Use the scope selected by the main skill. Determine it from Git's porcelain `XY` status columns, not from an edit summary: `X` means staged/index, `Y` means unstaged/worktree, a space means no change in that column, and `??` means untracked rather than staged. **A** means staged-only; **B** means staged, unstaged, and untracked changes; an empty index with other changes means all changes.
 2. Record the baseline with `git status --short`, `git diff --cached --name-status`, `git diff --name-status`, and the untracked path list.
 3. Partition the selected diff into logical groups. Keep one logical change together across files, and use separate commits for unrelated intents. This rule applies to every selected scope, including staged-only A and all-change B.
 4. For each group, stage only that group's paths or hunks. Use path- or hunk-level staging when a file contains multiple groups; never use a blanket staging command that pulls in out-of-scope changes.
