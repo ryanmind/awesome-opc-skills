@@ -30,23 +30,15 @@ Use `--root <path>` on scripts when the wiki root is not `~/llm-wiki`. If the re
 
 ### Optional Layout Configuration
 
-The default layout is compatible with the original convention (`domains/**`, `entities/**`,
-`workshop/*/README.md`, `raw/**`, and `workshop/*/raw/**`). To publish a wiki with a different
-structure, place `llm-wiki.json` at its root:
+The built-in layout targets the original convention (`domains/`, `entities/`, `workshop/`,
+`raw/`). To publish a wiki with a different structure, place `llm-wiki.json` at its root, or
+select one with `--config <path>` or `LLM_WIKI_CONFIG`. A ready-to-copy schema example is bundled
+at `$SKILL_DIR/assets/examples.llm-wiki.json`.
 
-```json
-{
-  "formal": ["notes/**/*.md", "README.md"],
-  "raw": ["sources/**/*"],
-  "ignored_parts": [".git", ".obsidian", ".claude"]
-}
-```
-
-`formal` and `raw` are root-relative glob patterns. A configured list replaces the corresponding
-default list, so users can design either scope independently. Patterns cannot be absolute or use
-`..` to escape the wiki root. The file can instead be selected with `--config <path>` or
-`LLM_WIKI_CONFIG`; an absent optional file keeps the defaults. `.llm-wiki.json` is accepted as a
-legacy filename, but new wikis should use `llm-wiki.json`.
+The authoritative default globs live in `scripts/_wiki_common.py` as `DEFAULT_FORMAL_GLOBS` and
+`DEFAULT_RAW_GLOBS`, and are documented once in [layout-config.md](references/layout-config.md).
+Do not restate them in this file. Read that reference only when the exact scope boundary matters;
+the scripts apply the layout, so retrieval does not require knowing the globs.
 
 Regardless of layout configuration, governance files (`SCHEMA.md`, `AGENTS.md`, `index.md`,
 `log.md`) always live at the wiki root.
@@ -63,7 +55,7 @@ Only read the references needed for the current intent.
 
 ## Script First
 
-Resolve `SKILL_DIR` to the absolute directory containing this loaded `SKILL.md`. Use that resolved path for every bundled script; do not assume the current working directory is the `agent-skills` repository.
+Resolve `SKILL_DIR` to the absolute directory containing this loaded `SKILL.md`. Use that resolved path for every bundled script; do not assume the current working directory is the `agent-skills` repository. If it cannot be resolved from the loaded path, locate `wiki_search.py` under the installed skills directories and use the parent of its `scripts/` directory; never guess a relative path.
 
 **Retrieval helpers** – use before opening large wiki files:
 

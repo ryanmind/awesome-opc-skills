@@ -12,7 +12,7 @@ Use this reference for read-only lookup and wiki-backed answers.
 
 2. Prefer results in this order:
    - exact slug or title
-   - `index.md` catalog match
+   - wiki index catalog match
    - tag or type match
    - wikilink inbound/outbound match
    - full-text match
@@ -31,16 +31,16 @@ Use this reference for read-only lookup and wiki-backed answers.
 - `--scope raw`: search raw evidence only. Use when formal pages are missing or the user asks for source material.
 - `--scope all`: search formal and raw areas. Use sparingly; ranking does not guarantee that formal results precede raw results.
 
-By default, formal pages include `domains/**`, `entities/**`, `workshop/*/README.md`, `_meta/topic-map.md`, `index.md`, `SCHEMA.md`, and `AGENTS.md`. A custom `llm-wiki.json` replaces these defaults with its own `formal` globs.
+By default, formal pages are the built-in globs listed in [layout-config.md](layout-config.md); a custom `llm-wiki.json` replaces them with its own `formal` globs. Do not restate the default list here.
 
-Raw scope covers UTF-8 text files under `raw/**` and `workshop/*/raw/**`. Binary files such as PDF, XLSX, and XMind are excluded from search; direct reads return an unsupported-content error and require a file-specific tool.
+Raw scope covers UTF-8 text files under the configured raw globs, `raw/**/*` and `workshop/*/raw/**/*` by default. Raw and formal are disjoint. Binary files such as PDF, XLSX, and XMind are excluded from search; direct reads return an unsupported-content error and require a file-specific tool.
 
 Search JSON reports the number of excluded files in `skipped_unsupported`.
 
 ## Retrieval Discipline
 
-- Do not open `log.md` for normal answers unless recency or maintenance history matters.
-- Do not read `SCHEMA.md` for simple retrieval; scripts expose enough metadata for lookup.
+- Do not open the wiki change log for normal answers unless recency or maintenance history matters.
+- Do not read the wiki schema file for simple retrieval; scripts expose enough metadata for lookup.
 - When formal evidence should take priority, search `--scope formal` first and fall back to `--scope raw`; do not depend on `--scope all` ordering.
 - Keep result limits small, then rerun with a narrower query if needed.
 - If script results are ambiguous, use titles, tags, type, confidence, and snippets to choose the next page.

@@ -7,9 +7,21 @@ the skill for other users.
 
 The scripts look for `<wiki-root>/llm-wiki.json` after resolving the root. A path passed with
 `--config` takes precedence; `LLM_WIKI_CONFIG` is the next fallback. A missing optional file uses
-the built-in layout for backward compatibility (default formal: `domains/**/*.md`, `entities/**/*.md`,
-`workshop/*/README.md`, `_meta/topic-map.md`, `index.md`, `SCHEMA.md`, `AGENTS.md`; default raw:
-`raw/**/*`, `workshop/*/raw/**/*`). `.llm-wiki.json` is accepted as a legacy filename.
+the built-in layout for backward compatibility. `.llm-wiki.json` is accepted as a legacy filename.
+
+This file is the only place documenting the defaults. The runtime source of truth is
+`scripts/_wiki_common.py` — `DEFAULT_FORMAL_GLOBS`, `DEFAULT_RAW_GLOBS`, and
+`DEFAULT_IGNORED_PARTS`. When this reference and the script disagree, the script wins; fix the
+documentation rather than the script.
+
+## Default Scopes
+
+- formal: `domains/**/*.md`, `entities/**/*.md`, `workshop/*/README.md`, `_meta/topic-map.md`,
+  `index.md`, `SCHEMA.md`, `AGENTS.md`
+- raw: `raw/**/*`, `workshop/*/raw/**/*`
+- ignored parts: `.git`, `.obsidian`, `.claude`
+
+Formal and raw are disjoint by default. `raw/**` belongs to the raw scope, never to formal.
 
 ## Schema
 
