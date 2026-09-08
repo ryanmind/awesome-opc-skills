@@ -21,6 +21,11 @@ Run the local wrapper first:
 python3 "$SKILL_DIR/scripts/wiki_validate.py" --json
 ```
 
+The wrapper aborts `wiki_lint.py` after 30 seconds by default. On a large wiki it reports only
+`error: timeout` with no other output. Raise the limit with `--timeout 120` before concluding the
+wiki is broken; if it still times out, run `python3 scripts/wiki_lint.py` from the wiki root
+directly.
+
 For deeper read-only checks, run from the resolved wiki root:
 
 ```bash
