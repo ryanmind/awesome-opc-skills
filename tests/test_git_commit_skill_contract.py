@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import re
 import subprocess
 import tempfile
 import unittest
@@ -12,11 +13,21 @@ EXECUTION = ROOT / "skills" / "git-commit" / "references" / "commit-execution.md
 
 
 class GitCommitSkillContractTests(unittest.TestCase):
+    """Contract checks for the git-commit skill.
+
+    Assert patterns, not prose. Wording is expected to evolve; the contract is
+    not. Rewording a guarantee in the skill must not break these tests unless
+    the guarantee itself is removed.
+    """
+
     @classmethod
     def setUpClass(cls) -> None:
         cls.skill = SKILL.read_text(encoding="utf-8")
         cls.defaults = DEFAULTS.read_text(encoding="utf-8")
         cls.execution = EXECUTION.read_text(encoding="utf-8")
+
+    def assert_contract(self, text: str, pattern: str, label: str) -> None:
+        self.assertRegex(text, pattern, f"missing contract: {label}")
 
     def test_breaking_change_supports_subject_or_footer_marker(self) -> None:
         self.assertIn("`!` before `:` or a `BREAKING CHANGE:` footer", self.skill)
@@ -25,38 +36,89 @@ class GitCommitSkillContractTests(unittest.TestCase):
         self.assertIn("BREAKING CHANGE: clients must migrate", self.defaults)
 
     def test_message_and_commit_modes_preserve_the_staging_boundary(self) -> None:
-        self.assertIn("draft a message without changing Git state", self.skill)
-        self.assertIn("create a commit from already staged changes", self.skill)
-        self.assertIn("Do not stage files unless the user explicitly asks", self.skill)
-        self.assertIn("use only the staged diff as message evidence", self.skill)
-        self.assertIn("leave unstaged and untracked changes out", self.skill)
+        self.assert_contract(
+            self.skill, r"Message mode.*draft a message without changing Git state",
+            "message mode does not touch Git state",
+        )
+        self.assert_contract(
+            self.skill, r"Commit mode.*create one or more atomic commits",
+            "commit mode creates atomic commits",
+        )
+        self.assert_contract(
+            self.skill, r"Never stage changes outside the selected scope",
+            "staging stays inside the selected scope",
+        )
+        self.assert_contract(
+            self.skill, r"use only the staged diff as message evidence",
+            "staged diff is the message evidence",
+        )
+        self.assert_contract(
+            self.skill, r"leave unstaged and untracked changes out",
+            "unstaged and untracked changes stay out of the message",
+        )
+
+    def test_porcelain_status_columns_determine_the_commit_scope(self) -> None:
+        """Guard the XY-column rule: `X` is staged, `Y` is unstaged, `??` is untracked."""
+        self.assert_contract(self.skill, r"porcelain", "porcelain status is the scope source")
+        self.assert_contract(
+            self.skill, r"X` is the index/staged state and `Y` is the working-tree/unstaged",
+            "X/Y column semantics",
+        )
+        self.assert_contract(
+            self.skill, r"\?` in `\?\?` means untracked, not staged",
+            "?? means untracked, not staged",
+        )
+        self.assert_contract(
+            self.skill, r"Do not infer staging boundaries from the number of edited files",
+            "staging boundaries are not inferred from file counts",
+        )
 
     def test_incompatible_repository_rules_and_split_intents_stop(self) -> None:
-        self.assertIn(
-            "incompatible message format, stop and report the conflict", self.skill
+        self.assert_contract(
+            self.skill, r"incompatible message format, stop and report the conflict",
+            "incompatible repository rules stop the run",
         )
-        self.assertIn(
-            "If the change has no dominant intent, recommend splitting", self.skill
+        self.assert_contract(
+            self.defaults, r"If no intent dominates, recommend splitting",
+            "no dominant intent recommends splitting",
         )
-        self.assertIn("Never include unrelated user changes", self.skill)
+        self.assert_contract(
+            self.skill, r"Never include unrelated user changes",
+            "unrelated user changes are never absorbed",
+        )
 
     def test_sensitive_and_high_risk_git_operations_require_explicit_request(
         self,
     ) -> None:
-        self.assertIn("Never expose secret values", self.skill)
-        self.assertIn("Stop on unresolved conflicts or suspected secrets", self.skill)
-        self.assertIn(
-            "Do not create or switch branches, push, amend, rebase", self.skill
+        self.assert_contract(self.skill, r"Never expose secret values", "secrets stay masked")
+        self.assert_contract(
+            self.skill, r"never commit suspected secret", "suspected secrets are never committed"
         )
-        self.assertIn(
-            "Do not amend, bypass hooks, disable signing, or use `--no-verify`",
+        self.assert_contract(
+            self.skill, r"pause and ask", "unsuitable changes pause for a decision"
+        )
+        self.assert_contract(
+            self.skill, r"Do not create or switch branches, push, amend, rebase",
+            "high-risk Git operations need an explicit request",
+        )
+        self.assert_contract(
             self.execution,
+            r"Do not amend, bypass hooks, disable signing, or use `--no-verify`",
+            "commit execution keeps hooks and signing intact",
         )
 
     def test_commit_verification_checks_the_recorded_path_set(self) -> None:
-        self.assertIn("Record the intended staged path set", self.execution)
-        self.assertIn("Read the committed path set", self.execution)
-        self.assertIn("committed paths match the recorded staged set", self.execution)
+        self.assert_contract(
+            self.execution, r"Record that group's staged path set",
+            "the intended staged path set is recorded",
+        )
+        self.assert_contract(
+            self.execution, r"Read the committed path set", "the committed path set is read back"
+        )
+        self.assert_contract(
+            self.execution, r"committed paths match the recorded staged set",
+            "committed paths are compared with the recorded set",
+        )
 
 
 class GitCommitWorkflowTests(unittest.TestCase):
