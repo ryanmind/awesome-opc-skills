@@ -11,3 +11,10 @@ Read this file only for diagnosis tasks.
 5. State what each possible result would imply for the next action.
 
 Do not call correlation a root cause. Prefer the cheapest test that can falsify the leading hypothesis.
+
+## Calibration
+
+- Acceptable: "Latency rose 40% in the same week traffic doubled — correlation, not yet a cause. Mechanism: connection pool saturation at 200 concurrent requests. Discriminating test: replay yesterday's peak against a pool raised to 500. If p95 returns to baseline, the pool was the cause; if not, the bottleneck is downstream." — states the mechanism and a test that can kill it.
+- Not acceptable: "The database is probably overloaded; we should scale it." — asserts correlation as cause and commits to a fix before any test.
+
+A diagnosis that no observation could falsify is a hypothesis with no mechanism attached. Return to step 3 of the core workflow.

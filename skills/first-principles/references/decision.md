@@ -14,3 +14,10 @@ Read this file only for decision tasks.
 
 For irreversible decisions, prefer a reversible test or staged commitment when it can answer the same uncertainty.
 
+## Calibration
+
+- Acceptable: "Adopt Postgres, not DynamoDB: the workload is ad-hoc joins across three tables, so query flexibility is the decisive constraint and write throughput is not binding. Test: load 1M rows and run the three reporting queries; abandon if p95 exceeds 2s." — names the binding constraint, the rejected alternative, and the exit condition.
+- Not acceptable: "Both databases have trade-offs; choose based on your needs." — no goal, no constraint, no decision.
+
+A conclusion that cannot name the constraint it turns on has not been rebuilt from first principles; it is a restatement. Return to step 3 of the core workflow.
+

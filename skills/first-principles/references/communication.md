@@ -13,3 +13,10 @@ Treat the underlying decision as fixed unless the available evidence makes its c
 5. End with the requested decision, action, or response when one is needed.
 
 Do not manufacture urgency or certainty. Preserve material risks and conditions even when making the message shorter or sharper.
+
+## Calibration
+
+- Acceptable: "Recommend we ship the migration on Thursday. Verified: staging passed all 400 tests. Unverified: production write volume is modelled, not measured — if it exceeds 5k/s we need the queue in front." — claim first, evidence labelled, material risk preserved.
+- Not acceptable: "We must act now or we will fall behind." — urgency with no claim, no evidence, no audience.
+
+Verify the core claim before compressing it. If the claim turns out to be unsupported, stop and run decision closure instead of polishing the wording.

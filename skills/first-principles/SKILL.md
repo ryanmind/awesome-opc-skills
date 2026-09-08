@@ -1,6 +1,6 @@
 ---
 name: first-principles
-description: First-principles reasoning for strategy, product, engineering, and organizational decisions. Use when asked to rebuild from evidence and constraints, separate real constraints from inherited assumptions, make hard tradeoffs, diagnose a root cause, or find high-leverage opportunities. Do not use for emotional support, neutral editing, or low-stakes brainstorming.
+description: First-principles reasoning for strategy, product, engineering, and organizational decisions. Use when asked to rebuild from evidence and constraints, separate real constraints from inherited assumptions, make hard tradeoffs, diagnose a root cause of a recurring or systemic problem, or find high-leverage opportunities. Do not use for emotional support, neutral editing, routine implementation choices, code-level debugging, or low-stakes brainstorming.
 ---
 
 # First Principles
