@@ -35,3 +35,6 @@ coverage/
 
 #zcode hooks
 .mimosa/
+
+# Agent session data (not part of the distributed skill packages)
+.workbuddy/
