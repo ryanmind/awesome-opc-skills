@@ -2,6 +2,10 @@
 
 Verified against the official Hermes Agent docs on 2026-08-20. Load this reference before judging path, ownership, or format questions.
 
+Re-check the sources below before relying on the numbers here (character limits, truncation
+ratios) when the current date is more than 6 months past the verification date. Those values are
+the details most likely to have changed; the structural facts are more stable.
+
 Sources:
 
 - Prompt assembly: https://hermes-agent.nousresearch.com/docs/developer-guide/prompt-assembly
@@ -23,13 +27,16 @@ Sources:
 
 Neither a home-level `references/` directory nor a home-level `AGENTS.md` is part of the documented layout, and Hermes does not auto-load `AGENTS.md` from the home — project `AGENTS.md` is discovered from the working directory (git-root chain) only. "Context references" in Hermes means the CLI `@file:` / `@folder:` / `@url:` inline-injection feature, not a directory of markdown files.
 
-### Personal home layout (observed on this machine)
+### Personal home extensions (observed, not part of the Hermes contract)
 
-A home may extend the documented layout with personal conventions, usually described in its own `README.md`:
+This section describes personal conventions observed on individual machines, not documented
+Hermes behavior. Apply an item only when the target home actually contains the file it describes,
+usually explained in that home's own `README.md`. Never report the absence of anything in this
+section as a finding, and never treat these paths as required by Hermes.
 
 - Home-level `AGENTS.md` — cross-project default execution rules. Not auto-loaded by Hermes; effective only where the rules are copied into a project context file. Review it as a target when present, but flag any rule that assumes global effect.
 - Home-level `references/*.md` — on-demand methods and templates, read per task type.
-- The home may itself be a git repository tracking only the managed files (`SOUL.md`, `AGENTS.md`, `skills/`, `bin/`), with runtime state (logs, sessions, caches, databases) gitignored. The staged-change review path (`git diff --cached`) applies there.
+- The home may itself be a git repository tracking only its managed files, with runtime state (logs, sessions, caches, databases) gitignored. Only when it is, the staged-change review path (`git diff --cached`) applies there.
 
 ## Memory format
 
