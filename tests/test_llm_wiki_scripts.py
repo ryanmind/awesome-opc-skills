@@ -1,6 +1,8 @@
 from __future__ import annotations
 
+import ast
 import json
+import re
 import shutil
 import subprocess
 import sys
@@ -317,6 +319,65 @@ Backlink target.
             text = path.read_text(encoding="utf-8")
             self.assertNotIn("skills/llm-wiki/scripts", text)
             self.assertIn("$SKILL_DIR/scripts", text)
+
+
+class LlmWikiLayoutDocTests(unittest.TestCase):
+    """The documented layout must not drift from the script constants.
+
+    The defaults were previously restated in three places with three different
+    values. The script is the source of truth; `references/layout-config.md` is
+    the only document allowed to spell them out.
+    """
+
+    def script_defaults(self) -> dict[str, tuple[str, ...]]:
+        # Parsed with ast rather than imported: importing would write
+        # __pycache__ into the skill package, which the repo validator rejects.
+        source = (SKILL_DIR / "scripts" / "_wiki_common.py").read_text(encoding="utf-8")
+        tree = ast.parse(source)
+        defaults: dict[str, tuple[str, ...]] = {}
+        for node in tree.body:
+            if not isinstance(node, ast.Assign):
+                continue
+            for target in node.targets:
+                if isinstance(target, ast.Name) and target.id.startswith("DEFAULT_"):
+                    try:
+                        value = ast.literal_eval(node.value)
+                    except ValueError:
+                        continue
+                    if isinstance(value, tuple):
+                        defaults[target.id] = value
+        return defaults
+
+    def test_layout_reference_documents_every_script_default(self) -> None:
+        text = (SKILL_DIR / "references" / "layout-config.md").read_text(encoding="utf-8")
+        defaults = self.script_defaults()
+        self.assertIn("DEFAULT_FORMAL_GLOBS", defaults)
+        self.assertIn("DEFAULT_RAW_GLOBS", defaults)
+        for pattern in (*defaults["DEFAULT_FORMAL_GLOBS"], *defaults["DEFAULT_RAW_GLOBS"]):
+            self.assertRegex(
+                text, re.escape(pattern), f"layout-config.md is missing default {pattern!r}"
+            )
+
+    def formal_globs(self) -> tuple[str, ...]:
+        """Only glob-syntax patterns are checked.
+
+        Bare filenames such as `index.md` or `SCHEMA.md` are legitimately named
+        elsewhere (intent routing, governance reads); a glob can only come from
+        a layout definition.
+        """
+        return tuple(p for p in self.script_defaults()["DEFAULT_FORMAL_GLOBS"] if "*" in p)
+
+    def test_skill_does_not_restate_default_globs(self) -> None:
+        text = (SKILL_DIR / "SKILL.md").read_text(encoding="utf-8")
+        for pattern in self.formal_globs():
+            self.assertNotIn(pattern, text, f"SKILL.md restates default {pattern!r}")
+
+    def test_search_reference_does_not_restate_formal_globs(self) -> None:
+        text = (SKILL_DIR / "references" / "search-and-retrieve.md").read_text(encoding="utf-8")
+        for pattern in self.formal_globs():
+            self.assertNotIn(
+                pattern, text, f"search-and-retrieve.md restates default {pattern!r}"
+            )
 
 
 if __name__ == "__main__":
