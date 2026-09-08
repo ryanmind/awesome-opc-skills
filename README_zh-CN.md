@@ -40,6 +40,10 @@
 | [hermes-context-review](skills/hermes-context-review/SKILL.md) | 审查 Hermes 上下文中的冲突、过期、不安全或冗余指令。 |
 | [llm-wiki](skills/llm-wiki/SKILL.md) | 在显式调用时搜索、验证和维护本地 Markdown Wiki。 |
 
+用户指南是可选的，位于运行时包之外的 `docs/skills/`。该目录是指向 llm-wiki workshop 的软链接，
+不受本仓库版本控制。目前只有 [design-convergence-review](docs/skills/design-convergence-review.md)
+提供了用户指南。
+
 ## 验证
 
 ```bash

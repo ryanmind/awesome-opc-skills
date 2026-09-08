@@ -40,6 +40,10 @@ Use `status` to see current links and `check` to validate the configuration. `sy
 | [hermes-context-review](skills/hermes-context-review/SKILL.md) | Audits Hermes context for conflicting, stale, unsafe, or wasteful instructions. |
 | [llm-wiki](skills/llm-wiki/SKILL.md) | Searches, verifies, and maintains a local Markdown wiki when explicitly invoked. |
 
+User guides are optional and live outside the runtime packages, in `docs/skills/`. That directory is
+a symlink into the llm-wiki workshop, so it is not version-controlled here. Only
+[design-convergence-review](docs/skills/design-convergence-review.md) ships a guide today.
+
 ## Verify
 
 ```bash

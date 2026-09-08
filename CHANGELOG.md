@@ -20,6 +20,12 @@
 
 ### 变更
 
+- git-commit 契约测试改为断言稳定契约片段而非整句散文，并补充 porcelain `XY` 列规则的回归测试
+- llm-wiki 修正默认 layout 在三处文档中的不一致：真值收敛到 `scripts/_wiki_common.py`，`SKILL.md` 与检索参考不再复述默认 glob，并补充文档与脚本常量的一致性测试
+- llm-wiki 在 `SKILL.md` 中指向 `assets/examples.llm-wiki.json`，并补充 `SKILL_DIR` 解析失败时的定位方式
+- hermes-context-review 将本机个人 home 约定标记为非契约的观察内容，缺失不再作为发现项；参考文件补充来源复检提示
+- design-convergence-review 将报告骨架、评分分档表与发现质量基准移入 `references/report-format.md`，减少常驻上下文
+- first-principles 收紧触发条件，排除常规实现选型与代码级调试；三个任务参考补充正反校准示例
 - 将仓库重新定位为 `agent-skills`，作为自我维护的技能源和分发基础
 - 将面向用户的项目文档移至 llm-wiki workshop，并通过 `docs` 暴露
 - 将每个技能包统一为 `SKILL.md`、`agents/openai.yaml` 和可选的 `references/`、`scripts/`、`assets/`
